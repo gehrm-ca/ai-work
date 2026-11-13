@@ -1,0 +1,10 @@
+[project]
+name = "program-os"
+version = "0.1.0"
+description = "Evidence-grounded portfolio control and decision intelligence for program managers"
+requires-python = ">=3.12"
+readme = "README.md"
+license = { text = "MIT" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
