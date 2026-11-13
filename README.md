@@ -135,6 +135,7 @@ A high aggregate score cannot compensate for a catastrophic trust failure such a
 - [PM skill model](docs/PM_SKILL_MODEL.md)
 - [Competitive analysis](docs/COMPETITIVE_ANALYSIS.md)
 - [Atlas synthetic program](examples/atlas/README.md)
+- [V2 development harness](docs/DEVELOPMENT_HARNESS.md)
 
 ## Release boundary
 
