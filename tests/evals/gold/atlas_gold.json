@@ -1,0 +1,412 @@
+{
+  "dataset": "atlas-v2-001",
+  "purpose": "Fixed gold expectations. Never include this file in model/runtime context.",
+  "cases": [
+    {
+      "id": "E01",
+      "name": "Partner date contradiction",
+      "evidence": [
+        "ATLAS-101",
+        "PAGE-PLAT",
+        "MTG-1111-PORTFOLIO",
+        "STATUS-1112"
+      ],
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "Moderate",
+        "contradictions": [
+          "Partner integration dates disagree"
+        ],
+        "escalation": "Monday Action",
+        "must_cite": [
+          "ATLAS-101",
+          "MTG-1111-PORTFOLIO"
+        ],
+        "must_not_assert": [
+          "Confirmed integration completion date"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E02",
+      "name": "Optimistic recovery credibility",
+      "evidence": [
+        "ATLAS-101",
+        "ATLAS-102",
+        "MTG-1110-PLAT",
+        "RETRO-PLAT-Q3"
+      ],
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "Moderate",
+        "risks": [
+          "Recovery plan credibility"
+        ],
+        "escalation": "Monday Action",
+        "must_cite": [
+          "RETRO-PLAT-Q3"
+        ],
+        "must_not_assert": [
+          "Recovery is impossible"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E03",
+      "name": "Unapproved export scope",
+      "evidence": [
+        "ATLAS-116",
+        "ATLAS-117",
+        "ATLAS-118",
+        "D-02",
+        "PAGE-APP",
+        "MTG-1111-PORTFOLIO"
+      ],
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "High",
+        "contradictions": [
+          "Active work exists for scope that is not formally committed"
+        ],
+        "escalation": "Monday Action",
+        "must_cite": [
+          "D-02",
+          "ATLAS-116"
+        ],
+        "must_not_assert": [
+          "Export filtering is approved launch scope"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E04",
+      "name": "Shared resource collision",
+      "evidence": [
+        "RES-1112",
+        "MTG-1110-PLAT",
+        "ATLAS-109"
+      ],
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "High",
+        "risks": [
+          "Maya is overallocated across PLAT and AI"
+        ],
+        "escalation": "Monday Action",
+        "must_cite": [
+          "RES-1112"
+        ],
+        "must_not_assert": [
+          "AI work will definitely miss"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E05",
+      "name": "Worsening defect trend",
+      "evidence": [
+        "TEST-1108",
+        "TEST-1110",
+        "TEST-1112",
+        "RETRO-SEC-Q3"
+      ],
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "High",
+        "risks": [
+          "Defect trend worsening"
+        ],
+        "escalation": "Monday Action",
+        "must_cite": [
+          "TEST-1108",
+          "TEST-1112"
+        ],
+        "must_not_assert": [
+          "Launch must be cancelled"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E06",
+      "name": "Compliance approval bottleneck",
+      "evidence": [
+        "D-03",
+        "PAGE-SEC",
+        "MTG-1112-SEC",
+        "DEP-MAP-1112"
+      ],
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "Moderate",
+        "risks": [
+          "Required approval has timing/single-approver exposure"
+        ],
+        "escalation": "Monday Action",
+        "must_cite": [
+          "D-03",
+          "MTG-1112-SEC"
+        ],
+        "must_not_assert": [
+          "Approval is missing today",
+          "Launch is already blocked"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E07",
+      "name": "Mandatory approval absent at launch gate",
+      "evidence": [
+        "D-03"
+      ],
+      "scenario_overrides": {
+        "as_of": "2026-12-03T17:00:00-08:00",
+        "approval_status": "not_verified"
+      },
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "Low",
+        "hard_gate": "cannot_green",
+        "escalation": "Immediate Alert",
+        "must_cite": [
+          "D-03"
+        ],
+        "must_not_assert": [
+          "Approval was rejected"
+        ],
+        "insufficient_evidence": true
+      }
+    },
+    {
+      "id": "E08",
+      "name": "Executive report stale versus operations",
+      "evidence": [
+        "STATUS-1107",
+        "STATUS-1112",
+        "ATLAS-101",
+        "MTG-1111-PORTFOLIO",
+        "TEST-1112"
+      ],
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "Moderate",
+        "contradictions": [
+          "Executive GREEN is weaker than fresher operational evidence"
+        ],
+        "escalation": "Monday Action",
+        "must_cite": [
+          "STATUS-1112",
+          "MTG-1111-PORTFOLIO"
+        ],
+        "must_not_assert": [
+          "Official RAG is wrong"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E09",
+      "name": "Healthy budget should not dominate delivery risk",
+      "evidence": [
+        "BUD-1112",
+        "ATLAS-101",
+        "TEST-1112"
+      ],
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "Moderate",
+        "risks": [
+          "Delivery risk remains despite budget health"
+        ],
+        "escalation": "Monday Action",
+        "must_cite": [
+          "BUD-1112"
+        ],
+        "must_not_assert": [
+          "Budget health implies launch readiness"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E10",
+      "name": "AI threshold just below requirement",
+      "evidence": [
+        "ATLAS-108",
+        "PAGE-AI"
+      ],
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "High",
+        "risks": [
+          "Refusal test pass rate 0.94 is below 0.95 launch threshold"
+        ],
+        "escalation": "Monday Action",
+        "must_cite": [
+          "ATLAS-108",
+          "PAGE-AI"
+        ],
+        "must_not_assert": [
+          "Model safety is broadly unacceptable"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E11",
+      "name": "No evidence for partner root cause",
+      "evidence": [
+        "ATLAS-102",
+        "R-01"
+      ],
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "Low",
+        "escalation": "Monitor",
+        "must_cite": [
+          "ATLAS-102",
+          "R-01"
+        ],
+        "must_not_assert": [
+          "Vendor capacity shortage caused sandbox instability",
+          "Internal code caused sandbox instability"
+        ],
+        "insufficient_evidence": true
+      }
+    },
+    {
+      "id": "E12",
+      "name": "Portfolio intervention tradeoff",
+      "evidence": [
+        "RES-1112",
+        "DEP-MAP-1112",
+        "MTG-1111-PORTFOLIO",
+        "ATLAS-109",
+        "ATLAS-101"
+      ],
+      "expected": {
+        "recommendation_contains": [
+          "Reallocate or sequence Maya's work",
+          "Expose consequence to AI work"
+        ],
+        "confidence": "Moderate",
+        "escalation": "Monday Action",
+        "must_cite": [
+          "RES-1112",
+          "DEP-MAP-1112"
+        ],
+        "must_not_assert": [
+          "Reallocation has zero downside"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E13",
+      "name": "Novel risk proposal",
+      "evidence": [
+        "TEST-1108",
+        "TEST-1110",
+        "TEST-1112"
+      ],
+      "expected": {
+        "novel_risk_state": "proposed",
+        "allowed_actions": [
+          "Accept",
+          "Modify",
+          "Reject",
+          "Monitor"
+        ],
+        "confidence": "High",
+        "must_cite": [
+          "TEST-1108",
+          "TEST-1112"
+        ],
+        "must_not_assert": [
+          "Risk is already official"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E14",
+      "name": "Scope reduction after formal alignment",
+      "evidence": [
+        "D-02"
+      ],
+      "scenario_overrides": {
+        "decision_status": "Approved",
+        "baseline_updated": true,
+        "stakeholders_aligned": true,
+        "removed_from_launch": true
+      },
+      "expected": {
+        "forecast_rag": "GREEN",
+        "confidence": "Moderate",
+        "hard_gate": "none",
+        "must_cite": [
+          "D-02"
+        ],
+        "must_not_assert": [
+          "Historical scope conflict still blocks GREEN"
+        ],
+        "insufficient_evidence": false
+      }
+    },
+    {
+      "id": "E15",
+      "name": "Unknown when current testing is absent",
+      "evidence": [
+        "PAGE-SEC",
+        "D-03"
+      ],
+      "scenario_overrides": {
+        "current_test_report_available": false
+      },
+      "expected": {
+        "forecast_rag": "AMBER",
+        "confidence": "Low",
+        "escalation": "Monitor",
+        "must_cite": [
+          "PAGE-SEC"
+        ],
+        "must_not_assert": [
+          "Testing is healthy",
+          "Testing is failing"
+        ],
+        "insufficient_evidence": true
+      }
+    },
+    {
+      "id": "E16",
+      "name": "Critical dependency beyond launch without mitigation",
+      "evidence": [
+        "DEP-MAP-1112",
+        "D-01"
+      ],
+      "scenario_overrides": {
+        "critical_dependency_forecast_date": "2026-12-06",
+        "viable_mitigation": false
+      },
+      "expected": {
+        "forecast_rag": "RED",
+        "confidence": "High",
+        "hard_gate": "red",
+        "escalation": "Immediate Alert",
+        "must_cite": [
+          "DEP-MAP-1112",
+          "D-01"
+        ],
+        "must_not_assert": [
+          "Launch date has formally changed"
+        ],
+        "insufficient_evidence": false
+      }
+    }
+  ]
+}
