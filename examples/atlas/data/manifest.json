@@ -1,0 +1,30 @@
+{
+  "dataset_id": "atlas-v2-001",
+  "generated_for": "Program OS V2 evaluated prototype",
+  "fictional": true,
+  "artifact_count": 48,
+  "artifact_files": {
+    "jira_issues": 18,
+    "risks": 5,
+    "project_pages": 5,
+    "meeting_notes": 4,
+    "quality_reports": 3,
+    "decisions": 3,
+    "retrospectives": 2,
+    "budget_snapshots": 2,
+    "resource_snapshots": 2,
+    "status_reports": 2,
+    "dependency_maps": 1,
+    "milestone_schedules": 1
+  },
+  "planted_signals": [
+    "Partner integration date conflict and likely slip",
+    "Recovery optimism contradicted by historical similar work",
+    "Export filtering appears in active work without approved scope change",
+    "Maya is overallocated across PLAT and AI",
+    "High-defect trend is worsening across three test cycles",
+    "Compliance approval timing has a single-approver availability risk",
+    "Executive status remains GREEN despite fresher operational concerns"
+  ],
+  "rule": "Gold expectations live under tests/evals/gold and must not be supplied to runtime prompts."
+}

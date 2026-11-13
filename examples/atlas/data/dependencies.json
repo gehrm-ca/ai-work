@@ -1,0 +1,54 @@
+[
+  {
+    "source_type": "dependency_map",
+    "source_id": "DEP-MAP-1112",
+    "project_id": "atlas",
+    "source_updated_at": "2026-11-12T10:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 1,
+    "dependencies": [
+      {
+        "id": "DEP-1",
+        "from": "PLAT:Partner API integration",
+        "to": "APP:RC build",
+        "required_by": "2026-11-21",
+        "critical": true
+      },
+      {
+        "id": "DEP-2",
+        "from": "PLAT:Partner API integration",
+        "to": "GTM:Support playbook",
+        "required_by": "2026-11-22",
+        "critical": true
+      },
+      {
+        "id": "DEP-3",
+        "from": "AI:Grounded citation evaluator",
+        "to": "SEC:Compliance evidence package",
+        "required_by": "2026-11-21",
+        "critical": true
+      },
+      {
+        "id": "DEP-4",
+        "from": "SEC:High findings remediation",
+        "to": "SEC:Regression",
+        "required_by": "2026-11-25",
+        "critical": true
+      },
+      {
+        "id": "DEP-5",
+        "from": "SEC:Compliance approver sign-off",
+        "to": "atlas:Production launch",
+        "required_by": "2026-12-03",
+        "critical": true
+      },
+      {
+        "id": "DEP-6",
+        "from": "APP:Export filtering UI",
+        "to": "GTM:Enablement content",
+        "required_by": "2026-11-24",
+        "critical": false
+      }
+    ]
+  }
+]

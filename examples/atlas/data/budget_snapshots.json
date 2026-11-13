@@ -1,0 +1,24 @@
+[
+  {
+    "source_type": "finance_snapshot",
+    "source_id": "BUD-1106",
+    "project_id": "atlas",
+    "source_updated_at": "2026-11-06T17:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 3,
+    "budget_status": "Within plan",
+    "forecast_variance_pct": 1.8,
+    "notes": "No material budget pressure."
+  },
+  {
+    "source_type": "finance_snapshot",
+    "source_id": "BUD-1112",
+    "project_id": "atlas",
+    "source_updated_at": "2026-11-12T17:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 3,
+    "budget_status": "Within plan",
+    "forecast_variance_pct": 2.4,
+    "notes": "Contingency remains available for short-term contractor support."
+  }
+]

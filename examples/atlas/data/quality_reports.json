@@ -1,0 +1,53 @@
+[
+  {
+    "source_type": "test_system",
+    "source_id": "TEST-1108",
+    "project_id": "SEC",
+    "source_updated_at": "2026-11-08T18:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 1,
+    "cycle": "RC-1",
+    "tests_run": 420,
+    "pass_rate": 0.94,
+    "open_defects": {
+      "critical": 0,
+      "high": 5,
+      "medium": 18
+    },
+    "new_high_defects": 2
+  },
+  {
+    "source_type": "test_system",
+    "source_id": "TEST-1110",
+    "project_id": "SEC",
+    "source_updated_at": "2026-11-10T18:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 1,
+    "cycle": "RC-2",
+    "tests_run": 510,
+    "pass_rate": 0.93,
+    "open_defects": {
+      "critical": 0,
+      "high": 7,
+      "medium": 21
+    },
+    "new_high_defects": 4
+  },
+  {
+    "source_type": "test_system",
+    "source_id": "TEST-1112",
+    "project_id": "SEC",
+    "source_updated_at": "2026-11-12T18:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 1,
+    "cycle": "RC-3",
+    "tests_run": 620,
+    "pass_rate": 0.91,
+    "open_defects": {
+      "critical": 0,
+      "high": 9,
+      "medium": 24
+    },
+    "new_high_defects": 5
+  }
+]

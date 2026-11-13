@@ -1,0 +1,103 @@
+[
+  {
+    "source_type": "confluence",
+    "source_id": "PAGE-APP",
+    "project_id": "APP",
+    "source_updated_at": "2026-11-04T10:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "title": "Application launch plan",
+    "declared_status": "GREEN",
+    "milestones": [
+      [
+        "UX complete",
+        "2026-11-20"
+      ],
+      [
+        "RC build",
+        "2026-11-25"
+      ]
+    ],
+    "scope": [
+      "Admin workflow",
+      "Bulk actions",
+      "Accessibility"
+    ],
+    "notes": "Export filtering not included in approved launch scope."
+  },
+  {
+    "source_type": "confluence",
+    "source_id": "PAGE-PLAT",
+    "project_id": "PLAT",
+    "source_updated_at": "2026-11-04T10:10:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "title": "Platform launch plan",
+    "declared_status": "GREEN",
+    "milestones": [
+      [
+        "Partner integration complete",
+        "2026-11-14"
+      ],
+      [
+        "Load test",
+        "2026-11-21"
+      ]
+    ],
+    "notes": "Partner integration expected Nov 14."
+  },
+  {
+    "source_type": "confluence",
+    "source_id": "PAGE-AI",
+    "project_id": "AI",
+    "source_updated_at": "2026-11-05T09:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "title": "AI readiness plan",
+    "declared_status": "GREEN",
+    "launch_thresholds": {
+      "refusal_pass_rate": 0.95,
+      "citation_accuracy": 0.97
+    },
+    "notes": "No open severity-1 model safety failures."
+  },
+  {
+    "source_type": "confluence",
+    "source_id": "PAGE-SEC",
+    "project_id": "SEC",
+    "source_updated_at": "2026-11-05T09:15:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "title": "Security and compliance launch plan",
+    "declared_status": "AMBER",
+    "mandatory_gates": [
+      "High findings remediated",
+      "Compliance approver sign-off"
+    ],
+    "approval_due": "2026-11-25"
+  },
+  {
+    "source_type": "confluence",
+    "source_id": "PAGE-GTM",
+    "project_id": "GTM",
+    "source_updated_at": "2026-11-05T09:30:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "title": "Commercial readiness plan",
+    "declared_status": "GREEN",
+    "milestones": [
+      [
+        "Support playbook",
+        "2026-11-20"
+      ],
+      [
+        "Sales enablement",
+        "2026-11-24"
+      ],
+      [
+        "Launch comms",
+        "2026-11-27"
+      ]
+    ]
+  }
+]
