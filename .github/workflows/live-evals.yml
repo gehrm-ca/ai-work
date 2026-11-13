@@ -1,0 +1,99 @@
+name: V2 Live Evaluation
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: Exact OpenAI model identifier to evaluate
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Program OS
+        run: python -m pip install -e ".[dev]"
+
+      - name: Verify API credential
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -z "$OPENAI_API_KEY" ]; then
+            echo "::error::Repository secret OPENAI_API_KEY is not configured."
+            exit 1
+          fi
+
+      - name: Run baseline vs Program OS
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python -m program_os.evals.live \
+            --model "${{ inputs.model }}" \
+            --output artifacts/eval-report.json
+
+      - name: Publish evaluation summary
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report = json.loads(Path("artifacts/eval-report.json").read_text())
+          baseline = report["paths"]["baseline"]
+          program_os = report["paths"]["program_os"]
+
+          lines = [
+              "# Program OS V2 live evaluation",
+              "",
+              f"- Model: `{report['model']}`",
+              f"- Timestamp: `{report['run_timestamp']}`",
+              f"- Cases: {report['gold_case_count']}",
+              f"- Baseline weighted penalty: **{baseline['weighted_penalty']}**",
+              f"- Program OS weighted penalty: **{program_os['weighted_penalty']}**",
+              f"- Baseline catastrophic failure: **{baseline['catastrophic']}**",
+              f"- Program OS catastrophic failure: **{program_os['catastrophic']}**",
+              "",
+              "## Program OS failure dimensions",
+              "",
+          ]
+          for key, value in sorted(program_os["failure_dimensions"].items()):
+              lines.append(f"- {key}: {value}")
+
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as handle:
+              handle.write("\n".join(lines) + "\n")
+          PY
+
+      - name: Enforce catastrophic release gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("artifacts/eval-report.json").read_text())
+          program_os = report["paths"]["program_os"]
+          if program_os["catastrophic"]:
+              failures = program_os["catastrophic_failures"]
+              raise SystemExit(
+                  "V2 release gate failed: catastrophic Program OS failures: "
+                  + json.dumps(failures)
+              )
+          print("Catastrophic release gate passed.")
+          PY
+
+      - name: Upload evaluation report
+        if: ${{ always() && hashFiles('artifacts/eval-report.json') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: program-os-v2-eval-${{ inputs.model }}
+          path: artifacts/eval-report.json
+          if-no-files-found: error

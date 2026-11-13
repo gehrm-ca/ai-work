@@ -55,3 +55,25 @@ The report records:
 - failures by Safety/Trust, Detection, Judgment, and Decision Quality.
 
 A final V2 release requires zero catastrophic Program OS failures.
+
+
+## GitHub Actions release gate
+
+The repository includes `.github/workflows/live-evals.yml` as a manual release gate.
+
+The workflow requires:
+
+- a repository Actions secret named `OPENAI_API_KEY`;
+- an explicit model identifier supplied when the workflow is started.
+
+The workflow:
+
+1. installs the exact repository revision;
+2. runs all 16 cases through the weak baseline;
+3. runs the same 16 cases through Program OS;
+4. writes `artifacts/eval-report.json`;
+5. publishes headline results to the GitHub Actions job summary;
+6. fails the workflow if Program OS has any catastrophic release-gate failure;
+7. uploads the full JSON report as a workflow artifact.
+
+The API key is consumed only as a GitHub Actions secret and is not written to the repository or evaluation report.

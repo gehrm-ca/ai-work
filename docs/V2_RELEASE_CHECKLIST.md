@@ -30,6 +30,8 @@
 - [x] Next.js demo UI
 - [x] Python CI
 - [x] Next.js production-build CI
+- [x] reproducible baseline-vs-Program-OS live evaluation runner
+- [x] manual GitHub Actions live-evaluation release gate
 
 ## Required before final V2 release
 
