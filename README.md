@@ -139,6 +139,7 @@ A high aggregate score cannot compensate for a catastrophic trust failure such a
 - [Atlas synthetic program](examples/atlas/README.md)
 - [V2 development harness](docs/DEVELOPMENT_HARNESS.md)
 - [Run the V2 demo](docs/RUN_DEMO.md)
+- [Run V2 evaluations](docs/RUN_EVALS.md)
 - [V2 release checklist](docs/V2_RELEASE_CHECKLIST.md)
 
 ## Release boundary
