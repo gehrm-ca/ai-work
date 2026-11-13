@@ -24,6 +24,16 @@ Human override + audit:
 
 Audit records default to `/tmp/program-os/audit.jsonl` and do not modify model behavior.
 
+## Frontend
+
+```bash
+cd web
+npm install
+PROGRAM_OS_API_URL=http://127.0.0.1:8000 npm run dev
+```
+
+Open http://localhost:3000.
+
 ## Demo sequence
 
 1. Show official GREEN versus forecast AMBER.
