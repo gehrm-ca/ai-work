@@ -1,0 +1,36 @@
+[
+  {
+    "source_type": "exec_status",
+    "source_id": "STATUS-1107",
+    "project_id": "atlas",
+    "source_updated_at": "2026-11-07T16:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 3,
+    "portfolio_rag": "GREEN",
+    "project_rag": {
+      "APP": "GREEN",
+      "PLAT": "GREEN",
+      "AI": "GREEN",
+      "SEC": "AMBER",
+      "GTM": "GREEN"
+    },
+    "summary": "Program remains on track for Dec 4."
+  },
+  {
+    "source_type": "exec_status",
+    "source_id": "STATUS-1112",
+    "project_id": "atlas",
+    "source_updated_at": "2026-11-12T08:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 3,
+    "portfolio_rag": "GREEN",
+    "project_rag": {
+      "APP": "GREEN",
+      "PLAT": "GREEN",
+      "AI": "GREEN",
+      "SEC": "AMBER",
+      "GTM": "GREEN"
+    },
+    "summary": "No change to launch confidence; partner integration recovery underway."
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "source_type": "meeting_notes",
+    "source_id": "MTG-1110-PLAT",
+    "project_id": "PLAT",
+    "source_updated_at": "2026-11-10T16:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "title": "Platform daily triage",
+    "statements": [
+      "Partner sandbox unavailable for six hours.",
+      "Team still believes Nov 18 is achievable if sandbox stabilizes.",
+      "Backend engineer Maya may be needed full-time through Nov 20."
+    ]
+  },
+  {
+    "source_type": "meeting_notes",
+    "source_id": "MTG-1111-PORTFOLIO",
+    "project_id": "atlas",
+    "source_updated_at": "2026-11-11T15:30:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "title": "Portfolio sync",
+    "statements": [
+      "Engineering now expects partner integration closer to Nov 20.",
+      "Project D-equivalent lower-priority analytics work can absorb a short staffing delay.",
+      "No formal scope change approved for export filtering."
+    ]
+  },
+  {
+    "source_type": "meeting_notes",
+    "source_id": "MTG-1112-SEC",
+    "project_id": "SEC",
+    "source_updated_at": "2026-11-12T11:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "title": "Security readiness review",
+    "statements": [
+      "Two high pen-test findings remain open.",
+      "Compliance approver is out Nov 23-24.",
+      "Evidence package should be ready Nov 23 but no backup approver has been confirmed."
+    ]
+  },
+  {
+    "source_type": "meeting_notes",
+    "source_id": "MTG-1112-GTM",
+    "project_id": "GTM",
+    "source_updated_at": "2026-11-12T16:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "title": "GTM readiness",
+    "statements": [
+      "Enablement deck is on track.",
+      "Support playbook depends on final export behavior.",
+      "Launch messaging assumes export filtering is in scope."
+    ]
+  }
+]

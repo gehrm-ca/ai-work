@@ -1,0 +1,54 @@
+[
+  {
+    "source_type": "project_plan",
+    "source_id": "MILESTONES-1112",
+    "project_id": "atlas",
+    "source_updated_at": "2026-11-12T10:15:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 1,
+    "milestones": [
+      {
+        "id": "M1",
+        "project_id": "PLAT",
+        "name": "Partner integration complete",
+        "date": "2026-11-18",
+        "critical": true
+      },
+      {
+        "id": "M2",
+        "project_id": "AI",
+        "name": "AI launch thresholds met",
+        "date": "2026-11-19",
+        "critical": true
+      },
+      {
+        "id": "M3",
+        "project_id": "APP",
+        "name": "Release candidate build",
+        "date": "2026-11-25",
+        "critical": true
+      },
+      {
+        "id": "M4",
+        "project_id": "SEC",
+        "name": "Compliance sign-off",
+        "date": "2026-11-25",
+        "critical": true
+      },
+      {
+        "id": "M5",
+        "project_id": "GTM",
+        "name": "Launch readiness complete",
+        "date": "2026-11-27",
+        "critical": true
+      },
+      {
+        "id": "M6",
+        "project_id": "atlas",
+        "name": "Production launch",
+        "date": "2026-12-04",
+        "critical": true
+      }
+    ]
+  }
+]

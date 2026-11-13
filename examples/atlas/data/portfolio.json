@@ -1,0 +1,33 @@
+{
+  "portfolio_id": "atlas",
+  "name": "Atlas Launch Program",
+  "description": "Fictional enterprise AI-enabled workflow product launch into a regulated customer segment.",
+  "target_launch_date": "2026-12-04",
+  "workstreams": [
+    {
+      "project_id": "APP",
+      "name": "Application & UX",
+      "official_rag": "GREEN"
+    },
+    {
+      "project_id": "PLAT",
+      "name": "Platform & Integrations",
+      "official_rag": "GREEN"
+    },
+    {
+      "project_id": "AI",
+      "name": "Data / AI",
+      "official_rag": "GREEN"
+    },
+    {
+      "project_id": "SEC",
+      "name": "Security, Compliance & Testing",
+      "official_rag": "AMBER"
+    },
+    {
+      "project_id": "GTM",
+      "name": "Commercial Launch & Operations",
+      "official_rag": "GREEN"
+    }
+  ]
+}

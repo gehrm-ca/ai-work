@@ -1,0 +1,68 @@
+[
+  {
+    "source_type": "resource_plan",
+    "source_id": "RES-1110",
+    "project_id": "atlas",
+    "source_updated_at": "2026-11-10T09:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "people": [
+      {
+        "name": "Maya",
+        "role": "Senior Backend Engineer",
+        "allocations": {
+          "PLAT": 0.6,
+          "AI": 0.4
+        }
+      },
+      {
+        "name": "Leo",
+        "role": "Backend Engineer",
+        "allocations": {
+          "PLAT": 1
+        }
+      },
+      {
+        "name": "Priya",
+        "role": "Security Engineer",
+        "allocations": {
+          "SEC": 1
+        }
+      }
+    ]
+  },
+  {
+    "source_type": "resource_plan",
+    "source_id": "RES-1112",
+    "project_id": "atlas",
+    "source_updated_at": "2026-11-12T09:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "people": [
+      {
+        "name": "Maya",
+        "role": "Senior Backend Engineer",
+        "allocations": {
+          "PLAT": 0.8,
+          "AI": 0.4
+        },
+        "overallocated": true
+      },
+      {
+        "name": "Leo",
+        "role": "Backend Engineer",
+        "allocations": {
+          "PLAT": 1
+        }
+      },
+      {
+        "name": "Priya",
+        "role": "Security Engineer",
+        "allocations": {
+          "SEC": 1
+        }
+      }
+    ],
+    "notes": "Maya is simultaneously committed to PLAT recovery and AI citation evaluator support."
+  }
+]

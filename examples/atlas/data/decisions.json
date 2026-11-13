@@ -1,0 +1,38 @@
+[
+  {
+    "source_type": "decision_log",
+    "source_id": "D-01",
+    "project_id": "atlas",
+    "source_updated_at": "2026-11-03T14:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 1,
+    "title": "Launch date commitment",
+    "decision": "Target launch remains 2026-12-04",
+    "authority": "Executive Sponsor",
+    "status": "Approved"
+  },
+  {
+    "source_type": "decision_log",
+    "source_id": "D-02",
+    "project_id": "APP",
+    "source_updated_at": "2026-11-06T13:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 1,
+    "title": "Export filtering request",
+    "decision": "Evaluate for launch if no schedule impact; not yet committed.",
+    "authority": "Program Manager",
+    "status": "Pending"
+  },
+  {
+    "source_type": "decision_log",
+    "source_id": "D-03",
+    "project_id": "SEC",
+    "source_updated_at": "2026-11-09T12:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 1,
+    "title": "Compliance approval requirement",
+    "decision": "Named compliance approver sign-off required before production launch.",
+    "authority": "Executive Sponsor",
+    "status": "Approved"
+  }
+]

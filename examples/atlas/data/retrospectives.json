@@ -1,0 +1,39 @@
+[
+  {
+    "source_type": "retrospective",
+    "source_id": "RETRO-PLAT-Q3",
+    "project_id": "PLAT",
+    "source_updated_at": "2026-10-30T15:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "title": "Platform milestone reliability",
+    "similar_work": [
+      {
+        "name": "Partner X integration",
+        "planned_days": 8,
+        "actual_days": 11
+      },
+      {
+        "name": "Partner Y integration",
+        "planned_days": 6,
+        "actual_days": 9
+      },
+      {
+        "name": "Payments replay",
+        "planned_days": 4,
+        "actual_days": 5
+      }
+    ],
+    "finding": "External integrations have repeatedly taken 25–50% longer than initial recovery estimates."
+  },
+  {
+    "source_type": "retrospective",
+    "source_id": "RETRO-SEC-Q3",
+    "project_id": "SEC",
+    "source_updated_at": "2026-10-29T15:00:00-08:00",
+    "retrieved_at": "2026-11-13T12:30:00-08:00",
+    "authority_tier": 2,
+    "title": "Security remediation retrospective",
+    "finding": "High-severity findings discovered after RC frequently require 3–5 calendar days plus regression."
+  }
+]
