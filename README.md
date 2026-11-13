@@ -10,9 +10,11 @@ Program OS sits above existing systems of record such as Jira, Confluence, meeti
 
 V1 defines the product contract, trust model, governance, architecture direction, evaluation strategy, and fictional Atlas Launch Program used for the evaluated prototype.
 
-**V2 — Evaluated vertical slice: planned next.**
+**V2 — Evaluated vertical slice: release candidate.**
 
-V2 will implement the first end-to-end Monday-to-Friday workflow against a synthetic five-workstream enterprise launch portfolio and a fixed golden evaluation set.
+The release-candidate implementation now includes the Atlas synthetic portfolio, immutable evidence loading, deterministic hard gates, confidence logic, signal detection, targeted retrieval, a single structured AI analyst adapter, Monday prioritization, portfolio tradeoff recommendations, Friday status, human override/audit, governed learning proposals, FastAPI, and a Next.js demo surface.
+
+The remaining final V2 release gate is a measured weak-baseline-versus-Program-OS run against the fixed golden evaluation set. Until that run exists, this repository does not claim measured AI-quality improvement.
 
 ## The problem
 
@@ -110,11 +112,11 @@ Human Approval
 Audit + Learning Proposal
 ~~~
 
-The V2 implementation will start with one agent. Multi-agent orchestration is added only if evaluation results demonstrate a material benefit.
+The V2 runtime uses one structured agent. Multi-agent orchestration is not part of the product runtime unless evaluation results later demonstrate a material benefit.
 
 ## Evaluation
 
-V2 will compare an intentionally weak baseline against the Program OS architecture using the same golden test set.
+V2 contains an intentionally weak baseline harness and a fixed 16-case golden set. Final release requires running the baseline and Program OS paths against that same set and publishing the measured comparison.
 
 Primary dimensions:
 
@@ -136,9 +138,11 @@ A high aggregate score cannot compensate for a catastrophic trust failure such a
 - [Competitive analysis](docs/COMPETITIVE_ANALYSIS.md)
 - [Atlas synthetic program](examples/atlas/README.md)
 - [V2 development harness](docs/DEVELOPMENT_HARNESS.md)
+- [Run the V2 demo](docs/RUN_DEMO.md)
+- [V2 release checklist](docs/V2_RELEASE_CHECKLIST.md)
 
 ## Release boundary
 
-V1 documents what is designed. It does not claim that the V2 intelligence system is already implemented.
+V1 documents the product definition. The V2 release candidate implements the first vertical slice, but measured baseline-vs-Program-OS evaluation remains a release gate.
 
 The project is a portfolio and learning prototype, not a production-certified autonomous business decision system.
