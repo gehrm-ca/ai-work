@@ -1,4 +1,4 @@
-name: API Key Smoke Test
+name: Full V2 Release Gate Test
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  smoke:
+  evaluate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,57 +31,55 @@ jobs:
           fi
           echo "OPENAI_API_KEY is present."
 
-      - name: Verify gpt-6.1-sol API access
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          python - <<'PY'
-          from openai import OpenAI
-
-          client = OpenAI()
-          response = client.responses.create(
-              model="gpt-6.1-sol",
-              input="Reply with exactly API_OK.",
-          )
-          text = response.output_text.strip()
-          print("Model response:", text)
-          if "API_OK" not in text:
-              raise SystemExit("Unexpected model response.")
-          PY
-
-      - name: Run one real Program OS eval case
+      - name: Run all 16 locked eval cases
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           python -m program_os.evals.live \
             --model gpt-6.1-sol \
-            --case E01 \
-            --output artifacts/smoke-eval.json
+            --output artifacts/full-eval.json
 
-      - name: Show smoke result
+      - name: Print release summary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-
-          report = json.loads(Path("artifacts/smoke-eval.json").read_text())
+          report = json.loads(Path("artifacts/full-eval.json").read_text())
           print(json.dumps({
               "model": report["model"],
               "cases": report["gold_case_count"],
               "baseline": {
                   "weighted_penalty": report["paths"]["baseline"]["weighted_penalty"],
                   "catastrophic": report["paths"]["baseline"]["catastrophic"],
+                  "failure_dimensions": report["paths"]["baseline"]["failure_dimensions"],
+                  "cases_without_failures": report["paths"]["baseline"]["cases_without_failures"],
               },
               "program_os": {
                   "weighted_penalty": report["paths"]["program_os"]["weighted_penalty"],
                   "catastrophic": report["paths"]["program_os"]["catastrophic"],
+                  "failure_dimensions": report["paths"]["program_os"]["failure_dimensions"],
+                  "cases_without_failures": report["paths"]["program_os"]["cases_without_failures"],
               },
           }, indent=2))
+          PY
+
+      - name: Enforce catastrophic release gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path("artifacts/full-eval.json").read_text())
+          program_os = report["paths"]["program_os"]
+          if program_os["catastrophic"]:
+              raise SystemExit(
+                  "Release gate failed: " + json.dumps(program_os["catastrophic_failures"])
+              )
+          print("Catastrophic release gate passed.")
           PY
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: api-key-smoke-eval
-          path: artifacts/smoke-eval.json
+          name: full-v2-eval
+          path: artifacts/full-eval.json
           if-no-files-found: warn
