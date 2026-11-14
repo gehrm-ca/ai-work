@@ -1,0 +1,87 @@
+name: API Key Smoke Test
+
+on:
+  push:
+    branches:
+      - "test/api-key-smoke"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Program OS
+        run: python -m pip install -e ".[dev]"
+
+      - name: Verify secret is injected
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -z "$OPENAI_API_KEY" ]; then
+            echo "::error::OPENAI_API_KEY is missing."
+            exit 1
+          fi
+          echo "OPENAI_API_KEY is present."
+
+      - name: Verify gpt-6.1-sol API access
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python - <<'PY'
+          from openai import OpenAI
+
+          client = OpenAI()
+          response = client.responses.create(
+              model="gpt-6.1-sol",
+              input="Reply with exactly API_OK.",
+          )
+          text = response.output_text.strip()
+          print("Model response:", text)
+          if "API_OK" not in text:
+              raise SystemExit("Unexpected model response.")
+          PY
+
+      - name: Run one real Program OS eval case
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python -m program_os.evals.live \
+            --model gpt-6.1-sol \
+            --case E01 \
+            --output artifacts/smoke-eval.json
+
+      - name: Show smoke result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("artifacts/smoke-eval.json").read_text())
+          print(json.dumps({
+              "model": report["model"],
+              "cases": report["gold_case_count"],
+              "baseline": {
+                  "weighted_penalty": report["paths"]["baseline"]["weighted_penalty"],
+                  "catastrophic": report["paths"]["baseline"]["catastrophic"],
+              },
+              "program_os": {
+                  "weighted_penalty": report["paths"]["program_os"]["weighted_penalty"],
+                  "catastrophic": report["paths"]["program_os"]["catastrophic"],
+              },
+          }, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-key-smoke-eval
+          path: artifacts/smoke-eval.json
+          if-no-files-found: warn
