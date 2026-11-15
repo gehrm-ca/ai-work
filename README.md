@@ -34,6 +34,7 @@ The deterministic Atlas demo does **not** require an OpenAI API key. A key is on
 - [V2 release notes](docs/V2_RELEASE_NOTES.md)
 - [V2 measured evaluation](docs/V2_EVALUATION_RESULTS.md)
 - [Detailed demo instructions](docs/RUN_DEMO.md)
+- [Hosted deterministic demo boundary](docs/HOSTED_DEMO.md)
 
 ## The problem
 
