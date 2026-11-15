@@ -108,3 +108,37 @@ The issue closes only after a real or vendor-sandbox Jira site is fetched and Pr
 - imported evidence in an assessment;
 - no write permission;
 - safe behavior under partial/inaccessible data.
+
+
+## GitHub Actions live-source smoke test
+
+The repository includes a manual `Jira Ingestion Smoke` workflow.
+
+Because this repository is public, the workflow intentionally does **not** print
+Jira issue keys or upload source records. It publishes only record count,
+completion status, and failure categories.
+
+Configure repository Actions secrets:
+
+### API-token mode
+
+- `JIRA_BASE_URL` — e.g. `https://your-site.atlassian.net`
+- `JIRA_EMAIL`
+- `JIRA_API_TOKEN`
+- `JIRA_JQL` — keep this in a secret because project identifiers may be sensitive
+- optional `JIRA_BROWSE_BASE_URL`
+- optional `JIRA_PRINCIPAL`
+
+### OAuth bearer mode
+
+- `JIRA_BASE_URL` — `https://api.atlassian.com/ex/jira/YOUR_CLOUD_ID`
+- `JIRA_BEARER_TOKEN`
+- `JIRA_JQL`
+- optional `JIRA_BROWSE_BASE_URL` — human site URL
+- optional `JIRA_PRINCIPAL`
+
+Do not configure both auth modes at once.
+
+The workflow fails if the snapshot is partial or returns zero records. A successful
+run proves read-only connectivity and complete retrieval for the supplied JQL, but
+#17 still requires using imported evidence in a Program OS assessment before closure.
