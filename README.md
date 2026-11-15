@@ -16,6 +16,25 @@ V2 implements the first evidence-backed vertical slice: Atlas synthetic portfoli
 
 The final 16-case benchmark used `gpt-6.1-sol` against the same locked cases for both paths. The weak baseline recorded a severity-weighted failure penalty of **60**; Program OS recorded **3**. Program OS produced **15/16 cases with zero scored failures** and **zero catastrophic trust failures**. The one remaining scored miss is documented rather than hidden: case E14 returned AMBER where the gold expectation is GREEN after a formally resolved scope reduction.
 
+## Start here
+
+For the fastest review:
+
+```bash
+git clone https://github.com/gehrm-ca/ai-work.git
+cd ai-work
+make demo
+```
+
+Then open `http://127.0.0.1:3000`.
+
+The deterministic Atlas demo does **not** require an OpenAI API key. A key is only required for live agent calls and live evaluation runs.
+
+- [Five-minute case study](docs/CASE_STUDY.md)
+- [V2 release notes](docs/V2_RELEASE_NOTES.md)
+- [V2 measured evaluation](docs/V2_EVALUATION_RESULTS.md)
+- [Detailed demo instructions](docs/RUN_DEMO.md)
+
 ## The problem
 
 Program managers rarely lack status information. They lack a reliable way to determine what is actually true, what is likely to happen next, and where intervention has the highest portfolio value.
@@ -153,6 +172,8 @@ A high aggregate score cannot compensate for a catastrophic trust failure such a
 - [Run the V2 demo](docs/RUN_DEMO.md)
 - [Run V2 evaluations](docs/RUN_EVALS.md)
 - [V2 evaluation results](docs/V2_EVALUATION_RESULTS.md)
+- [V2 case study](docs/CASE_STUDY.md)
+- [V2 release notes](docs/V2_RELEASE_NOTES.md)
 - [V2 release checklist](docs/V2_RELEASE_CHECKLIST.md)
 
 ## Release boundary
