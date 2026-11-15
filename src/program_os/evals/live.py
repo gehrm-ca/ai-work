@@ -155,12 +155,10 @@ def _confidence_inputs(
     mandatory_missing = explicit_required_gap or root_cause_unanswerable
 
     moderate_context = (
-        "cross_source_date_conflict" in signal_kinds
-        or "official_status_lag" in signal_kinds
-        or "approval_timing_risk" in signal_kinds
-        or any(
+        any(
             phrase in query
             for phrase in (
+                "partner integration",
                 "recovery plan",
                 "approval path",
                 "executive green",
