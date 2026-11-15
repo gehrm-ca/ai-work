@@ -303,8 +303,12 @@ RAG rubric:
   viable mitigation.
 
 Do not use RED merely because a risk is high, evidence is incomplete, or a
-recovery plan is weak. Assess the subject asked about rather than unrelated
-portfolio risks. If the question provides scenario state, treat that state as
+recovery plan is weak. The returned RAG in this evaluation represents Atlas
+portfolio launch readiness. A sub-milestone or workstream can be described as
+likely to miss while the portfolio forecast remains AMBER; use portfolio RED
+only when the committed Atlas outcome is likely unachievable or a launch-critical
+blocker has no viable mitigation. Assess the subject asked about without importing
+unrelated risks. If the question provides scenario state, treat that state as
 current and conflicting source records as historical."""
     agent = Agent(
         name="Program OS Analyst",
