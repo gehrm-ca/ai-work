@@ -19,7 +19,7 @@ POST /rest/api/3/search/jql
 
 It follows `nextPageToken` pagination.
 
-Jira returns only issues the authenticated user is permitted to browse, including issue-level security restrictions where configured. Program OS preserves that permission context and must not broaden it after ingestion.
+Jira search results remain subject to the authenticated principal's Jira permissions, including Browse Projects and issue-level security where applicable. Program OS preserves the connector permission context and must not broaden access after ingestion.
 
 Official references:
 
@@ -74,6 +74,12 @@ export JIRA_PRINCIPAL=account-or-user-reference
 export JIRA_JQL='project = YOURKEY order by updated DESC'
 python scripts/jira_ingest_smoke.py
 ```
+
+For OAuth 2.0 (3LO), Atlassian API calls use the gateway form
+`https://api.atlassian.com/ex/jira/{cloudId}`, not the human site URL. Obtain
+the authorized `cloudId` from `GET https://api.atlassian.com/oauth/token/accessible-resources`.
+`JIRA_BROWSE_BASE_URL` is optional metadata used only to preserve human-readable
+issue links such as `https://your-site.atlassian.net/browse/KEY-123`.
 
 For a distributed/production integration, OAuth 2.0 authorization is preferred over long-lived user API tokens.
 
