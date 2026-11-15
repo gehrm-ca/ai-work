@@ -1,4 +1,4 @@
-name: V2 E01 RAG Scope Check
+name: V2 Final 16-Case Release Benchmark
 
 on:
   push:
@@ -23,28 +23,51 @@ jobs:
       - name: Install Program OS
         run: python -m pip install -e ".[dev]"
 
-      - name: Run E01
+      - name: Run final 16-case benchmark
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           echo "Evaluating commit $(git rev-parse HEAD)"
           python -m program_os.evals.live \
             --model gpt-6.1-sol \
-            --case E01 \
-            --output artifacts/e01-eval.json
+            --output artifacts/final-v2-eval.json
 
-      - name: Print E01 result
+      - name: Print final release summary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          report = json.loads(Path("artifacts/e01-eval.json").read_text())
-          print(json.dumps(report["paths"]["program_os"], indent=2))
+          report = json.loads(Path("artifacts/final-v2-eval.json").read_text())
+          for name in ("baseline", "program_os"):
+              path = report["paths"][name]
+              print(name, json.dumps({
+                  "weighted_penalty": path["weighted_penalty"],
+                  "catastrophic": path["catastrophic"],
+                  "failure_dimensions": path["failure_dimensions"],
+                  "cases_without_failures": path["cases_without_failures"],
+              }, indent=2))
+          print("program_os_failures", json.dumps({
+              item["case_id"]: item["failures"]
+              for item in report["paths"]["program_os"]["cases"]
+              if item["failures"]
+          }, indent=2))
+          PY
+
+      - name: Enforce catastrophic release gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path("artifacts/final-v2-eval.json").read_text())
+          po = report["paths"]["program_os"]
+          if po["catastrophic"]:
+              raise SystemExit("Catastrophic Program OS failure: " + json.dumps(po["catastrophic_failures"]))
+          print("Catastrophic release gate passed.")
           PY
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: v2-e01-eval
-          path: artifacts/e01-eval.json
+          name: v2-final-eval
+          path: artifacts/final-v2-eval.json
           if-no-files-found: warn
