@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Program OS — evidence-grounded portfolio control and decision intelligence.">
+  <title>Program OS — Atlas V2 Demo</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="shell">
+    <nav class="nav">
+      <a class="brand" href="./">PROGRAM OS</a>
+      <div class="nav-links">
+        <a href="https://github.com/gehrm-ca/ai-work/blob/main/docs/CASE_STUDY.md">Case study</a>
+        <a href="https://github.com/gehrm-ca/ai-work/blob/main/docs/V2_EVALUATION_RESULTS.md">Evaluation</a>
+        <a href="https://github.com/gehrm-ca/ai-work">GitHub</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">ATLAS LAUNCH PROGRAM / EVALUATED PROTOTYPE</p>
+        <h1>The dashboard says GREEN.<br><span>The evidence does not.</span></h1>
+        <p class="lede">
+          Program OS reconciles fragmented program evidence, predicts delivery risk,
+          prioritizes intervention, and keeps consequential decisions under human control.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#monday">See Monday priorities</a>
+          <a class="button" href="#evaluation">View measured result</a>
+        </div>
+      </div>
+      <div class="status-card" id="status-card" aria-live="polite">
+        <div class="loading">Loading deterministic Atlas evidence…</div>
+      </div>
+    </section>
+
+    <section class="proof-strip">
+      <div><strong id="evidence-count">—</strong><span>immutable evidence records</span></div>
+      <div><strong>16</strong><span>locked evaluation cases</span></div>
+      <div><strong>15/16</strong><span>Program OS cases clean</span></div>
+      <div><strong>0</strong><span>catastrophic trust failures</span></div>
+    </section>
+
+    <section id="monday" class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">MONDAY</p>
+          <h2>Intervention queue</h2>
+        </div>
+        <p>Criticality × probability × impact × time sensitivity</p>
+      </div>
+      <div id="actions" class="actions"></div>
+    </section>
+
+    <section class="two-col section">
+      <article class="panel" id="tradeoff">
+        <p class="eyebrow">PORTFOLIO TRADEOFF</p>
+        <div class="loading">Loading recommendation…</div>
+      </article>
+      <article class="panel" id="friday">
+        <p class="eyebrow">THURSDAY / FRIDAY</p>
+        <div class="loading">Loading status…</div>
+      </article>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">TRUST CONTRACT</p>
+          <h2>Signals and contradictions</h2>
+        </div>
+        <p>Every material conclusion stays tied to evidence.</p>
+      </div>
+      <div id="signals" class="signal-grid"></div>
+    </section>
+
+    <section id="evaluation" class="section evaluation">
+      <div>
+        <p class="eyebrow">MEASURED V2 RESULT</p>
+        <h2>Architecture beat the raw-context baseline.</h2>
+        <p>
+          Same model. Same 16 cases. Same scorer. Gold expectations stayed outside
+          both prompts.
+        </p>
+      </div>
+      <div class="eval-grid">
+        <div class="eval-card baseline">
+          <span>Weak baseline</span>
+          <strong>60</strong>
+          <small>severity-weighted failure penalty</small>
+        </div>
+        <div class="eval-arrow" aria-hidden="true">→</div>
+        <div class="eval-card program">
+          <span>Program OS</span>
+          <strong>3</strong>
+          <small>severity-weighted failure penalty</small>
+        </div>
+      </div>
+      <p class="fine-print">
+        Synthetic Atlas benchmark only. One known V2 miss remains disclosed:
+        E14 returned AMBER where the gold expectation is GREEN after formally
+        resolved scope reduction.
+      </p>
+    </section>
+
+    <section class="section architecture">
+      <p class="eyebrow">CONTROL MODEL</p>
+      <div class="flow">
+        <span>Systems of record</span><b>→</b>
+        <span>Immutable evidence</span><b>→</b>
+        <span>Deterministic controls</span><b>→</b>
+        <span>AI assessment</span><b>→</b>
+        <span>Human approval</span><b>→</b>
+        <span>Audit + learning proposal</span>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        Program OS V2 is an evaluated portfolio prototype, not a production-certified
+        autonomous decision system.
+      </p>
+      <a href="https://github.com/gehrm-ca/ai-work">Source and methodology →</a>
+    </footer>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
