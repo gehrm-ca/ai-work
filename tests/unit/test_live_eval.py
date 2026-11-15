@@ -100,3 +100,18 @@ def test_cannot_green_case_accepts_amber_or_red():
     )
     failures = score_case(case, output, set())
     assert not any(failure.kind == "incorrect_hard_gate" for failure in failures)
+
+
+def test_semantic_matching_recognizes_overallocation_and_freshness_language():
+    assert _semantic_phrase_present(
+        "Maya is overallocated across PLAT and AI",
+        "Maya is committed at 120% capacity across Platform and AI.",
+    )
+    assert _semantic_phrase_present(
+        "Executive GREEN is weaker than fresher operational evidence",
+        "Executive PLAT GREEN does not adequately reflect later blocked work.",
+    )
+    assert _semantic_phrase_present(
+        "Partner integration dates disagree",
+        "The Platform completion schedule differs from the later integration forecast.",
+    )
