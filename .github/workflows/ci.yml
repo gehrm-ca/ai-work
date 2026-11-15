@@ -24,6 +24,11 @@ jobs:
         run: |
           bash -n scripts/run_demo.sh
           make -n demo
+      - name: Validate static showcase export
+        run: |
+          rm -rf /tmp/program-os-showcase
+          python -m program_os.showcase --output /tmp/program-os-showcase/atlas-demo.json
+          python -m json.tool /tmp/program-os-showcase/atlas-demo.json >/dev/null
 
   web:
     runs-on: ubuntu-latest
