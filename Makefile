@@ -1,7 +1,7 @@
 .PHONY: demo demo-check test web-build
 
 demo:
-	./scripts/run_demo.sh
+	bash scripts/run_demo.sh
 
 test:
 	python -m pytest -q
