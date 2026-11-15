@@ -51,8 +51,13 @@ def main() -> None:
         "records": len(evidence),
         "complete": batch.complete,
         "failure_kinds": [failure.kind.value for failure in batch.failures],
-        "sample_evidence_ids": [item.evidence_id for item in evidence[:10]],
     }
+    if os.getenv("PROGRAM_OS_SHOW_SOURCE_IDS", "false").lower() in {
+        "1", "true", "yes", "on"
+    }:
+        summary["sample_evidence_ids"] = [
+            item.evidence_id for item in evidence[:10]
+        ]
     print(json.dumps(summary, indent=2))
 
 
