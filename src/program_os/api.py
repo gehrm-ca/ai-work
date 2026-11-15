@@ -18,6 +18,16 @@ from .models import Rag
 DATA_DIR = Path(os.getenv("PROGRAM_OS_ATLAS_DIR", "examples/atlas/data"))
 AUDIT_PATH = Path(os.getenv("PROGRAM_OS_AUDIT_PATH", "/tmp/program-os/audit.jsonl"))
 
+
+def live_agent_enabled() -> bool:
+    return os.getenv("PROGRAM_OS_ENABLE_LIVE_AGENT", "false").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
+
+
 app = FastAPI(
     title="Program OS",
     version="0.2.0",
@@ -50,6 +60,14 @@ def health() -> dict:
     return {"status": "ok", "version": "0.2.0"}
 
 
+@app.get("/capabilities")
+def capabilities() -> dict:
+    return {
+        "deterministic_demo": True,
+        "live_agent_enabled": live_agent_enabled(),
+    }
+
+
 @app.get("/atlas/demo")
 def atlas_demo() -> dict:
     return build_demo_payload(DATA_DIR)
@@ -57,6 +75,14 @@ def atlas_demo() -> dict:
 
 @app.post("/atlas/agent-draft")
 def atlas_agent_draft(request: AssessmentRequest) -> dict:
+    if not live_agent_enabled():
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "Live agent calls are disabled. Set "
+                "PROGRAM_OS_ENABLE_LIVE_AGENT=true explicitly to enable them."
+            ),
+        )
     if not os.getenv("OPENAI_API_KEY"):
         raise HTTPException(
             status_code=503,
