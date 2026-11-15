@@ -181,6 +181,7 @@ A high aggregate score cannot compensate for a catastrophic trust failure such a
 - [V2 release checklist](docs/V2_RELEASE_CHECKLIST.md)
 - [V2.1 external-validation plan](docs/V2_1_EXTERNAL_VALIDATION.md)
 - [Design-partner pilot protocol](docs/DESIGN_PARTNER_PILOT.md)
+- [Jira Cloud read-only connector](docs/JIRA_CONNECTOR.md)
 
 ## What comes next
 
