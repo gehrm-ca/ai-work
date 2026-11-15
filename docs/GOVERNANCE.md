@@ -121,3 +121,10 @@ The UI should expose:
 - what would change the conclusion.
 
 The product should prefer an explicit unknown over an unsupported confident answer.
+
+
+## Production authorization boundary
+
+Governance authority is necessary but not sufficient for data access. Production authorization must also enforce tenant scope and source-system permissions before evidence reaches retrieval or model context.
+
+See [Production trust boundaries](PRODUCTION_TRUST_BOUNDARIES.md).
