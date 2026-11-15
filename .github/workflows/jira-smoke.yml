@@ -1,0 +1,87 @@
+name: Jira Ingestion Smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Program OS
+        run: python -m pip install -e .
+
+      - name: Verify Jira connector configuration
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_JQL: ${{ secrets.JIRA_JQL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_BEARER_TOKEN: ${{ secrets.JIRA_BEARER_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os
+
+          missing = [
+              name for name in ("JIRA_BASE_URL", "JIRA_JQL")
+              if not os.getenv(name)
+          ]
+          basic = bool(os.getenv("JIRA_EMAIL") and os.getenv("JIRA_API_TOKEN"))
+          bearer = bool(os.getenv("JIRA_BEARER_TOKEN"))
+
+          if missing:
+              raise SystemExit("Missing required Jira repository secret(s): " + ", ".join(missing))
+          if basic == bearer:
+              raise SystemExit(
+                  "Configure exactly one Jira auth mode: "
+                  "JIRA_EMAIL + JIRA_API_TOKEN, or JIRA_BEARER_TOKEN."
+              )
+          print("Jira connector configuration is present.")
+          PY
+
+      - name: Fetch read-only Jira snapshot
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_BROWSE_BASE_URL: ${{ secrets.JIRA_BROWSE_BASE_URL }}
+          JIRA_JQL: ${{ secrets.JIRA_JQL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_BEARER_TOKEN: ${{ secrets.JIRA_BEARER_TOKEN }}
+          JIRA_PRINCIPAL: ${{ secrets.JIRA_PRINCIPAL }}
+          PROGRAM_OS_SHOW_SOURCE_IDS: "false"
+        run: |
+          mkdir -p artifacts
+          python scripts/jira_ingest_smoke.py | tee artifacts/jira-smoke-summary.json
+
+      - name: Enforce complete pilot snapshot
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          summary = json.loads(Path("artifacts/jira-smoke-summary.json").read_text())
+          if not summary["complete"]:
+              raise SystemExit(
+                  "Jira snapshot is incomplete: "
+                  + ", ".join(summary["failure_kinds"])
+              )
+          if summary["records"] < 1:
+              raise SystemExit("Jira query returned zero records; live-source acceptance is not proven.")
+          print(f"Read-only Jira snapshot passed with {summary['records']} record(s).")
+          PY
+
+      - name: Upload non-sensitive smoke summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jira-ingestion-smoke-summary
+          path: artifacts/jira-smoke-summary.json
+          if-no-files-found: warn
