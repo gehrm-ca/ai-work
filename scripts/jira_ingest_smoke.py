@@ -28,6 +28,7 @@ def main() -> None:
 
     kwargs = {
         "base_url": base_url,
+        "browse_base_url": os.getenv("JIRA_BROWSE_BASE_URL"),
         "jql": jql,
         "principal": os.getenv("JIRA_PRINCIPAL") or email,
     }
