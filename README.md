@@ -35,6 +35,7 @@ The deterministic Atlas demo does **not** require an OpenAI API key. A key is on
 - [V2 measured evaluation](docs/V2_EVALUATION_RESULTS.md)
 - [Detailed demo instructions](docs/RUN_DEMO.md)
 - [Hosted deterministic demo boundary](docs/HOSTED_DEMO.md)
+- Public GitHub Pages demo is generated from the same deterministic Atlas payload; deployment URL is added after the Pages workflow succeeds.
 
 ## The problem
 
