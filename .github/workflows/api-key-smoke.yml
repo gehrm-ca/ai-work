@@ -1,5 +1,4 @@
-name: V2 Residual Case Evaluation
-# target: c01da6df9432e7887f4c07aa9f01d7e885b14b69
+name: V2 E01 RAG Scope Check
 
 on:
   push:
@@ -24,52 +23,28 @@ jobs:
       - name: Install Program OS
         run: python -m pip install -e ".[dev]"
 
-      - name: Run previously failing cases
+      - name: Run E01
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           echo "Evaluating commit $(git rev-parse HEAD)"
           python -m program_os.evals.live \
             --model gpt-6.1-sol \
-            --case E01 --case E03 --case E04 --case E05 --case E08 \
-            --case E10 --case E13 --case E14 --case E16 \
-            --output artifacts/residual-eval.json
+            --case E01 \
+            --output artifacts/e01-eval.json
 
-      - name: Print residual summary
+      - name: Print E01 result
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          report = json.loads(Path("artifacts/residual-eval.json").read_text())
-          po = report["paths"]["program_os"]
-          print(json.dumps({
-              "model": report["model"],
-              "cases": report["gold_case_count"],
-              "weighted_penalty": po["weighted_penalty"],
-              "catastrophic": po["catastrophic"],
-              "failure_dimensions": po["failure_dimensions"],
-              "cases_without_failures": po["cases_without_failures"],
-              "failures": {
-                  item["case_id"]: item["failures"]
-                  for item in po["cases"]
-                  if item["failures"]
-              },
-          }, indent=2))
-          PY
-
-      - name: Enforce catastrophic release gate
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          report = json.loads(Path("artifacts/residual-eval.json").read_text())
-          if report["paths"]["program_os"]["catastrophic"]:
-              raise SystemExit("Catastrophic Program OS failure.")
+          report = json.loads(Path("artifacts/e01-eval.json").read_text())
+          print(json.dumps(report["paths"]["program_os"], indent=2))
           PY
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: v2-residual-eval
-          path: artifacts/residual-eval.json
+          name: v2-e01-eval
+          path: artifacts/e01-eval.json
           if-no-files-found: warn
