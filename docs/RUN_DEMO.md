@@ -1,6 +1,20 @@
 # Running the V2 demo
 
-## Backend
+## Fastest path
+
+From the repository root:
+
+```bash
+make demo
+```
+
+The launcher creates a local Python virtual environment if needed, installs the Python package, installs frontend dependencies if needed, starts FastAPI on port 8000, starts Next.js on port 3000, writes logs under `var/`, and stops both services together on Ctrl-C.
+
+Open http://127.0.0.1:3000.
+
+The deterministic Atlas demo does not require an API key.
+
+## Manual backend
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -24,7 +38,7 @@ Human override + audit:
 
 Audit records default to `/tmp/program-os/audit.jsonl` and do not modify model behavior.
 
-## Frontend
+## Manual frontend
 
 ```bash
 cd web
