@@ -2,12 +2,19 @@ from datetime import date
 
 from program_os.evals.live import (
     EvalOutput,
+    _augment_with_deterministic_signals,
+    _confidence_inputs,
     _controls,
     _semantic_phrase_present,
     _unsupported_assertion_present,
     score_case,
 )
-from program_os.models import ConfidenceBand, Rag
+from program_os.agent import AgentAssessmentDraft
+from program_os.confidence import calculate_confidence
+from program_os.evidence import load_evidence_dir
+from program_os.models import ConfidenceBand, Rag, Trend
+from program_os.retrieval import retrieve_evidence
+from pathlib import Path
 
 
 def test_scenario_overrides_create_hard_gate_context():
@@ -115,3 +122,34 @@ def test_semantic_matching_recognizes_overallocation_and_freshness_language():
         "Partner integration dates disagree",
         "The Platform completion schedule differs from the later integration forecast.",
     )
+
+
+def test_deterministic_scope_signal_is_added_to_assessment():
+    evidence = load_evidence_dir(Path("examples/atlas/data"))
+    question = "Is export filtering approved launch scope?"
+    context = [hit.evidence for hit in retrieve_evidence(evidence, question, limit=16)]
+    draft = AgentAssessmentDraft(
+        proposed_rag=Rag.AMBER,
+        trend=Trend.STABLE,
+        conclusion="Scope approval is unresolved.",
+        cited_evidence_ids=["D-02"],
+    )
+    augmented = _augment_with_deterministic_signals(draft, context, question)
+    assert any("not formally approved" in item for item in augmented.contradictions)
+    assert "ATLAS-116" in augmented.cited_evidence_ids
+
+
+def test_strong_primary_evidence_can_remain_high_confidence_with_followups():
+    evidence = load_evidence_dir(Path("examples/atlas/data"))
+    question = "Are the AI refusal tests meeting the documented launch threshold?"
+    context = [hit.evidence for hit in retrieve_evidence(evidence, question, limit=16)]
+    draft = AgentAssessmentDraft(
+        proposed_rag=Rag.AMBER,
+        trend=Trend.STABLE,
+        conclusion="The measured threshold is not met.",
+        cited_evidence_ids=["ATLAS-108", "PAGE-AI"],
+        missing_information=["A future rerun date would improve the recovery forecast."],
+    )
+    inputs = _confidence_inputs(context, draft, {}, question)
+    result = calculate_confidence(inputs)
+    assert result.band == ConfidenceBand.HIGH
