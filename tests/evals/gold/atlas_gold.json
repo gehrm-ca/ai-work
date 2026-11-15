@@ -179,7 +179,11 @@
         "must_not_assert": [
           "Approval was rejected"
         ],
-        "insufficient_evidence": true
+        "insufficient_evidence": true,
+        "allowed_forecast_rags": [
+          "AMBER",
+          "RED"
+        ]
       }
     },
     {

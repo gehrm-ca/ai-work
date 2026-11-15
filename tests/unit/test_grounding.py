@@ -64,3 +64,24 @@ def test_agent_is_single_agent_with_structured_output():
     assert agent.name == "Program OS Analyst"
     assert agent.handoffs == []
     assert agent.output_type is AgentAssessmentDraft
+
+
+def test_resolved_historical_contradiction_does_not_force_amber():
+    draft = AgentAssessmentDraft(
+        proposed_rag=Rag.GREEN,
+        trend=Trend.STABLE,
+        conclusion="Approved scope removal resolves the issue.",
+        contradictions=["Historical source still shows the pre-approval state."],
+        cited_evidence_ids=["E-1"],
+    )
+    result = finalize_assessment(
+        draft,
+        project_id="APP",
+        official_rag=Rag.GREEN,
+        evidence=[evidence_item()],
+        controls=ControlContext(),
+        confidence_inputs=ConfidenceInputs(0.9, 0.9, 0.9, 0.9, 0.9),
+        authoritative_conflict_resolved=True,
+    )
+    assert result.forecast_rag == Rag.GREEN
+    assert result.hard_gates == []

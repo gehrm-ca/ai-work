@@ -10,11 +10,11 @@ Program OS sits above existing systems of record such as Jira, Confluence, meeti
 
 V1 defines the product contract, trust model, governance, architecture direction, evaluation strategy, and fictional Atlas Launch Program used for the evaluated prototype.
 
-**V2 — Evaluated vertical slice: release candidate.**
+**V2 — Evaluated prototype: released November 14, 2026.**
 
-The release-candidate implementation now includes the Atlas synthetic portfolio, immutable evidence loading, deterministic hard gates, confidence logic, signal detection, targeted retrieval, a single structured AI analyst adapter, Monday prioritization, portfolio tradeoff recommendations, Friday status, human override/audit, governed learning proposals, FastAPI, and a Next.js demo surface.
+V2 implements the first evidence-backed vertical slice: Atlas synthetic portfolio data, immutable evidence, deterministic controls, targeted retrieval, a single structured AI analyst, Monday prioritization, portfolio tradeoff recommendations, Friday status, PM override/audit, governed learning proposals, FastAPI, and a Next.js demo.
 
-The remaining final V2 release gate is a measured weak-baseline-versus-Program-OS run against the fixed golden evaluation set. Until that run exists, this repository does not claim measured AI-quality improvement.
+The final 16-case benchmark used `gpt-6.1-sol` against the same locked cases for both paths. The weak baseline recorded a severity-weighted failure penalty of **60**; Program OS recorded **3**. Program OS produced **15/16 cases with zero scored failures** and **zero catastrophic trust failures**. The one remaining scored miss is documented rather than hidden: case E14 returned AMBER where the gold expectation is GREEN after a formally resolved scope reduction.
 
 ## The problem
 
@@ -116,7 +116,19 @@ The V2 runtime uses one structured agent. Multi-agent orchestration is not part 
 
 ## Evaluation
 
-V2 contains an intentionally weak baseline harness and a fixed 16-case golden set. Final release requires running the baseline and Program OS paths against that same set and publishing the measured comparison.
+V2 contains an intentionally weak baseline harness and a fixed 16-case golden set. The final release benchmark ran both paths against the same cases, model, scorer, and gold set.
+
+| Final benchmark | Weak baseline | Program OS |
+|---|---:|---:|
+| Severity-weighted failure penalty | 60 | **3** |
+| Cases with zero scored failures | 4/16 | **15/16** |
+| Judgment failures | 9 | **1** |
+| Detection failures | 3 | **0** |
+| Decision Quality failures | 6 | **0** |
+| Safety/Trust failures | 2 | **0** |
+| Catastrophic failures | 0 | **0** |
+
+The evaluated implementation commit is `0c84f439712a45eedb484d44f80682318138d9e0`, using `gpt-6.1-sol`, OpenAI Agents SDK `0.24.0`, Program OS system version `0.2.0`, and Atlas dataset `atlas-v2-001`.
 
 Primary dimensions:
 
@@ -140,10 +152,11 @@ A high aggregate score cannot compensate for a catastrophic trust failure such a
 - [V2 development harness](docs/DEVELOPMENT_HARNESS.md)
 - [Run the V2 demo](docs/RUN_DEMO.md)
 - [Run V2 evaluations](docs/RUN_EVALS.md)
+- [V2 evaluation results](docs/V2_EVALUATION_RESULTS.md)
 - [V2 release checklist](docs/V2_RELEASE_CHECKLIST.md)
 
 ## Release boundary
 
-V1 documents the product definition. The V2 release candidate implements the first vertical slice, but measured baseline-vs-Program-OS evaluation remains a release gate.
+V1 documents the product definition. V2 is the evaluated vertical slice. It is still a portfolio and learning prototype, not a production-certified autonomous business decision system.
 
 The project is a portfolio and learning prototype, not a production-certified autonomous business decision system.

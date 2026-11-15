@@ -35,12 +35,17 @@ def finalize_assessment(
     evidence: Iterable[Evidence],
     controls: ControlContext,
     confidence_inputs: ConfidenceInputs,
+    authoritative_conflict_resolved: bool = False,
     system_version: str = "0.2.0",
 ) -> Assessment:
     evidence = list(evidence)
     validate_citations(draft, evidence)
 
-    if draft.contradictions and not controls.authoritative_conflict:
+    if (
+        draft.contradictions
+        and not controls.authoritative_conflict
+        and not authoritative_conflict_resolved
+    ):
         controls = replace(controls, authoritative_conflict=True)
 
     gate = evaluate_hard_gates(draft.proposed_rag, controls)
