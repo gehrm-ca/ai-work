@@ -219,3 +219,21 @@ def test_oauth_gateway_can_preserve_separate_human_browse_url():
     ).fetch()
 
     assert batch.records[0].source_url == "https://example.atlassian.net/browse/PLAT-1"
+
+
+def test_jira_error_body_is_not_persisted_in_failure_detail():
+    secretish = "project = SECRET and reporter = sensitive@example.com"
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(400, text=secretish)
+
+    batch = JiraCloudAdapter(
+        base_url="https://example.atlassian.net",
+        jql="project = SECRET",
+        bearer_token="oauth-token",
+        client=client_for(handler),
+    ).fetch()
+
+    assert batch.complete is False
+    assert secretish not in batch.failures[0].detail
+    assert batch.failures[0].detail == "Jira request failed with HTTP 400."
