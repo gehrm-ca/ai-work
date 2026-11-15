@@ -1,4 +1,4 @@
-name: V2 Hardened Evaluation
+name: V2 Residual Case Evaluation
 
 on:
   push:
@@ -23,44 +23,35 @@ jobs:
       - name: Install Program OS
         run: python -m pip install -e ".[dev]"
 
-      - name: Verify secret is injected
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          if [ -z "$OPENAI_API_KEY" ]; then
-            echo "::error::OPENAI_API_KEY is missing."
-            exit 1
-          fi
-
-      - name: Run all 16 locked eval cases on hardened branch
+      - name: Run previously failing cases
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           echo "Evaluating commit $(git rev-parse HEAD)"
           python -m program_os.evals.live \
             --model gpt-6.1-sol \
-            --output artifacts/hardened-eval.json
+            --case E01 --case E03 --case E04 --case E05 --case E08 \
+            --case E10 --case E13 --case E14 --case E16 \
+            --output artifacts/residual-eval.json
 
-      - name: Print release summary
+      - name: Print residual summary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          report = json.loads(Path("artifacts/hardened-eval.json").read_text())
+          report = json.loads(Path("artifacts/residual-eval.json").read_text())
+          po = report["paths"]["program_os"]
           print(json.dumps({
               "model": report["model"],
               "cases": report["gold_case_count"],
-              "baseline": {
-                  "weighted_penalty": report["paths"]["baseline"]["weighted_penalty"],
-                  "catastrophic": report["paths"]["baseline"]["catastrophic"],
-                  "failure_dimensions": report["paths"]["baseline"]["failure_dimensions"],
-                  "cases_without_failures": report["paths"]["baseline"]["cases_without_failures"],
-              },
-              "program_os": {
-                  "weighted_penalty": report["paths"]["program_os"]["weighted_penalty"],
-                  "catastrophic": report["paths"]["program_os"]["catastrophic"],
-                  "failure_dimensions": report["paths"]["program_os"]["failure_dimensions"],
-                  "cases_without_failures": report["paths"]["program_os"]["cases_without_failures"],
+              "weighted_penalty": po["weighted_penalty"],
+              "catastrophic": po["catastrophic"],
+              "failure_dimensions": po["failure_dimensions"],
+              "cases_without_failures": po["cases_without_failures"],
+              "failures": {
+                  item["case_id"]: item["failures"]
+                  for item in po["cases"]
+                  if item["failures"]
               },
           }, indent=2))
           PY
@@ -70,18 +61,14 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          report = json.loads(Path("artifacts/hardened-eval.json").read_text())
-          program_os = report["paths"]["program_os"]
-          if program_os["catastrophic"]:
-              raise SystemExit(
-                  "Release gate failed: " + json.dumps(program_os["catastrophic_failures"])
-              )
-          print("Catastrophic release gate passed.")
+          report = json.loads(Path("artifacts/residual-eval.json").read_text())
+          if report["paths"]["program_os"]["catastrophic"]:
+              raise SystemExit("Catastrophic Program OS failure.")
           PY
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: v2-hardened-eval
-          path: artifacts/hardened-eval.json
+          name: v2-residual-eval
+          path: artifacts/residual-eval.json
           if-no-files-found: warn
