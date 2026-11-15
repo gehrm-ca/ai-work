@@ -174,7 +174,7 @@ class JiraCloudAdapter:
         )
 
     @staticmethod
-    def _failure_for_status(status: int, detail: str) -> IngestionFailure:
+    def _failure_for_status(status: int) -> IngestionFailure:
         if status == 401:
             return IngestionFailure(
                 kind=IngestionFailureKind.AUTHENTICATION,
@@ -195,7 +195,7 @@ class JiraCloudAdapter:
             )
         return IngestionFailure(
             kind=IngestionFailureKind.UNKNOWN,
-            detail=f"Jira request failed with HTTP {status}: {detail[:200]}",
+            detail=f"Jira request failed with HTTP {status}.",
             retryable=False,
         )
 
@@ -254,7 +254,7 @@ class JiraCloudAdapter:
 
             if response.status_code >= 400:
                 failures.append(
-                    self._failure_for_status(response.status_code, response.text)
+                    self._failure_for_status(response.status_code)
                 )
                 break
 
