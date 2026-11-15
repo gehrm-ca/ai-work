@@ -1,4 +1,4 @@
-name: Full V2 Release Gate Test
+name: V2 Hardened Evaluation
 
 on:
   push:
@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: v2/eval-hardening
 
       - uses: actions/setup-python@v5
         with:
@@ -29,22 +31,22 @@ jobs:
             echo "::error::OPENAI_API_KEY is missing."
             exit 1
           fi
-          echo "OPENAI_API_KEY is present."
 
-      - name: Run all 16 locked eval cases
+      - name: Run all 16 locked eval cases on hardened branch
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
+          echo "Evaluating commit $(git rev-parse HEAD)"
           python -m program_os.evals.live \
             --model gpt-6.1-sol \
-            --output artifacts/full-eval.json
+            --output artifacts/hardened-eval.json
 
       - name: Print release summary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          report = json.loads(Path("artifacts/full-eval.json").read_text())
+          report = json.loads(Path("artifacts/hardened-eval.json").read_text())
           print(json.dumps({
               "model": report["model"],
               "cases": report["gold_case_count"],
@@ -68,7 +70,7 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          report = json.loads(Path("artifacts/full-eval.json").read_text())
+          report = json.loads(Path("artifacts/hardened-eval.json").read_text())
           program_os = report["paths"]["program_os"]
           if program_os["catastrophic"]:
               raise SystemExit(
@@ -80,6 +82,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: full-v2-eval
-          path: artifacts/full-eval.json
+          name: v2-hardened-eval
+          path: artifacts/hardened-eval.json
           if-no-files-found: warn
