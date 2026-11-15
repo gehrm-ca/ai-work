@@ -1,0 +1,31 @@
+{
+  "pilot_id": "pilot-001",
+  "program_alias": "Program A",
+  "started_at": "2026-11-15T12:00:00Z",
+  "baseline": {
+    "recorded_at": "2026-11-15T12:05:00Z",
+    "official_rag": "GREEN",
+    "forecast_expectation": "On track for the next committed milestone.",
+    "known_risks": [
+      "Use de-identified wording in any public derivative."
+    ],
+    "known_dependencies": [],
+    "next_milestone": "Milestone alias only",
+    "intervention_priorities": [],
+    "unresolved_decisions": [],
+    "plan_confidence": "Moderate"
+  },
+  "evidence_snapshot": {
+    "snapshot_id": "snapshot-001",
+    "captured_at": "2026-11-15T12:10:00Z",
+    "source_types": [
+      "jira"
+    ],
+    "evidence_count": 1,
+    "private_location": "var/pilots/private-evidence/",
+    "public_data": false
+  },
+  "findings": [],
+  "commercial_signal": null,
+  "final_readout": null
+}

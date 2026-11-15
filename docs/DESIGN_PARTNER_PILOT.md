@@ -203,3 +203,43 @@ The final readout should answer:
 Do not ask only whether the PM likes the product.
 
 Ask whether the organization would pay to repeat the workflow across the portfolio if Program OS consistently finds material risks or contradictions before the current reporting process.
+
+
+## Local pilot record tooling
+
+Real pilot records can contain confidential program context. Keep them under
+`var/pilots/`; `var/` is ignored by Git.
+
+Create a local record:
+
+```bash
+python scripts/pilot_packet.py init \
+  --pilot-id pilot-001 \
+  --program-alias "Program A" \
+  --output var/pilots/pilot-001.json
+```
+
+Before Program OS analysis, populate the `baseline` and `evidence_snapshot`
+sections, then enforce the anti-hindsight gate:
+
+```bash
+python scripts/pilot_packet.py check-ready var/pilots/pilot-001.json
+```
+
+Validate the record:
+
+```bash
+python scripts/pilot_packet.py validate var/pilots/pilot-001.json
+```
+
+After human review, print a de-identified aggregate summary:
+
+```bash
+python scripts/pilot_packet.py summary var/pilots/pilot-001.json
+```
+
+The summary intentionally excludes finding text, rationales, and evidence IDs.
+
+A structural example is available at
+`examples/pilot/pilot-record-template.json`. It is a template, not real pilot
+evidence.
