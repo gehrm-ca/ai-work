@@ -1,6 +1,6 @@
 # V2 Release Checklist
 
-**Status:** Release candidate  
+**Status:** Evaluated prototype — release gate passed November 14, 2026  
 **Target:** End of weekend
 
 ## Implemented and tested
@@ -35,12 +35,12 @@
 
 ## Required before final V2 release
 
-- [ ] run the weak baseline against the fixed 16-case gold set with a recorded model/configuration
-- [ ] run Program OS against the identical gold set
-- [ ] publish Safety/Trust, Detection, Judgment, and Decision Quality results
-- [ ] confirm zero catastrophic release-gate failures
-- [ ] record model, SDK version, system version, prompt/rule version, and run timestamp
-- [ ] update README with measured results rather than projected results
+- [x] run the weak baseline against the fixed 16-case gold set with a recorded model/configuration
+- [x] run Program OS against the identical gold set
+- [x] publish Safety/Trust, Detection, Judgment, and Decision Quality results
+- [x] confirm zero catastrophic release-gate failures
+- [x] record model, SDK version, system version, evaluated commit, and run timestamp
+- [x] update README with measured results rather than projected results
 
 ## Explicitly deferred
 
@@ -55,3 +55,19 @@
 ## Release rule
 
 V2 does not ship merely because the UI works. It ships when the evaluated vertical slice proves the trust and decision loop without a catastrophic failure.
+
+
+## Final release evidence
+
+- Evaluated commit: `0c84f439712a45eedb484d44f80682318138d9e0`
+- Model: `gpt-6.1-sol`
+- Agents SDK: `0.24.0`
+- Program OS system version: `0.2.0`
+- Dataset: `atlas-v2-001`
+- Cases: 16
+- GitHub Actions run: `43665330982`
+- Baseline weighted penalty: **60**
+- Program OS weighted penalty: **3**
+- Program OS clean cases: **15/16**
+- Program OS catastrophic failures: **0**
+- Known residual: E14 forecast AMBER vs expected GREEN after formally resolved scope reduction.
