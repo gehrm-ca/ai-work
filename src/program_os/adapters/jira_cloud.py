@@ -40,6 +40,7 @@ class JiraCloudAdapter:
         *,
         base_url: str,
         jql: str,
+        browse_base_url: str | None = None,
         connector_id: str = "jira-cloud",
         email: str | None = None,
         api_token: str | None = None,
@@ -67,6 +68,7 @@ class JiraCloudAdapter:
             raise ValueError("max_pages must be positive.")
 
         self.base_url = base_url.rstrip("/")
+        self.browse_base_url = browse_base_url.rstrip("/") if browse_base_url else None
         self.jql = jql
         self.connector_id = connector_id
         self.email = email
@@ -159,7 +161,15 @@ class JiraCloudAdapter:
             source_updated_at=updated,
             authority_tier=self.authority_tier,
             payload=payload,
-            source_url=f"{self.base_url}/browse/{key}",
+            source_url=(
+                f"{self.browse_base_url}/browse/{key}"
+                if self.browse_base_url
+                else (
+                    f"{self.base_url}/browse/{key}"
+                    if ".atlassian.net" in self.base_url
+                    else None
+                )
+            ),
             permission_context=self._permission_context(),
         )
 
