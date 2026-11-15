@@ -175,6 +175,14 @@ A high aggregate score cannot compensate for a catastrophic trust failure such a
 - [V2 case study](docs/CASE_STUDY.md)
 - [V2 release notes](docs/V2_RELEASE_NOTES.md)
 - [V2 release checklist](docs/V2_RELEASE_CHECKLIST.md)
+- [V2.1 external-validation plan](docs/V2_1_EXTERNAL_VALIDATION.md)
+- [Design-partner pilot protocol](docs/DESIGN_PARTNER_PILOT.md)
+
+## What comes next
+
+V2.1 is focused on **external validity**, not more synthetic benchmark tuning: one read-only live source, one real-program design-partner pilot, a hosted deterministic demo, and explicit production trust boundaries.
+
+See the [V2.1 external-validation plan](docs/V2_1_EXTERNAL_VALIDATION.md) and tracking issue [#21](https://github.com/gehrm-ca/ai-work/issues/21).
 
 ## Release boundary
 

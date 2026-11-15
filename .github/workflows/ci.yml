@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "v2/**"
+      - "v2.1/**"
   pull_request:
 
 jobs:
