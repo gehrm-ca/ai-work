@@ -293,7 +293,7 @@ current and conflicting source records as historical."""
 
 _SYNONYM_GROUPS = (
     {"disagree", "disagrees", "conflict", "conflicts", "conflicting", "inconsistent", "reconcile"},
-    {"work", "implementation", "implementing", "delivery", "development"},
+    {"work", "implementation", "implementing", "delivery", "development", "support"},
     {"committed", "approved", "authorized", "formal", "formally"},
     {"overallocated", "overallocation", "over-allocation", "overcommitted", "competing"},
     {"risk", "exposure", "threat"},
@@ -319,10 +319,12 @@ def _tokens(text: str) -> set[str]:
         "that", "this", "in", "on", "with", "be", "has", "have", "across",
         "than", "its", "it", "as", "from",
     }
-    raw = {
-        token.strip(".,:;!?()[]{}'\"").lower()
-        for token in text.replace("/", " ").split()
-    }
+    raw = set()
+    for raw_token in text.replace("/", " ").split():
+        token = raw_token.strip(".,:;!?()[]{}'\"").lower()
+        if token.endswith("'s"):
+            token = token[:-2]
+        raw.add(token)
     normalized = set()
     for token in raw:
         if token in stop or len(token) < 3:
