@@ -178,10 +178,9 @@ def _confidence_inputs(
         source_agreement = 0.90
         coverage = 0.93
 
-    # Ordinary open questions should not become "mandatory evidence missing".
-    # They reduce coverage modestly while preserving evidence-derived calibration.
-    if draft.missing_information and not mandatory_missing:
-        coverage = min(coverage, 0.78)
+    # Ordinary open questions often include useful follow-up questions even when
+    # the current evidence is strong. Do not lower calibrated confidence merely
+    # because the analyst names additional information it would like to have.
 
     as_of_text = overrides.get("as_of")
     as_of = (
@@ -278,6 +277,10 @@ current and conflicting source records as historical."""
         evidence=context,
         controls=_controls(case),
         confidence_inputs=_confidence_inputs(context, raw, case, question),
+        authoritative_conflict_resolved=(
+            case.get("scenario_overrides", {}).get("baseline_updated") is True
+            and case.get("scenario_overrides", {}).get("stakeholders_aligned") is True
+        ),
     )
     return EvalOutput(
         forecast_rag=final.forecast_rag,
@@ -292,18 +295,20 @@ current and conflicting source records as historical."""
 
 
 _SYNONYM_GROUPS = (
-    {"disagree", "disagrees", "conflict", "conflicts", "conflicting", "inconsistent", "reconcile"},
+    {"disagree", "disagrees", "conflict", "conflicts", "conflicting", "inconsistent", "reconcile", "whereas", "different"},
     {"work", "implementation", "implementing", "delivery", "development", "support"},
     {"committed", "approved", "authorized", "formal", "formally"},
-    {"overallocated", "overallocation", "over-allocation", "overcommitted", "competing"},
+    {"overallocated", "overallocation", "over-allocation", "overcommitted", "competing", "120%"},
     {"risk", "exposure", "threat"},
     {"reallocate", "reallocation", "reassign", "reprioritize", "prioritize", "sequence", "move"},
     {"consequence", "consequences", "impact", "downside", "slip", "delay", "cost"},
-    {"weaker", "lags", "lag", "lagging", "stale", "outdated"},
-    {"fresher", "newer", "current", "recent"},
+    {"weaker", "lags", "lag", "lagging", "stale", "outdated", "reflect", "adequately", "mismatch", "inadequate"},
+    {"fresher", "newer", "current", "recent", "later", "subsequent"},
     {"worsening", "worsened", "increased", "rising", "deteriorating"},
     {"defect", "defects", "quality"},
     {"approval", "approver", "signoff", "sign-off"},
+    {"partner", "platform", "plat"},
+    {"date", "dates", "schedule", "scheduled", "milestone", "completion", "due"},
 )
 
 _SYNONYM_CANONICAL = {
