@@ -1,6 +1,6 @@
 # Architecture
 
-**Status:** V1 design. The implementation described here is planned for the V2 evaluated prototype.
+**Status:** V2 evaluated prototype implemented; V2.1 external-validation and production-boundary work in progress.
 
 ## System shape
 
@@ -146,16 +146,8 @@ The first end-to-end path is:
 10. generate Friday status;
 11. run the same scenario through the golden eval suite.
 
-## Deferred production concerns
+## Production trust boundary
 
-The V2 prototype will document but not claim to solve:
+The production security contract is defined in [Production trust boundaries](PRODUCTION_TRUST_BOUNDARIES.md).
 
-- enterprise SSO and full RBAC;
-- production Jira/Confluence OAuth;
-- tenant isolation;
-- secrets management at enterprise scale;
-- production observability and SLOs;
-- data retention policy;
-- regional data residency;
-- production disaster recovery;
-- formal compliance certification.
+The current prototype does not claim enterprise SSO, tenant isolation, source ACL enforcement against real vendor systems, managed secrets, production audit storage, customer retention/deletion controls, regional data residency, disaster recovery, or formal certification.
