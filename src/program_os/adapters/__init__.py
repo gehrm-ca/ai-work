@@ -10,6 +10,7 @@ from .base import (
     normalize_batch,
 )
 from .json_import import ReadOnlyJsonAdapter
+from .jira_cloud import JiraCloudAdapter
 
 __all__ = [
     "IngestionBatch",
@@ -18,6 +19,7 @@ __all__ = [
     "PermissionContext",
     "ReadOnlyAdapter",
     "ReadOnlyJsonAdapter",
+    "JiraCloudAdapter",
     "SourceRecord",
     "normalize_batch",
 ]
