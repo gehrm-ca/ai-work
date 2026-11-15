@@ -78,7 +78,7 @@ def test_jira_adapter_paginates_and_preserves_permission_provenance():
     assert evidence[0].payload["_connector"]["permission_context"]["visibility"] == (
         "jira-permission-filtered"
     )
-    assert evidence[0].payload["description"] if "description" in evidence[0].payload else True
+    assert "description" not in evidence[0].payload
 
 
 def test_jira_adapter_does_not_retrieve_description_or_comments_by_default():
@@ -93,6 +93,7 @@ def test_jira_adapter_does_not_retrieve_description_or_comments_by_default():
         jql="project = PLAT",
         bearer_token="oauth-token",
         principal="account-123",
+        browse_base_url="https://example.atlassian.net",
         client=client_for(handler),
     ).fetch()
 
@@ -189,3 +190,32 @@ def test_auth_modes_are_mutually_exclusive():
         assert "either basic" in str(exc)
     else:
         raise AssertionError("Expected auth configuration error.")
+
+
+def test_oauth_gateway_does_not_invent_human_browse_url():
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json={"issues": [issue("PLAT-1")], "isLast": True})
+
+    batch = JiraCloudAdapter(
+        base_url="https://api.atlassian.com/ex/jira/cloud-123",
+        jql="project = PLAT",
+        bearer_token="oauth-token",
+        client=client_for(handler),
+    ).fetch()
+
+    assert batch.records[0].source_url is None
+
+
+def test_oauth_gateway_can_preserve_separate_human_browse_url():
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json={"issues": [issue("PLAT-1")], "isLast": True})
+
+    batch = JiraCloudAdapter(
+        base_url="https://api.atlassian.com/ex/jira/cloud-123",
+        browse_base_url="https://example.atlassian.net",
+        jql="project = PLAT",
+        bearer_token="oauth-token",
+        client=client_for(handler),
+    ).fetch()
+
+    assert batch.records[0].source_url == "https://example.atlassian.net/browse/PLAT-1"
