@@ -1,5 +1,7 @@
 # Program OS — V2 case study
 
+By [Matt Gehrmann](https://www.linkedin.com/in/mattgehrmann). How the project was built, and which parts are mine, is in the [README](../README.md#who-built-this-and-how).
+
 ## The problem
 
 Program managers usually have plenty of status information. The harder problem is deciding what is actually true, what is likely to happen next, and where intervention has the highest portfolio value.
@@ -122,7 +124,7 @@ They led to changes in:
 - handling of resolved historical contradictions;
 - scorer semantics for equivalent program-management language and negation.
 
-The team stopped tuning with one known residual rather than optimizing the benchmark to zero.
+I stopped the tuning with one known residual rather than optimizing the benchmark to zero.
 
 ## Known limitation
 

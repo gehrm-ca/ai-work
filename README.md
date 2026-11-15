@@ -2,6 +2,8 @@
 
 **An evidence-grounded portfolio control and decision-intelligence system for program managers.**
 
+Built by [Matt Gehrmann](https://www.linkedin.com/in/mattgehrmann), a product and program leader. See [Who built this, and how](#who-built-this-and-how).
+
 Program OS sits above existing systems of record such as Jira, Confluence, meeting notes, testing systems, risk logs, calendars, and finance data. It reconciles conflicting operational evidence, forecasts delivery risk, prioritizes interventions across a portfolio, and preserves human accountability for consequential decisions.
 
 ## Status
@@ -18,7 +20,9 @@ The final 16-case benchmark used `gpt-6.1-sol` against the same locked cases for
 
 ## Start here
 
-For the fastest review:
+For the fastest review, open the [live demo](https://gehrm-ca.github.io/ai-work/). It shows the deterministic Atlas portfolio with nothing to install and no API key.
+
+To run the full demo locally:
 
 ```bash
 git clone https://github.com/gehrm-ca/ai-work.git
@@ -35,7 +39,7 @@ The deterministic Atlas demo does **not** require an OpenAI API key. A key is on
 - [V2 measured evaluation](docs/V2_EVALUATION_RESULTS.md)
 - [Detailed demo instructions](docs/RUN_DEMO.md)
 - [Hosted deterministic demo boundary](docs/HOSTED_DEMO.md)
-- Public GitHub Pages demo is generated from the same deterministic Atlas payload; deployment URL is added after the Pages workflow succeeds.
+- [Live demo on GitHub Pages](https://gehrm-ca.github.io/ai-work/), generated from the same deterministic Atlas payload
 
 ## The problem
 
@@ -189,8 +193,16 @@ V2.1 is focused on **external validity**, not more synthetic benchmark tuning: o
 
 See the [V2.1 external-validation plan](docs/V2_1_EXTERNAL_VALIDATION.md) and tracking issue [#21](https://github.com/gehrm-ca/ai-work/issues/21).
 
+## Who built this, and how
+
+Program OS is a solo project by [Matt Gehrmann](https://www.linkedin.com/in/mattgehrmann). I am a product and program leader, not a software engineer.
+
+My part is the product: the problem definition, the product boundary, the trust contract, the governance rules, the evaluation design and the release decisions, including the decision to stop tuning with case E14 still failing.
+
+AI coding agents wrote the code, the tests and the first drafts of these documents. They worked under the [development harness](docs/DEVELOPMENT_HARNESS.md): separate lanes for data, evals, core engine and workflow, a gatekeeper review, and the fixed evaluation suite as the merge gate. I directed and reviewed that work.
+
+The repository is meant to show how I define, evaluate and govern an AI product, not to claim I hand-wrote the implementation.
+
 ## Release boundary
 
 V1 documents the product definition. V2 is the evaluated vertical slice. It is still a portfolio and learning prototype, not a production-certified autonomous business decision system.
-
-The project is a portfolio and learning prototype, not a production-certified autonomous business decision system.
