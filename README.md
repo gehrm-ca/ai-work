@@ -165,6 +165,8 @@ A high aggregate score cannot compensate for a catastrophic trust failure such a
 - [Product principles](docs/PRODUCT_PRINCIPLES.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Governance](docs/GOVERNANCE.md)
+- [Production trust boundaries](docs/PRODUCTION_TRUST_BOUNDARIES.md)
+- [Security policy](SECURITY.md)
 - [Evaluation strategy](docs/EVAL_STRATEGY.md)
 - [PM skill model](docs/PM_SKILL_MODEL.md)
 - [Competitive analysis](docs/COMPETITIVE_ANALYSIS.md)
