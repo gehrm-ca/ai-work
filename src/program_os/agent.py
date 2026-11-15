@@ -51,7 +51,9 @@ Rules:
       likely unachievable, or a critical dependency misses the committed outcome
       with no viable mitigation.
     Do not use RED merely because a risk is high, evidence is incomplete, or a
-    recovery plan is weak.
+    recovery plan is weak. Keep the RAG scope consistent with the entity being
+    assessed: a sub-milestone can be likely to miss while the containing project
+    or portfolio remains AMBER unless its committed outcome is likely unachievable.
 11. Assess the subject asked about. Do not import unrelated portfolio risks unless
     they materially change the answer.
 12. When a scenario state is explicitly supplied, treat it as the current state
