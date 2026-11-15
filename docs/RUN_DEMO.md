@@ -30,7 +30,13 @@ The optional live agent draft endpoint is:
 
 - `POST /atlas/agent-draft`
 
-It requires `OPENAI_API_KEY`. The deterministic demo remains functional without a model key.
+It requires both `PROGRAM_OS_ENABLE_LIVE_AGENT=true` and `OPENAI_API_KEY`. The explicit feature flag prevents an API key from accidentally enabling model calls in a public deterministic deployment.
+
+Capability state is visible at:
+
+- `GET /capabilities`
+
+The deterministic demo remains functional without a model key.
 
 Human override + audit:
 
@@ -56,3 +62,14 @@ Open http://localhost:3000.
 4. Show the resource tradeoff and its downside to AI work.
 5. Show Friday status.
 6. Submit an override through the API and inspect the audit + unapproved learning proposal.
+
+
+## Containerized preview
+
+```bash
+docker compose up --build
+```
+
+Open http://127.0.0.1:3000.
+
+See [Hosted deterministic demo](HOSTED_DEMO.md) for the public deployment boundary.

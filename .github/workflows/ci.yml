@@ -39,3 +39,13 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Build
         run: npm run build
+
+
+  containers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build API container
+        run: docker build -f Dockerfile.api -t program-os-api .
+      - name: Build web container
+        run: docker build -f web/Dockerfile -t program-os-web web
