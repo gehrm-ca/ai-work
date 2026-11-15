@@ -77,3 +77,12 @@ The workflow:
 7. uploads the full JSON report as a workflow artifact.
 
 The API key is consumed only as a GitHub Actions secret and is not written to the repository or evaluation report.
+
+
+## V2 final benchmark
+
+The released V2 benchmark was executed on evaluated implementation commit
+`0c84f439712a45eedb484d44f80682318138d9e0` with `gpt-6.1-sol`.
+
+See [V2 evaluation results](V2_EVALUATION_RESULTS.md) for the measured comparison,
+methodology notes, gold-set refinement history, and known limitation.
