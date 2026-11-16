@@ -90,10 +90,11 @@ Open http://localhost:3000.
 1. Compare official GREEN with forecast AMBER.
 2. Review Monday interventions sorted by portfolio priority.
 3. Open the source IDs for the partner-date contradiction and defect trend; inspect source freshness, authority tier and the immutable observed payload.
-4. Review the resource tradeoff and its downside to AI work.
-5. Read the Friday status.
-6. Optionally configure PROGRAM_OS_API_TOKEN, submit an override through the API and inspect the audit + unapproved learning proposal.
-7. Compare the behavior with the measured evaluation results.
+4. Expand **Why this conclusion · what would change it** on a finding and verify the reasoning factor and clearing condition are concrete.
+5. Review the resource tradeoff and its downside to AI work.
+6. Read the Friday status.
+7. Optionally configure PROGRAM_OS_API_TOKEN, submit an override through the API and inspect the audit + unapproved learning proposal.
+8. Compare the behavior with the measured evaluation results.
 
 ## Containerized preview
 
