@@ -94,7 +94,7 @@ Readiness levels mean:
 - **connector_ready** — the read-only source contract works, but the snapshot does not yet contain the cross-source/portfolio mix expected for a full design-partner exercise;
 - **pilot_candidate** — the snapshot is complete and contains multiple source types, multiple projects/workstreams, and high-authority evidence.
 
-A successful smoke check proves that the export satisfies the read-only ingestion contract. A **pilot_candidate** profile says the evidence shape is suitable for controlled pilot analysis. Neither result proves that the current Atlas-specific signal detectors understand your organization’s fields or semantics.
+A successful smoke check proves that the export satisfies the read-only ingestion contract. A **pilot_candidate** profile says the evidence shape is suitable for controlled pilot analysis. The design-partner tooling can attach this readiness result to the frozen pilot record, and `check-ready` will refuse to open the full analysis gate until the level is `pilot_candidate`. Neither result proves that the current Atlas-specific signal detectors understand your organization’s fields or semantics.
 
 A sanitized example is committed at [examples/pilot/source-record-example.json](../examples/pilot/source-record-example.json).
 
