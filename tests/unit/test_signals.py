@@ -16,3 +16,54 @@ def test_atlas_planted_signals_are_detected():
         "approval_timing_risk",
         "official_status_lag",
     }.issubset(kinds)
+
+
+def _date_conflict(evidence):
+    return next(
+        (s for s in detect_signals(evidence) if s.kind == "cross_source_date_conflict"),
+        None,
+    )
+
+
+def test_date_conflict_names_only_dates_stated_for_the_partner_integration():
+    evidence = load_evidence_dir(Path("examples/atlas/data"))
+    signal = _date_conflict(evidence)
+    assert signal is not None
+    assert signal.summary == (
+        "Partner integration dates conflict across current sources: "
+        "2026-11-14 (PAGE-PLAT), "
+        "2026-11-18 (ATLAS-101, MILESTONES-1112), "
+        "2026-11-20 (MTG-1111-PORTFOLIO)."
+    )
+
+
+def test_date_conflict_leaves_out_dates_that_belong_to_other_work():
+    evidence = load_evidence_dir(Path("examples/atlas/data"))
+    summary = _date_conflict(evidence).summary
+    # Other milestones in the plan, dependency need-by dates and the launch date
+    # sit in records that mention the partner integration but are not its dates.
+    for unrelated in (
+        "2026-11-19", "2026-11-21", "2026-11-22", "2026-11-24",
+        "2026-11-25", "2026-11-27", "2026-12-03", "2026-12-04",
+    ):
+        assert unrelated not in summary
+
+
+def test_no_date_conflict_when_only_one_date_is_stated_for_the_integration():
+    evidence = load_evidence_dir(Path("examples/atlas/data"))
+    # The milestone plan and dependency map hold a dozen dates between them,
+    # but only one is the partner integration's own date.
+    subset = [
+        item for item in evidence
+        if item.evidence_id in {"MILESTONES-1112", "DEP-MAP-1112", "STATUS-1112"}
+    ]
+    assert len(subset) == 3
+    assert _date_conflict(subset) is None
+
+
+def test_date_conflict_still_cites_every_partner_integration_record():
+    evidence = load_evidence_dir(Path("examples/atlas/data"))
+    assert set(_date_conflict(evidence).evidence_ids) == {
+        "ATLAS-101", "PAGE-PLAT", "MTG-1111-PORTFOLIO", "RETRO-PLAT-Q3",
+        "STATUS-1112", "DEP-MAP-1112", "MILESTONES-1112",
+    }
