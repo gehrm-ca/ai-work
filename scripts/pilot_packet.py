@@ -9,6 +9,8 @@ import argparse
 import json
 from pathlib import Path
 
+from pydantic import ValidationError
+
 from program_os.pilot import PilotRecord, new_pilot_record
 from program_os.readiness import EvidenceReadinessReport
 
@@ -101,8 +103,10 @@ def main() -> None:
         candidate = raw.get("evidence_readiness", raw) if isinstance(raw, dict) else raw
         try:
             readiness = EvidenceReadinessReport.model_validate(candidate)
-        except Exception as exc:
-            raise SystemExit("Readiness JSON does not match the Program OS readiness contract.") from exc
+        except ValidationError as exc:
+            raise SystemExit(
+                "Readiness JSON does not match the Program OS readiness contract."
+            ) from exc
 
         record.evidence_snapshot = record.evidence_snapshot.model_copy(
             update={
@@ -131,6 +135,12 @@ def main() -> None:
                     "valid": True,
                     "pilot_id": record.pilot_id,
                     "ready_for_analysis": record.ready_for_analysis,
+                    "readiness_level": (
+                        record.evidence_snapshot.readiness_level.value
+                        if record.evidence_snapshot
+                        and record.evidence_snapshot.readiness_level is not None
+                        else None
+                    ),
                 },
                 indent=2,
             )
