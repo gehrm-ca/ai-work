@@ -42,6 +42,7 @@ class EvidenceReadinessReport(BaseModel):
     stale_after_days: int = Field(ge=1)
     stale_record_count: int = Field(ge=0)
     stale_record_pct: float = Field(ge=0, le=100)
+    timezone_aware_timestamp_pct: float = Field(ge=0, le=100)
     cross_source_evidence_available: bool
     portfolio_evidence_available: bool
     high_authority_evidence_available: bool
@@ -84,9 +85,16 @@ def assess_evidence_readiness(
 
     ages: list[float] = []
     future_timestamp_count = 0
+    timezone_aware_count = 0
     stale_count = 0
     stale_hours = stale_after_days * 24
     for record in records:
+        if (
+            record.source_updated_at.tzinfo is None
+            or record.source_updated_at.utcoffset() is None
+        ):
+            continue
+        timezone_aware_count += 1
         age_hours = (batch.retrieved_at - record.source_updated_at).total_seconds() / 3600
         if age_hours < 0:
             future_timestamp_count += 1
@@ -123,6 +131,11 @@ def assess_evidence_readiness(
             "Permission context is missing from one or more records; source-access "
             "boundaries are not fully reconstructable."
         )
+    if records and timezone_aware_count < count:
+        limitations.append(
+            "One or more source timestamps lack timezone information; freshness "
+            "cannot be evaluated reliably for those records."
+        )
     if records and not high_authority:
         limitations.append(
             "No authority-tier 1 or 2 evidence is present; consequential conclusions "
@@ -147,7 +160,12 @@ def assess_evidence_readiness(
 
     if not batch.complete or not records:
         level = EvidenceReadinessLevel.BLOCKED
-    elif cross_source and portfolio and high_authority:
+    elif (
+        cross_source
+        and portfolio
+        and high_authority
+        and timezone_aware_count == count
+    ):
         level = EvidenceReadinessLevel.PILOT_CANDIDATE
     else:
         level = EvidenceReadinessLevel.CONNECTOR_READY
@@ -169,6 +187,7 @@ def assess_evidence_readiness(
         stale_after_days=stale_after_days,
         stale_record_count=stale_count,
         stale_record_pct=_percent(stale_count, count),
+        timezone_aware_timestamp_pct=_percent(timezone_aware_count, count),
         cross_source_evidence_available=cross_source,
         portfolio_evidence_available=portfolio,
         high_authority_evidence_available=high_authority,
