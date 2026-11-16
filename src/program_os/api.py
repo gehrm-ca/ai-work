@@ -15,7 +15,7 @@ from pydantic import BaseModel
 from .agent import run_agent_assessment
 from .audit import AuditStore, audit_override, create_override, propose_learning_from_override
 from .demo import build_demo_payload
-from .evidence import load_evidence_dir
+from .evidence import index_evidence, load_evidence_dir
 from .models import Rag
 
 
@@ -130,6 +130,14 @@ def capabilities() -> dict:
 @app.get("/atlas/demo")
 def atlas_demo() -> dict:
     return build_demo_payload(DATA_DIR)
+
+
+@app.get("/atlas/evidence/{evidence_id}")
+def atlas_evidence(evidence_id: str) -> dict:
+    evidence = index_evidence(load_evidence_dir(DATA_DIR)).get(evidence_id)
+    if evidence is None:
+        raise HTTPException(status_code=404, detail="Evidence record not found.")
+    return evidence.model_dump(mode="json")
 
 
 @app.post("/atlas/agent-draft")
