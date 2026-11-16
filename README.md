@@ -57,7 +57,7 @@ Thanks for looking. Ten minutes is enough, and the data is synthetic: nothing he
 
 Send feedback whichever way is easier: [open a feedback issue](https://github.com/gehrm-ca/ai-work/issues/new?template=beta-feedback.md), or message me on [LinkedIn](https://www.linkedin.com/in/mattgehrmann).
 
-Known gaps in this version, so you need not report them: approving or overriding a recommendation still works through the protected API only ([example](docs/RUN_DEMO.md)); reasoning factors and explicit "what would change the conclusion" conditions are not yet first-class UI fields.
+Known gap in this version, so you need not report it: approving or overriding a recommendation still works through the protected API only ([example](docs/RUN_DEMO.md)).
 
 ## Using it on your own
 
@@ -126,7 +126,7 @@ Every material recommendation, forecast, status assessment, or alert must expose
 
 Program OS prefers **insufficient evidence** over false certainty.
 
-What the current prototype implements of this contract: the demo shows the conclusion, confidence, contradictions, and supporting evidence. Every evidence ID can now be opened to inspect the immutable source observation, source-updated time, retrieval time, project, source type, and authority tier. The live agent path adds assumptions and missing information. Reasoning factors and explicit "what would change the conclusion" conditions are not yet implemented as first-class UI fields.
+What the current prototype implements of this contract: the demo shows the conclusion, confidence, contradictions, supporting evidence, deterministic reasoning factors, and explicit conditions that would clear or materially change each signal. Every evidence ID can be opened to inspect the immutable source observation, source-updated time, retrieval time, project, source type, and authority tier. The live agent path additionally exposes assumptions and missing information.
 
 Official status remains a human accountability decision. The system can recommend, forecast, and challenge; it does not silently establish ground truth.
 
