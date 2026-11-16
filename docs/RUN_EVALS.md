@@ -84,5 +84,9 @@ The API key is consumed only as a GitHub Actions secret and is not written to th
 The released V2 benchmark was executed on evaluated implementation commit
 `0c84f439712a45eedb484d44f80682318138d9e0` with `gpt-6.1-sol`.
 
+It ran as GitHub Actions run 43665330982, from a workflow on the
+`test/api-key-smoke` branch that checks out `v2/eval-hardening`. The raw report
+from that run is committed at [evals/v2-final-eval.json](evals/v2-final-eval.json).
+
 See [V2 evaluation results](V2_EVALUATION_RESULTS.md) for the measured comparison,
 methodology notes, gold-set refinement history, and known limitation.

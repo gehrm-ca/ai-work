@@ -640,6 +640,14 @@ def main() -> None:
     parser.add_argument("--case", action="append", dest="cases", help="Run only a case ID; repeatable.")
     args = parser.parse_args()
 
+    if not os.getenv("OPENAI_API_KEY"):
+        raise SystemExit(
+            "OPENAI_API_KEY is not set. The live evaluation calls a model, so it needs a key:\n"
+            "  export OPENAI_API_KEY=...\n"
+            "The deterministic demo and the offline smoke check do not need one "
+            "(see docs/RUN_EVALS.md)."
+        )
+
     report = run_live(
         model=args.model,
         data_dir=args.data_dir,

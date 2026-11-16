@@ -16,6 +16,10 @@ from program_os.models import ConfidenceBand, Rag, Trend
 from program_os.retrieval import retrieve_evidence
 from pathlib import Path
 
+import pytest
+
+from program_os.evals import live as live_module
+
 
 def test_scenario_overrides_create_hard_gate_context():
     context = _controls({
@@ -153,3 +157,13 @@ def test_strong_primary_evidence_can_remain_high_confidence_with_followups():
     inputs = _confidence_inputs(context, draft, {}, question)
     result = calculate_confidence(inputs)
     assert result.band == ConfidenceBand.HIGH
+
+
+def test_live_eval_cli_explains_a_missing_api_key(monkeypatch):
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    monkeypatch.setattr("sys.argv", ["live", "--model", "any-model"])
+    with pytest.raises(SystemExit) as exit_info:
+        live_module.main()
+    message = str(exit_info.value)
+    assert "OPENAI_API_KEY is not set" in message
+    assert "docs/RUN_EVALS.md" in message

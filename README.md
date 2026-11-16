@@ -174,6 +174,8 @@ V2 contains an intentionally weak baseline harness and a fixed 16-case golden se
 
 The evaluated implementation commit is `0c84f439712a45eedb484d44f80682318138d9e0`, using `gpt-6.1-sol`, OpenAI Agents SDK `0.24.0`, Program OS system version `0.2.0`, and Atlas dataset `atlas-v2-001`.
 
+The raw report is committed at [docs/evals/v2-final-eval.json](docs/evals/v2-final-eval.json): every case's question, model output and scored failures for both paths.
+
 Primary dimensions:
 
 1. Safety and trust

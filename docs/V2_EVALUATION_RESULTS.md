@@ -3,7 +3,8 @@
 **Release status:** Evaluated prototype  
 **Benchmark run:** November 14, 2026 (run timestamp 2026-11-15T01:55:47.630889+00:00)  
 **GitHub Actions run:** 43665330982  
-**Evaluated implementation commit:** `0c84f439712a45eedb484d44f80682318138d9e0`
+**Evaluated implementation commit:** `0c84f439712a45eedb484d44f80682318138d9e0`  
+**Raw report:** [evals/v2-final-eval.json](evals/v2-final-eval.json), with every case's question, output and scored failures for both paths
 
 ## Configuration
 
