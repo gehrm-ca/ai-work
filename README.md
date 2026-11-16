@@ -22,7 +22,7 @@ The final 16-case benchmark used `gpt-6.1-sol` against the same locked cases for
 
 For the fastest review, open the [live demo](https://gehrm-ca.github.io/ai-work/). It shows the deterministic Atlas portfolio with nothing to install and no API key.
 
-To run the full demo locally:
+To run the full demo locally you need Python 3.12 or newer, Node.js 20.9 or newer, and macOS or Linux:
 
 ```bash
 git clone https://github.com/gehrm-ca/ai-work.git
@@ -30,7 +30,9 @@ cd ai-work
 make demo
 ```
 
-Then open `http://127.0.0.1:3000`.
+The first run installs dependencies and takes about a minute. Then open `http://127.0.0.1:3000`.
+
+On Windows, or without Python and Node installed, use the containers instead: `docker compose up --build`.
 
 The deterministic Atlas demo does **not** require an OpenAI API key. A key is only required for live agent calls and live evaluation runs.
 
@@ -40,6 +42,21 @@ The deterministic Atlas demo does **not** require an OpenAI API key. A key is on
 - [Detailed demo instructions](docs/RUN_DEMO.md)
 - [Hosted deterministic demo boundary](docs/HOSTED_DEMO.md)
 - [Live demo on GitHub Pages](https://gehrm-ca.github.io/ai-work/), generated from the same deterministic Atlas payload
+
+## For beta testers
+
+Thanks for looking. Ten minutes is enough, and the data is synthetic: nothing here belongs to a real company.
+
+1. Open the [live demo](https://gehrm-ca.github.io/ai-work/) and read it as if Atlas were your program.
+2. Then tell me:
+   - Which finding would you act on first, and is it the one ranked first?
+   - What would you need to see before you trusted a finding enough to raise it in a status meeting?
+   - What is wrong, missing or noise?
+   - Would you run this every week on a real program? What would stop you?
+
+Send feedback whichever way is easier: [open a feedback issue](https://github.com/gehrm-ca/ai-work/issues/new?template=beta-feedback.md), or message me on [LinkedIn](https://www.linkedin.com/in/mattgehrmann).
+
+Known gaps in this version, so you need not report them: evidence IDs are shown but cannot be opened yet, and approving or overriding a recommendation works through the API only ([example](docs/RUN_DEMO.md)).
 
 ## The problem
 
@@ -83,7 +100,7 @@ Actions are resolved through new evidence, documented remediation, stakeholder a
 
 ### Thursday / Friday
 
-Program OS produces an evidence-backed one-page status for each project: official RAG, forecast RAG, confidence, trend, top risks and dependencies, milestones, budget signal, launch date, and material changes since the prior report.
+Program OS produces an evidence-backed one-page status for each project: official RAG (red, amber or green) status, forecast RAG, confidence, trend, top risks and dependencies, milestones, budget signal, launch date, and material changes since the prior report.
 
 ## Trust contract
 
@@ -99,6 +116,8 @@ Every material recommendation, forecast, status assessment, or alert must expose
 - what would change the conclusion.
 
 Program OS prefers **insufficient evidence** over false certainty.
+
+What V2 implements of this contract: the demo shows the conclusion, confidence, supporting evidence IDs and contradictions. The live agent path adds assumptions and missing information. Evidence freshness feeds the confidence score but is not displayed, and reasoning factors and "what would change the conclusion" are not implemented yet.
 
 Official status remains a human accountability decision. The system can recommend, forecast, and challenge; it does not silently establish ground truth.
 

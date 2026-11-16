@@ -102,9 +102,9 @@ export default async function Home() {
               <div className="rank">{String(index + 1).padStart(2, "0")}</div>
               <div>
                 <div className="actionMeta">
-                  <span>{action.project_id}</span>
+                  <span>{action.project_id.toUpperCase()}</span>
                   <span>Impact {action.impact}</span>
-                  <span>P {action.probability}</span>
+                  <span>Probability {action.probability}</span>
                   <span>Score {action.priority_score.toFixed(3)}</span>
                 </div>
                 <h3>{action.issue_or_risk}</h3>
@@ -146,7 +146,7 @@ export default async function Home() {
         <div className="signalGrid">
           {data.signals.map((signal) => (
             <article className="signal" key={signal.kind}>
-              <span className="pill">{signal.project_id}</span>
+              <span className="pill">{signal.project_id.toUpperCase()}</span>
               <h3>{signal.kind.replaceAll("_", " ")}</h3>
               <p>{signal.summary}</p>
               <p className="evidence">{signal.evidence_ids.join(", ")}</p>
