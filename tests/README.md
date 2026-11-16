@@ -5,7 +5,8 @@ V2 includes executable unit, integration-contract and evaluation tests.
 Run the local test suite from the repository root:
 
 ~~~bash
-python -m pip install -e ".[dev]"
+python -m pip install -r requirements.lock
+python -m pip install --no-deps -e .
 python -m pytest -q
 ~~~
 
