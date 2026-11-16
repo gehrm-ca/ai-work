@@ -80,7 +80,7 @@ def test_override_accepts_valid_bearer_token(monkeypatch, tmp_path):
     assert response.status_code == 200
     body = response.json()
     assert body["override"]["actor"] == "tester"
-    assert body["learning_proposal"]["status"] == "proposed"
+    assert body["learning_proposal"]["approved"] is False
 
 
 def test_protected_endpoint_rate_limit(monkeypatch, tmp_path):
