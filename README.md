@@ -61,7 +61,7 @@ Known gap in this version, so you need not report it: approving or overriding a 
 
 ## Using it on your own
 
-The hosted and local Atlas demos are fully self-contained. For a pilot with your own data, the repository includes read-only JSON and Jira ingestion paths that validate provenance, permission context and snapshot completeness.
+The hosted and local Atlas demos are fully self-contained. For a pilot with your own data, the repository includes read-only JSON and Jira ingestion paths that validate provenance, permission context and snapshot completeness, then report aggregate evidence readiness across source diversity, project coverage, authority, freshness, and partial-retrieval state.
 
 The current V2 signal logic and dashboard remain intentionally Atlas-specific. A successful connector smoke test is **not** a claim that arbitrary organizational data already drives the complete Monday → Friday workflow.
 
