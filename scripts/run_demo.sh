@@ -68,7 +68,7 @@ python -m pip install --quiet --disable-pip-version-check -e ".[dev]"
 
 if [[ ! -d "web/node_modules" ]]; then
   echo "Installing web dependencies (the first run can take a minute) ..."
-  (cd web && npm install --no-audit --no-fund --loglevel=error)
+  (cd web && npm ci --no-audit --no-fund --loglevel=error)
 fi
 
 # --- run ---------------------------------------------------------------------

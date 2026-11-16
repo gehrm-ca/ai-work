@@ -34,18 +34,22 @@ Deterministic Controls   Retrieval
         Audit + Learning Proposal
 ~~~
 
-## V2 stack
+## Implemented V2/V2.1 stack
 
-- Python
+- Python 3.12
 - FastAPI
 - OpenAI Agents SDK
-- PostgreSQL + pgvector
 - Pydantic
-- lightweight React / Next.js interface
+- file-backed synthetic Atlas evidence
+- read-only Jira Cloud adapter for V2.1 external-validation work
+- React / Next.js interface
 - Pytest
 - Docker Compose
+- GitHub Actions and GitHub Pages
 
-V2 will use synthetic source adapters rather than spending the first implementation cycle on production OAuth integrations.
+PostgreSQL + pgvector remain a **target persistence/retrieval direction**, not part of the shipped V2 prototype. The evaluated V2 benchmark uses the repository-backed Atlas dataset and in-process retrieval logic.
+
+V2 began with synthetic source adapters; V2.1 now includes a read-only Jira Cloud connector, while production OAuth UX and enterprise persistence remain out of scope.
 
 ## Architectural boundary
 
