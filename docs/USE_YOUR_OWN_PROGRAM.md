@@ -86,9 +86,15 @@ python -m pip install --no-deps -e .
 python scripts/json_ingest_smoke.py /absolute/path/to/export.json
 ~~~
 
-The command prints only connector status, record count and failure categories by default. It does not print source content or IDs unless you explicitly pass **--show-source-ids**.
+The command prints connector status plus an aggregate **evidence readiness** profile. The profile measures record/project/source-type coverage, authority mix, permission-context coverage, source age at retrieval, and explicit partial-retrieval failures. It does not print source content, project IDs, source URLs, or evidence IDs unless you explicitly pass **--show-source-ids**.
 
-A successful smoke check proves that the export satisfies the read-only ingestion contract. It does **not** prove that the current Atlas-specific signal detectors understand your organization’s fields or semantics.
+Readiness levels mean:
+
+- **blocked** — no usable snapshot or ingestion is incomplete;
+- **connector_ready** — the read-only source contract works, but the snapshot does not yet contain the cross-source/portfolio mix expected for a full design-partner exercise;
+- **pilot_candidate** — the snapshot is complete and contains multiple source types, multiple projects/workstreams, and high-authority evidence.
+
+A successful smoke check proves that the export satisfies the read-only ingestion contract. A **pilot_candidate** profile says the evidence shape is suitable for controlled pilot analysis. Neither result proves that the current Atlas-specific signal detectors understand your organization’s fields or semantics.
 
 A sanitized example is committed at [examples/pilot/source-record-example.json](../examples/pilot/source-record-example.json).
 
@@ -107,7 +113,7 @@ export JIRA_JQL='project = YOURKEY order by updated DESC'
 python scripts/jira_ingest_smoke.py
 ~~~
 
-The adapter deliberately retrieves a small field set and does not request issue descriptions or comments by default. Jira permission failures and partial retrieval are surfaced explicitly rather than silently treated as complete evidence.
+The adapter deliberately retrieves a small field set and does not request issue descriptions or comments by default. Jira permission failures and partial retrieval are surfaced explicitly rather than silently treated as complete evidence. The smoke output includes the same aggregate readiness profile; a Jira-only snapshot will normally be **connector_ready**, which is correct for the live-connector milestone but not evidence of cross-source portfolio readiness.
 
 Use OAuth rather than long-lived user API tokens for a distributed integration.
 
