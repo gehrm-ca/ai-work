@@ -14,6 +14,7 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field
 
 from .models import ConfidenceBand, Rag
+from .readiness import EvidenceReadinessLevel
 
 
 class PilotDisposition(str, Enum):
@@ -54,6 +55,8 @@ class PilotEvidenceSnapshot(BaseModel):
     evidence_count: int = Field(ge=1)
     private_location: str | None = None
     public_data: bool = False
+    readiness_level: EvidenceReadinessLevel | None = None
+    readiness_limitations: tuple[str, ...] = ()
 
 
 class PilotFindingReview(BaseModel):
@@ -92,7 +95,12 @@ class PilotRecord(BaseModel):
 
     @property
     def ready_for_analysis(self) -> bool:
-        return self.baseline is not None and self.evidence_snapshot is not None
+        return (
+            self.baseline is not None
+            and self.evidence_snapshot is not None
+            and self.evidence_snapshot.readiness_level
+            == EvidenceReadinessLevel.PILOT_CANDIDATE
+        )
 
     def aggregate_summary(self) -> dict[str, Any]:
         dispositions = Counter(item.disposition.value for item in self.findings)
@@ -108,6 +116,12 @@ class PilotRecord(BaseModel):
         return {
             "pilot_id": self.pilot_id,
             "ready_for_analysis": self.ready_for_analysis,
+            "evidence_readiness_level": (
+                self.evidence_snapshot.readiness_level.value
+                if self.evidence_snapshot
+                and self.evidence_snapshot.readiness_level is not None
+                else None
+            ),
             "finding_count": len(self.findings),
             "material_finding_count": len(material),
             "dispositions": dict(sorted(dispositions.items())),
