@@ -11,6 +11,8 @@ type DemoPayload = {
     next_step: string;
     priority_score: number;
     evidence_ids: string[];
+    reasoning_factors: string[];
+    what_would_change: string[];
   }>;
   signals: Array<{
     kind: string;
@@ -18,6 +20,8 @@ type DemoPayload = {
     severity: string;
     summary: string;
     evidence_ids: string[];
+    reasoning_factors: string[];
+    what_would_change: string[];
   }>;
   recommendation: null | {
     action: string;
@@ -25,6 +29,8 @@ type DemoPayload = {
     downstream_consequences: string[];
     confidence: string;
     evidence_ids: string[];
+    reasoning_factors: string[];
+    what_would_change: string[];
   };
   friday_status: {
     official_rag: string;
@@ -37,6 +43,8 @@ type DemoPayload = {
     next_milestone: string;
     budget_tracking: string;
     summary: string;
+    reasoning_factors: string[];
+    what_would_change: string[];
   };
 };
 
@@ -69,6 +77,35 @@ function EvidenceRefs({ ids, label = "Evidence: " }: { ids?: string[]; label?: s
         </span>
       ))}
     </p>
+  );
+}
+
+function TrustDetails({
+  reasoningFactors,
+  whatWouldChange,
+}: {
+  reasoningFactors?: string[];
+  whatWouldChange?: string[];
+}) {
+  if (!reasoningFactors?.length && !whatWouldChange?.length) return null;
+  return (
+    <details className="trustDetails">
+      <summary>Why this conclusion · what would change it</summary>
+      <div className="trustDetailGrid">
+        <div>
+          <span>Reasoning factors</span>
+          <ul>
+            {reasoningFactors?.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </div>
+        <div>
+          <span>What would change it</span>
+          <ul>
+            {whatWouldChange?.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+    </details>
   );
 }
 
@@ -127,6 +164,10 @@ export default async function Home() {
                 <h3>{action.issue_or_risk}</h3>
                 <p>{action.next_step}</p>
                 <EvidenceRefs ids={action.evidence_ids} />
+                <TrustDetails
+                  reasoningFactors={action.reasoning_factors}
+                  whatWouldChange={action.what_would_change}
+                />
               </div>
             </article>
           ))}
@@ -142,6 +183,10 @@ export default async function Home() {
             {data.recommendation?.downstream_consequences.map((item) => <li key={item}>{item}</li>)}
           </ul>
           <EvidenceRefs ids={data.recommendation?.evidence_ids} />
+          <TrustDetails
+            reasoningFactors={data.recommendation?.reasoning_factors}
+            whatWouldChange={data.recommendation?.what_would_change}
+          />
         </article>
 
         <article className="panel">
@@ -153,6 +198,10 @@ export default async function Home() {
             <div><dt>Next milestone</dt><dd>{status.next_milestone}</dd></div>
             <div><dt>Budget</dt><dd>{status.budget_tracking}</dd></div>
           </dl>
+          <TrustDetails
+            reasoningFactors={status.reasoning_factors}
+            whatWouldChange={status.what_would_change}
+          />
         </article>
       </section>
 
@@ -168,6 +217,10 @@ export default async function Home() {
               <h3>{signal.kind.replaceAll("_", " ")}</h3>
               <p>{signal.summary}</p>
               <EvidenceRefs ids={signal.evidence_ids} label="" />
+              <TrustDetails
+                reasoningFactors={signal.reasoning_factors}
+                whatWouldChange={signal.what_would_change}
+              />
             </article>
           ))}
         </div>
