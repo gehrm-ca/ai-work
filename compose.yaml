@@ -1,3 +1,7 @@
+# LOCAL DEMO ONLY.
+# Ports bind to loopback so Docker does not expose the prototype API or UI on
+# external interfaces by default. Production deployment requires the controls
+# in docs/PRODUCTION_TRUST_BOUNDARIES.md.
 services:
   api:
     build:
@@ -6,8 +10,10 @@ services:
     environment:
       PROGRAM_OS_ENABLE_LIVE_AGENT: "false"
       PROGRAM_OS_AUDIT_PATH: /tmp/program-os/audit.jsonl
+      PROGRAM_OS_API_TOKEN: ${PROGRAM_OS_API_TOKEN:-}
+      PROGRAM_OS_PROTECTED_RPM: ${PROGRAM_OS_PROTECTED_RPM:-30}
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
 
   web:
     build:
@@ -18,4 +24,4 @@ services:
     depends_on:
       - api
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
