@@ -6,9 +6,7 @@ on:
       - main
     paths:
       - "site/**"
-      - "src/program_os/demo.py"
-      - "src/program_os/showcase.py"
-      - "src/program_os/signals.py"
+      - "src/program_os/**"
       - "examples/atlas/data/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
