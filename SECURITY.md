@@ -21,7 +21,7 @@ The prototype uses read-only source-adapter contracts and has no autonomous cons
 
 The public GitHub Pages showcase is static and deterministic.
 
-The local FastAPI prototype keeps read-only deterministic endpoints available without credentials, while human override and live-agent draft endpoints require PROGRAM_OS_API_TOKEN bearer authentication. Live agent calls additionally require an explicit PROGRAM_OS_ENABLE_LIVE_AGENT=true flag and OPENAI_API_KEY. Protected endpoints have a small in-process demo rate limit.
+The local FastAPI prototype keeps read-only deterministic endpoints available without credentials, while human override and live-agent draft endpoints require PROGRAM_OS_API_TOKEN bearer authentication. The full local Next.js UI can submit human overrides only through a same-origin server-side proxy; the bearer token is read from the server environment and is not sent to browser code. Live agent calls additionally require an explicit PROGRAM_OS_ENABLE_LIVE_AGENT=true flag and OPENAI_API_KEY. Protected endpoints have a small in-process demo rate limit.
 
 The Docker Compose preview binds published ports to 127.0.0.1 by default and is not an internet-facing deployment recipe.
 
