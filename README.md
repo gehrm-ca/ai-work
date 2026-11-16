@@ -57,7 +57,7 @@ Thanks for looking. Ten minutes is enough, and the data is synthetic: nothing he
 
 Send feedback whichever way is easier: [open a feedback issue](https://github.com/gehrm-ca/ai-work/issues/new?template=beta-feedback.md), or message me on [LinkedIn](https://www.linkedin.com/in/mattgehrmann).
 
-Known gaps in this version, so you need not report them: evidence IDs are shown but cannot be opened yet, and approving or overriding a recommendation works through the API only ([example](docs/RUN_DEMO.md)).
+Known gaps in this version, so you need not report them: approving or overriding a recommendation still works through the protected API only ([example](docs/RUN_DEMO.md)); reasoning factors and explicit "what would change the conclusion" conditions are not yet first-class UI fields.
 
 ## Using it on your own
 
@@ -126,7 +126,7 @@ Every material recommendation, forecast, status assessment, or alert must expose
 
 Program OS prefers **insufficient evidence** over false certainty.
 
-What V2 implements of this contract: the demo shows the conclusion, confidence, supporting evidence IDs and contradictions. The live agent path adds assumptions and missing information. Evidence freshness feeds the confidence score but is not displayed, and reasoning factors and "what would change the conclusion" are not implemented yet.
+What the current prototype implements of this contract: the demo shows the conclusion, confidence, contradictions, and supporting evidence. Every evidence ID can now be opened to inspect the immutable source observation, source-updated time, retrieval time, project, source type, and authority tier. The live agent path adds assumptions and missing information. Reasoning factors and explicit "what would change the conclusion" conditions are not yet implemented as first-class UI fields.
 
 Official status remains a human accountability decision. The system can recommend, forecast, and challenge; it does not silently establish ground truth.
 
