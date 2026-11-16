@@ -153,3 +153,29 @@ def test_readiness_report_does_not_expose_source_or_project_identifiers():
     assert "SECRET-A" not in serialized
     assert "SECRET-B" not in serialized
     assert "Private content" not in serialized
+
+
+def test_timezone_naive_source_timestamp_degrades_readiness_without_crashing():
+    naive = SourceRecord(
+        source_type="risk_log",
+        source_id="RISK-NAIVE",
+        project_id="B",
+        source_updated_at=datetime(2026, 11, 16, 8, 0),
+        authority_tier=2,
+        payload={"summary": "Timezone unspecified."},
+        permission_context=PermissionContext(visibility="export"),
+    )
+    batch = IngestionBatch(
+        connector_id="pilot-bundle",
+        retrieved_at=NOW,
+        records=(
+            record("JIRA-1", source_type="jira", project_id="A"),
+            naive,
+        ),
+    )
+
+    report = assess_evidence_readiness(batch)
+
+    assert report.readiness_level == EvidenceReadinessLevel.CONNECTOR_READY
+    assert report.timezone_aware_timestamp_pct == 50.0
+    assert any("timezone" in item.lower() for item in report.limitations)
