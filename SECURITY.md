@@ -23,4 +23,4 @@ See [Production trust boundaries](docs/PRODUCTION_TRUST_BOUNDARIES.md) for the r
 
 ## Reporting
 
-For this public prototype, report suspected security issues privately to the repository owner rather than publishing credential material or sensitive reproduction data in a public issue.
+For this public prototype, report suspected security issues privately to the repository owner, [Matt Gehrmann on LinkedIn](https://www.linkedin.com/in/mattgehrmann), rather than publishing credential material or sensitive reproduction data in a public issue.

@@ -1,0 +1,1626 @@
+{
+  "run_timestamp": "2026-11-15T01:55:47.630889+00:00",
+  "model": "gpt-6.1-sol",
+  "agents_sdk": "0.24.0",
+  "program_os_version": "0.2.0",
+  "dataset": "atlas-v2-001",
+  "gold_case_count": 16,
+  "paths": {
+    "baseline": {
+      "weighted_penalty": 60,
+      "catastrophic": false,
+      "catastrophic_failures": [],
+      "failure_dimensions": {
+        "Judgment": 9,
+        "Detection": 3,
+        "Decision Quality": 6,
+        "Safety/Trust": 2
+      },
+      "cases_without_failures": 4,
+      "cases": [
+        {
+          "case_id": "E01",
+          "name": "Partner date contradiction",
+          "question": "Is the partner integration still on schedule, and what should the PM do next?",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "Moderate",
+            "conclusion": "Partner integration is not credibly on schedule for the approved Nov 18 milestone. Jira still targets Nov 18, but engineering expects closer to Nov 20; authentication remains blocked and integration is only 70% complete. This threatens downstream readiness, but the supplied evidence does not establish that the Dec 4 launch must slip.",
+            "risks": [
+              "Sandbox instability is worsening, with critical-path authentication blocked and transaction replay still in progress.",
+              "A Nov 20 completion would leave only one calendar day before the Nov 21 APP dependency and two before the Nov 22 support-playbook dependency.",
+              "Maya is allocated 120% across PLAT and AI. Prioritizing integration without backfill could delay the citation evaluator and its Nov 21 compliance-evidence dependency.",
+              "Historical integrations took 25\u201350% longer than recovery estimates, weakening confidence in an unvalidated Nov 20 forecast."
+            ],
+            "contradictions": [
+              "The platform page says Nov 14, while authoritative Jira and milestones say Nov 18; the portfolio meeting forecasts closer to Nov 20. Nov 20 is not an approved rebaseline.",
+              "Executive reporting remains GREEN despite the blocked critical path, worsening vendor risk and resource over-allocation."
+            ],
+            "recommended_actions": [
+              "Immediately obtain a task-level recovery forecast from the Backend Lead, including sandbox assumptions, remaining authentication and replay work, validation time, owners and contingency.",
+              "Escalate the sandbox outage through the Platform PM and vendor; validate whether the fallback replay path can support recovery without assuming it resolves authentication.",
+              "Resolve Maya's over-allocation explicitly: assess borrowing capacity from lower-priority analytics work or using available contractor contingency, while protecting AI's compliance dependency.",
+              "Assess the recovery forecast against the Nov 21 APP and Nov 22 GTM handoffs with downstream owners; agree contingency options and escalation triggers.",
+              "Correct stale dates and GREEN reporting, track recovery daily, and seek formal rebaselining if Nov 18 cannot be supported. Do not treat Dec 4 as assured."
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-103",
+              "R-01",
+              "PAGE-PLAT",
+              "MTG-1111-PORTFOLIO",
+              "RES-1112",
+              "RETRO-PLAT-Q3",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "STATUS-1112",
+              "BUD-1112",
+              "D-01"
+            ],
+            "missing_information": [
+              "Confirmed sandbox restoration ETA and evidence of sustained stability.",
+              "Validated remaining effort, fallback effectiveness and end-to-end acceptance-test duration.",
+              "Approved staffing resolution and downstream schedule float sufficient to assess Dec 4 launch impact."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_forecast_direction",
+              "case_id": "E01",
+              "detail": "Expected AMBER; got RED."
+            },
+            {
+              "kind": "missed_material_contradiction",
+              "case_id": "E01",
+              "detail": "Partner integration dates disagree"
+            }
+          ]
+        },
+        {
+          "case_id": "E02",
+          "name": "Optimistic recovery credibility",
+          "question": "How credible is the current partner-integration recovery plan?",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "Moderate",
+            "conclusion": "The partner-integration recovery plan has low credibility as currently evidenced. The formal Nov 18 completion date is not supported by the blocked authentication work, worsening sandbox risk, or engineering's Nov 20 expectation. Nov 20 remains conditional and leaves only one calendar day before the Nov 21 critical dependency. This threatens Dec 4 launch readiness but does not establish that launch will slip.",
+            "risks": [
+              "Authentication remains blocked by the partner sandbox; the integration is only 70% complete and the external-dependency risk is worsening (ATLAS-101, ATLAS-102, R-01).",
+              "The fallback replay path is still in progress, with a three-day estimate and Nov 17 due date; it is not evidenced as a validated workaround for the authentication blocker (ATLAS-103).",
+              "A Nov 20 completion leaves little buffer before integration is required for the APP release candidate on Nov 21 and GTM support playbook on Nov 22 (DEP-MAP-1112).",
+              "Maya is allocated at 120% across PLAT and AI, while Platform notes suggest she may be needed full-time through Nov 20. Recovery could delay the AI evaluator and downstream compliance evidence (RES-1112, MTG-1110-PLAT, DEP-MAP-1112).",
+              "Comparable external integrations repeatedly took 25\u201350% longer than initial recovery estimates, weakening confidence in an unbuffered forecast (RETRO-PLAT-Q3)."
+            ],
+            "contradictions": [
+              "The Platform page still expects Nov 14; Jira and the current milestone plan specify Nov 18; the portfolio sync reports engineering expecting closer to Nov 20. Nov 20 is a forecast, not an approved rebaseline (PAGE-PLAT, ATLAS-101, MILESTONES-1112, MTG-1111-PORTFOLIO).",
+              "The executive report retains GREEN and unchanged launch confidence despite the blocked critical-path work, worsening sandbox risk, and resource conflict (STATUS-1112, ATLAS-102, R-01, RES-1112)."
+            ],
+            "recommended_actions": [
+              "Have the Backend Lead and Platform PM publish one resource-loaded recovery plan covering authentication, replay, integration validation, owners, remaining effort, and contingency; reconcile Nov 18 versus Nov 20.",
+              "Obtain a partner sandbox restoration commitment and define an escalation deadline and fallback activation criteria. Demonstrate what the replay path can and cannot unblock.",
+              "Resolve Maya's overallocation explicitly, protecting both PLAT recovery and AI-to-compliance dependencies; assess available lower-priority capacity before committing it.",
+              "Recalculate downstream dates against the Nov 21 and Nov 22 dependencies, including validation time and historically informed contingency. Update executive RAG and escalate any dependency breach."
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-103",
+              "R-01",
+              "PAGE-PLAT",
+              "MTG-1110-PLAT",
+              "MTG-1111-PORTFOLIO",
+              "RES-1112",
+              "RETRO-PLAT-Q3",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Confirmed sandbox restoration date, stability evidence, and partner commitment.",
+              "Task-level remaining effort, sequencing, assigned capacity, and integration acceptance criteria.",
+              "Fallback validation results and whether it resolves the authentication dependency.",
+              "An agreed completion forecast with contingency and quantified downstream schedule impact."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_forecast_direction",
+              "case_id": "E02",
+              "detail": "Expected AMBER; got RED."
+            }
+          ]
+        },
+        {
+          "case_id": "E03",
+          "name": "Unapproved export scope",
+          "question": "Is export filtering approved launch scope, and what needs to happen next?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "High",
+            "conclusion": "No\u2014export filtering is not approved launch scope. D-02 remains Pending and permits evaluation only if there is no schedule impact; the approved application plan explicitly excludes it. Export-related tickets and GTM assumptions do not constitute approval. Scope alignment is needed to protect the December 4 launch.",
+            "risks": [
+              "GTM messaging assumes export filtering is included, and the support playbook depends on final export behavior.",
+              "Unapproved work introduces delivery and security dependencies: filtering UI is To Do, audit metadata is In Progress, and the critical-path data classification review is To Do.",
+              "Additional work could compete with existing launch recovery: Maya is already allocated at 120% across PLAT and AI."
+            ],
+            "contradictions": [
+              "GTM assumes export filtering is in scope, while D-02 is Pending, PAGE-APP excludes it, and the portfolio sync confirms no formal scope change.",
+              "Export-related work is scheduled despite the absence of an approved scope commitment."
+            ],
+            "recommended_actions": [
+              "Program Manager: reaffirm export filtering as excluded unless a formal scope change is approved; communicate that baseline to APP, PLAT, SEC, and GTM.",
+              "If inclusion is still requested, obtain a joint estimate and dependency, capacity, security, testing, and schedule-impact assessment covering filtering UI, audit metadata, and data classification.",
+              "Demonstrate no schedule impact before seeking approval under D-02; otherwise defer filtering beyond launch.",
+              "Record the scope decision and align Jira, dependency plans, launch messaging, enablement content, and the support playbook. Reconcile the November 20 playbook deadline with its unresolved behavior dependency."
+            ],
+            "cited_evidence_ids": [
+              "D-01",
+              "D-02",
+              "PAGE-APP",
+              "MTG-1111-PORTFOLIO",
+              "MTG-1112-GTM",
+              "ATLAS-114",
+              "ATLAS-116",
+              "ATLAS-117",
+              "ATLAS-118",
+              "DEP-MAP-1112",
+              "RES-1112"
+            ],
+            "missing_information": [
+              "Completed impact assessment demonstrating whether export filtering can be included without schedule impact.",
+              "Formal approval or rejection of the pending scope request.",
+              "Confirmed export behavior for launch and corresponding acceptance criteria.",
+              "Confirmed owners, capacity, and security/test completion plan for any proposed inclusion."
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E04",
+          "name": "Shared resource collision",
+          "question": "Do we have a resource conflict affecting Platform and AI delivery?",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "High",
+            "conclusion": "Yes. Maya is allocated 80% to Platform and 40% to AI (120% total), creating a direct conflict between Platform recovery and the critical-path AI citation evaluator. Both delivery commitments are at risk without resource intervention; the resulting launch delay is not yet quantified.",
+            "risks": [
+              "Platform may need Maya full-time through Nov 20, which would raise combined demand to 140% if her AI commitment remains unchanged.",
+              "Partner integration is formally due Nov 18, but engineering expects closer to Nov 20, leaving only one day before the Nov 21 dependency for the APP release candidate.",
+              "AI citation evaluator work is due Nov 18 and feeds compliance evidence by Nov 21; diverting Maya to Platform could propagate delay into mandatory launch approval."
+            ],
+            "contradictions": [
+              "The resource plan commits Maya beyond available capacity while the executive report continues to show Platform and AI GREEN.",
+              "The formal Platform milestone remains Nov 18 despite the Nov 11 engineering forecast of closer to Nov 20."
+            ],
+            "recommended_actions": [
+              "Immediately agree a single, capacity-feasible allocation for Maya with Platform and AI leads, prioritizing both critical-path dependencies rather than assuming simultaneous availability.",
+              "Assess whether capacity from lower-priority analytics work can provide suitable backfill; that work can absorb a short staffing delay, but skills and availability are unconfirmed.",
+              "Evaluate short-term contractor support using available contingency, subject to skills and onboarding feasibility.",
+              "Reforecast Platform integration, AI evaluator completion, and downstream compliance dates using the agreed staffing plan; update milestones and executive RAG."
+            ],
+            "cited_evidence_ids": [
+              "RES-1112",
+              "MTG-1110-PLAT",
+              "MTG-1111-PORTFOLIO",
+              "ATLAS-109",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "STATUS-1112",
+              "BUD-1112"
+            ],
+            "missing_information": [
+              "Maya's remaining effort and day-by-day demand for each workstream.",
+              "Confirmed backfill candidates, relevant skills, and start dates.",
+              "Whether either team can complete its critical-path work without Maya.",
+              "A resource-constrained recovery schedule quantifying milestone and launch impact."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_forecast_direction",
+              "case_id": "E04",
+              "detail": "Expected AMBER; got RED."
+            }
+          ]
+        },
+        {
+          "case_id": "E05",
+          "name": "Worsening defect trend",
+          "question": "What does the current defect trend imply for launch readiness?",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "High",
+            "conclusion": "The current defect trend materially threatens readiness for the December 4 launch, though it does not prove the date will be missed. Across RC-1 to RC-3, pass rate fell from 94% to 91%, open high defects rose from 5 to 9 (+80%), medium defects increased from 18 to 24, and newly reported high defects rose from 2 to 5. Zero critical defects is positive, but quality is not yet demonstrating stabilization. Test coverage also expanded from 420 to 620 tests, so these results do not alone establish worsening underlying defect incidence.",
+            "risks": [
+              "The growing high-defect backlog threatens the remediation-to-regression dependency required by November 25. Historical high-severity fixes frequently took 3\u20135 calendar days plus regression.",
+              "Two high pen-test findings remain open, and remediation of high findings is a mandatory launch gate. Their overlap with the nine test-system high defects is unknown; the counts must not be added.",
+              "Late fixes and regression could compress compliance approval and launch preparation. Named compliance sign-off is mandatory before production."
+            ],
+            "contradictions": [
+              "The November 12 executive report retains GREEN and unchanged launch confidence, while successive authoritative test reports show declining pass rates and increasing high-defect counts.",
+              "The security risk register describes the remediation risk as stable, which does not reflect the deterioration visible in the test results."
+            ],
+            "recommended_actions": [
+              "Have the Security Lead reconcile and prioritize the nine high test defects and two pen-test findings, assigning owners, fix forecasts, and retest evidence without double-counting.",
+              "Protect regression capacity and reassess the November 25 readiness milestones using the historical 3\u20135-day remediation duration plus regression.",
+              "Require a sustained improving defect trend and verified mandatory-gate closure before declaring readiness; update executive RAG and escalate launch-date risk if recovery cannot be demonstrated."
+            ],
+            "cited_evidence_ids": [
+              "TEST-1108",
+              "TEST-1110",
+              "TEST-1112",
+              "ATLAS-111",
+              "PAGE-SEC",
+              "RETRO-SEC-Q3",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "D-03",
+              "R-02",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Defect closure and reopening rates, aging, root causes, and overlap between test defects and pen-test findings.",
+              "Comparable test-cohort results to separate expanded coverage from product regression.",
+              "Confirmed fix and regression completion forecasts, quantitative quality exit criteria, and test results after November 12."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_forecast_direction",
+              "case_id": "E05",
+              "detail": "Expected AMBER; got RED."
+            }
+          ]
+        },
+        {
+          "case_id": "E06",
+          "name": "Compliance approval bottleneck",
+          "question": "Is the compliance approval path creating a launch-readiness risk?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "High",
+            "conclusion": "Yes. The compliance approval path creates a material risk to the December 4 launch. Mandatory sign-off is not yet secured, and both evidence readiness and security remediation are exposed. A launch delay is not established: planned sign-off is November 25, while the dependency map requires approval by December 3.",
+            "risks": [
+              "The evidence package is expected November 23, but the compliance approver is unavailable November 23\u201324 and no backup is confirmed, compressing the review window before planned November 25 sign-off.",
+              "The citation evaluator feeds compliance evidence by November 21, but remains in progress. Maya is allocated 120% across platform recovery and AI support, threatening this prerequisite.",
+              "Two high pen-test findings remain open. Separately, test-system high defects rose from 5 to 9 while pass rates fell from 94% to 91%; this threatens security readiness and regression time. The overlap between these defect populations is unknown.",
+              "Historical security findings required 3\u20135 calendar days plus regression. Further discoveries could consume the remaining approval and launch buffer."
+            ],
+            "contradictions": [
+              "The portfolio's GREEN status and unchanged launch confidence do not reflect the unconfirmed approval coverage, resource contention, and deteriorating quality evidence.",
+              "Security risk R-02 is marked stable, while successive test reports show worsening defect and pass-rate trends.",
+              "November 25 is the planned sign-off milestone; December 3 is the launch dependency deadline. These are distinct dates, not evidence that approval can safely be deferred without impact."
+            ],
+            "recommended_actions": [
+              "Confirm the named approver's November 25 availability, review turnaround, and an authorized backup; retain mandatory sign-off as a production gate.",
+              "Arrange a staged evidence pre-review before November 23 and identify outstanding artifacts, owners, and acceptance criteria.",
+              "Resolve Maya's overallocation and protect citation-evaluator delivery ahead of the November 21 evidence dependency.",
+              "Prioritize high-findings closure, reconcile pen-test findings with test-system defects, and reserve regression capacity.",
+              "Reforecast the approval path through December 3 with explicit recovery checkpoints; update executive status to reflect the risk."
+            ],
+            "cited_evidence_ids": [
+              "D-01",
+              "D-03",
+              "ATLAS-109",
+              "ATLAS-111",
+              "ATLAS-112",
+              "PAGE-SEC",
+              "MTG-1112-SEC",
+              "RES-1112",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "TEST-1108",
+              "TEST-1110",
+              "TEST-1112",
+              "RETRO-SEC-Q3",
+              "R-02",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Named approver, confirmed review booking and turnaround, and authorized backup.",
+              "Evidence-package completion checklist and current citation-evaluator results.",
+              "Finding-level remediation and regression forecasts, including overlap between pen-test findings and test-system high defects.",
+              "An integrated recovery schedule showing whether evidence, remediation, regression, and approval can finish before the launch gate."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_prioritization",
+              "case_id": "E06",
+              "detail": "Expected confidence Moderate; got High."
+            }
+          ]
+        },
+        {
+          "case_id": "E07",
+          "name": "Mandatory approval absent at launch gate",
+          "question": "At the launch gate, can the program be GREEN if required compliance approval is not verified?\nScenario state for this evaluation: {\"approval_status\": \"not_verified\", \"as_of\": \"2026-12-03T17:00:00-08:00\"}",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "High",
+            "conclusion": "No. As of Dec 3 at 17:00 PT, required compliance approval is not verified. Named compliance approver sign-off is mandatory before production launch and is required by Dec 3. The Dec 4 launch must remain blocked pending verification; an unverified mandatory gate cannot support GREEN.",
+            "risks": [
+              "Launching without verified sign-off would breach the approved compliance requirement.",
+              "The Dec 4 launch is at risk if approval cannot be verified before release."
+            ],
+            "contradictions": [
+              "The reported GREEN portfolio status in STATUS-1112 does not establish launch-gate readiness and cannot override the mandatory approval requirement or the scenario's unverified approval state."
+            ],
+            "recommended_actions": [
+              "Hold the production go/no-go at RED and prevent release authorization until approval is verified.",
+              "Obtain and record auditable sign-off from the named compliance approver; distinguish missing evidence from approval not yet granted.",
+              "Escalate to the Executive Sponsor and compliance owner immediately; replan the launch if verification is not completed before release.",
+              "Reassess GREEN only after approval is verified and all other mandatory launch gates are confirmed."
+            ],
+            "cited_evidence_ids": [
+              "D-01",
+              "D-03",
+              "PAGE-SEC",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Auditable approval record identifying the named approver, approval decision, and timestamp.",
+              "Whether approval has been granted but not recorded, remains pending, or has been refused.",
+              "Current evidence confirming completion of the other mandatory launch gates; supplied operational records date from November."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_prioritization",
+              "case_id": "E07",
+              "detail": "Expected confidence Low; got High."
+            }
+          ]
+        },
+        {
+          "case_id": "E08",
+          "name": "Executive report stale versus operations",
+          "question": "Does the current executive GREEN still match fresher operational evidence?",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "Moderate",
+            "conclusion": "No. As of Nov 13, executive GREEN is not supported by fresher operational evidence. The Dec 4 launch remains approved, but converging critical-path delays, deteriorating quality, resource contention and unmet launch gates warrant RED pending a credible recovery plan. This is a delivery-risk forecast, not confirmation that launch will slip.",
+            "risks": [
+              "Partner authentication is blocked and sandbox risk is worsening. Engineering expects integration nearer Nov 20 versus the Nov 18 baseline, leaving roughly one day before the Nov 21 APP dependency. Historical integration overruns make that recovery fragile.",
+              "Quality is deteriorating: RC-1 to RC-3 pass rate fell from 94% to 91%, open high defects rose from 5 to 9, and new high defects increased from 2 to 5. Two high pen-test findings also remain open; their overlap with test defects is unknown. Historical remediation requires 3\u20135 calendar days plus regression.",
+              "AI refusal performance is 94% against a 95% launch threshold; citation accuracy is unreported. Citation evaluation feeds compliance evidence by Nov 21, while Maya is allocated 120% across PLAT and AI.",
+              "Mandatory security remediation and compliance approval remain incomplete. The approver is unavailable Nov 23\u201324, the evidence package is due Nov 23, and no backup is confirmed, compressing the Nov 25 sign-off milestone.",
+              "Unapproved export scope is already generating engineering/security work and shaping launch messaging. Unresolved export behavior also affects the support playbook."
+            ],
+            "contradictions": [
+              "Executive GREEN and unchanged confidence conflict with blocked critical-path work, overloaded staffing and worsening test results; the latest quality report postdates the executive update.",
+              "The platform page still targets Nov 14, the authoritative milestone and Jira target Nov 18, and engineering commentary forecasts nearer Nov 20. Treat Nov 18 as the baseline and Nov 20 as an unapproved forecast.",
+              "AI's declared GREEN conflicts with refusal results below its documented threshold.",
+              "GTM messaging assumes export filtering is included, but the approved APP scope excludes it and decision D-02 remains pending.",
+              "The support playbook is due Nov 20, but its partner-integration dependency is required by Nov 22; these dates need reconciliation."
+            ],
+            "recommended_actions": [
+              "Replace executive GREEN with RED and publish one integrated, owner-backed recovery forecast covering integration, AI evidence, regression, approval and Dec 4 launch.",
+              "Escalate sandbox recovery daily, validate the replay fallback, and assess integration dates against the Nov 21/22 downstream dependencies using historical overrun experience.",
+              "Resolve Maya's overallocation explicitly; assess deferring lower-priority analytics work and using available contingency for suitable short-term support without weakening AI delivery.",
+              "Prioritize high-severity remediation, reserve regression capacity, verify AI thresholds with measured results, and secure the named compliance approver's slot or an authorized backup.",
+              "Keep export filtering outside committed launch scope unless formally approved with schedule, security and GTM impacts assessed; immediately align messaging and playbook dates."
+            ],
+            "cited_evidence_ids": [
+              "D-01",
+              "STATUS-1112",
+              "ATLAS-102",
+              "R-01",
+              "PAGE-PLAT",
+              "MILESTONES-1112",
+              "MTG-1111-PORTFOLIO",
+              "DEP-MAP-1112",
+              "RETRO-PLAT-Q3",
+              "TEST-1108",
+              "TEST-1110",
+              "TEST-1112",
+              "ATLAS-111",
+              "RETRO-SEC-Q3",
+              "PAGE-AI",
+              "ATLAS-108",
+              "RES-1112",
+              "D-03",
+              "PAGE-SEC",
+              "MTG-1112-SEC",
+              "PAGE-APP",
+              "D-02",
+              "ATLAS-116",
+              "ATLAS-117",
+              "ATLAS-118",
+              "ATLAS-114",
+              "MTG-1112-GTM",
+              "BUD-1112"
+            ],
+            "missing_information": [
+              "Validated remaining effort, sandbox restoration commitment, fallback readiness and an integrated resource-constrained schedule with explicit launch contingency.",
+              "Current citation accuracy, AI retest results, defect closure forecasts, regression duration and mapping between test-system highs and pen-test findings.",
+              "Confirmed compliance approval coverage and evidence review duration.",
+              "Final export scope decision and approved downstream schedule/content changes."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_forecast_direction",
+              "case_id": "E08",
+              "detail": "Expected AMBER; got RED."
+            },
+            {
+              "kind": "missed_material_contradiction",
+              "case_id": "E08",
+              "detail": "Executive GREEN is weaker than fresher operational evidence"
+            }
+          ]
+        },
+        {
+          "case_id": "E09",
+          "name": "Healthy budget should not dominate delivery risk",
+          "question": "Does healthy budget status materially change current delivery risk?",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "High",
+            "conclusion": "No. Healthy budget provides mitigation capacity, but does not materially reduce current delivery risk without an executable recovery plan. The Dec 4 launch remains at high risk from critical-path dependencies, deteriorating quality, resource contention and mandatory approval gates. Confidence is high in this risk assessment, not in a prediction that launch will necessarily slip.",
+            "risks": [
+              "Partner authentication is blocked. Engineering expects integration closer to Nov 20 versus the Nov 18 milestone, leaving little margin before the Nov 21 RC dependency; historical integration overruns weaken recovery confidence.",
+              "Quality is deteriorating: test pass rates fell from 94% to 91% while open high defects rose from 5 to 9. Two high pen-test findings also remain; these counts should not be assumed to represent the same defects.",
+              "Maya is allocated at 120% across platform recovery and AI evaluator support. AI refusal performance is 94% against a 95% threshold, and the citation evaluator feeds compliance evidence.",
+              "Compliance sign-off is mandatory. The evidence package is due Nov 23, the approver is absent Nov 23\u201324, and no backup is confirmed.",
+              "Unapproved export filtering work is underway or planned, while GTM messaging assumes inclusion, creating avoidable scope and readiness risk."
+            ],
+            "contradictions": [
+              "Executive reporting remains GREEN despite blocked critical-path work, worsening test results and resource overallocation.",
+              "Partner completion dates differ: Nov 14 on the older project page, Nov 18 in the current milestone plan, and closer to Nov 20 in engineering discussion.",
+              "GTM assumes export filtering is included, but the decision log says it is not committed."
+            ],
+            "recommended_actions": [
+              "Use available contingency selectively for qualified remediation, regression or backfill support; first confirm availability, onboarding time and measurable schedule benefit.",
+              "Resolve Maya's overallocation and protect both platform recovery and AI-to-compliance dependencies; assess shifting capacity from lower-priority analytics work.",
+              "Escalate partner sandbox recovery and validate the replay fallback; publish an integrated forecast with explicit regression time and dependency buffers.",
+              "Confirm an authorized compliance approval path, resolve export scope, and replace GREEN reporting with an evidence-based recovery status."
+            ],
+            "cited_evidence_ids": [
+              "BUD-1112",
+              "D-01",
+              "ATLAS-102",
+              "MTG-1111-PORTFOLIO",
+              "MILESTONES-1112",
+              "DEP-MAP-1112",
+              "RETRO-PLAT-Q3",
+              "TEST-1108",
+              "TEST-1112",
+              "ATLAS-111",
+              "RES-1112",
+              "ATLAS-108",
+              "PAGE-AI",
+              "D-03",
+              "MTG-1112-SEC",
+              "D-02",
+              "MTG-1112-GTM",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Available contingency amount, spending authorization and time to secure productive support.",
+              "Resource-loaded recovery schedule, remaining effort and validated regression buffer.",
+              "Current citation accuracy, defect closure forecasts and confirmed compliance approver availability."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_forecast_direction",
+              "case_id": "E09",
+              "detail": "Expected AMBER; got RED."
+            },
+            {
+              "kind": "incorrect_prioritization",
+              "case_id": "E09",
+              "detail": "Expected confidence Moderate; got High."
+            }
+          ]
+        },
+        {
+          "case_id": "E10",
+          "name": "AI threshold just below requirement",
+          "question": "Are the AI refusal tests meeting the documented launch threshold?",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "High",
+            "conclusion": "No. AI refusal tests are at 94%, below the documented 95% launch threshold by 1 percentage point. This assessment applies to the refusal-test gate, not overall launch readiness.",
+            "risks": [
+              "The refusal-test launch gate remains unmet; testing is still In Progress and due November 16."
+            ],
+            "contradictions": [
+              "PAGE-AI declares GREEN, but the newer ATLAS-108 result is below its documented refusal-test threshold."
+            ],
+            "recommended_actions": [
+              "Address failing refusal cases and rerun testing to demonstrate a pass rate of at least 95% before declaring this gate met."
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-108",
+              "PAGE-AI"
+            ],
+            "missing_information": [
+              "No newer refusal-test result or confirmed threshold attainment is supplied."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_forecast_direction",
+              "case_id": "E10",
+              "detail": "Expected AMBER; got RED."
+            },
+            {
+              "kind": "missed_critical_risk",
+              "case_id": "E10",
+              "detail": "Refusal test pass rate 0.94 is below 0.95 launch threshold"
+            }
+          ]
+        },
+        {
+          "case_id": "E11",
+          "name": "No evidence for partner root cause",
+          "question": "What do we actually know about the root cause of partner sandbox instability?",
+          "output": {
+            "forecast_rag": "UNKNOWN",
+            "confidence": "High",
+            "conclusion": "The root cause is not established in the supplied context. We know the partner sandbox was reported unavailable for six hours on Nov 10, instability reduced integration throughput, and authentication is blocked by PARTNER-SANDBOX. These establish symptoms and impact\u2014not a technical diagnosis. Confidence is high in this evidence gap, not in any explanation of the failure.",
+            "risks": [
+              "The unresolved sandbox dependency blocks critical-path authentication work (ATLAS-102).",
+              "The risk register describes instability as worsening; recovery timing remains conditional on sandbox stabilization (R-01, MTG-1110-PLAT)."
+            ],
+            "contradictions": [
+              "No competing root-cause explanations are supplied. Integration completion dates differ\u2014Nov 14 in the platform page, Nov 18 in Jira, and closer to Nov 20 in portfolio notes\u2014but none explains the instability."
+            ],
+            "recommended_actions": [
+              "Use the existing vendor escalation to request an incident report with confirmed cause, affected components, outage timeline, remediation and recovery ETA.",
+              "Collect sandbox availability and authentication error logs to distinguish environment unavailability from integration-specific failures.",
+              "Validate sandbox stability and the fallback replay path before treating integration recovery dates as reliable."
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "R-01",
+              "MTG-1110-PLAT",
+              "PAGE-PLAT",
+              "MTG-1111-PORTFOLIO"
+            ],
+            "missing_information": [
+              "Vendor incident report or confirmed root-cause analysis.",
+              "Error codes, logs, affected components and incident recurrence timeline.",
+              "Evidence distinguishing a partner-side failure from configuration, authentication or integration issues.",
+              "Confirmed remediation, recovery ETA and stability-validation results."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_forecast_direction",
+              "case_id": "E11",
+              "detail": "Expected AMBER; got UNKNOWN."
+            },
+            {
+              "kind": "incorrect_prioritization",
+              "case_id": "E11",
+              "detail": "Expected confidence Low; got High."
+            }
+          ]
+        },
+        {
+          "case_id": "E12",
+          "name": "Portfolio intervention tradeoff",
+          "question": "What portfolio intervention should we make for the shared Platform/AI resource conflict, including the downside elsewhere?",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "Moderate",
+            "conclusion": "Rebalance capacity now rather than continuing the infeasible shared allocation. Protect Maya full-time on Platform recovery through Nov 20, subject to daily review, and provide qualified cover for her AI citation-evaluator work by deferring lower-priority analytics work. The explicit downside is a staffing delay to analytics; without qualified AI cover, this merely transfers launch risk from Platform to AI/compliance. RED reflects the current resource plan, not a confirmed Dec 4 launch miss.",
+            "risks": [
+              "Maya is allocated 80% to Platform plus 40% to AI. Moving Platform to full-time while retaining AI commitments would increase demand to 140%, not resolve the conflict.",
+              "Platform is now informally forecast near Nov 20 against the Nov 18 milestone and Nov 21 dependency for the APP release candidate. Sandbox instability remains a constraint that additional staffing alone cannot remove.",
+              "Removing Maya from AI without effective cover threatens the citation evaluator and its Nov 21 dependency into compliance evidence, putting mandatory launch approval at risk.",
+              "Deferring analytics creates a real delivery downside there, although portfolio notes say it can absorb a short delay. Replacement skills and availability are unconfirmed; contractor cover could add cost and onboarding delay."
+            ],
+            "contradictions": [
+              "The resource plan commits Maya to 120% while Platform notes suggest she may be needed full-time through Nov 20.",
+              "The authoritative Platform milestone remains Nov 18, but portfolio meeting notes forecast closer to Nov 20.",
+              "The executive report remains GREEN despite the unresolved shared-resource overload and pressure on two critical launch paths."
+            ],
+            "recommended_actions": [
+              "Approve a time-boxed priority allocation of Maya to Platform through Nov 20, with a daily review of sandbox availability, authentication progress and replay completion; release capacity earlier if feasible.",
+              "Immediately identify qualified capacity that can be released by delaying lower-priority analytics work, and use it to cover AI citation-evaluator support. Confirm skills, availability, ownership and handover before removing Maya's AI allocation.",
+              "Explicitly accept and communicate the analytics delay, then rebaseline its affected commitments. Do not represent the intervention as cost-free or assume analytics staff are interchangeable with Maya.",
+              "If suitable internal cover is unavailable, assess short-term contractor support using available contingency. If neither option protects AI delivery, escalate the resource/scope/date trade-off rather than maintaining over-allocation.",
+              "Publish a capacity-feasible recovery plan covering Platform's Nov 21/22 downstream dependencies and AI's Nov 21 evidence dependency, with named owners and revised forecasts."
+            ],
+            "cited_evidence_ids": [
+              "RES-1112",
+              "MTG-1110-PLAT",
+              "MTG-1111-PORTFOLIO",
+              "ATLAS-102",
+              "ATLAS-103",
+              "ATLAS-109",
+              "R-01",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "D-03",
+              "BUD-1112",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Named analytics resources, relevant technical skills, release dates and replacement capacity.",
+              "Specific analytics deliverables, customers and dates affected by the proposed delay.",
+              "Remaining Maya-dependent effort on Platform and AI, including handover requirements.",
+              "Validated recovery estimates, contractor availability/cost and sandbox restoration outlook."
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E13",
+          "name": "Novel risk proposal",
+          "question": "Do the testing results suggest a new risk that should be proposed for human review?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "High",
+            "conclusion": "Yes. Propose a new quality/regression risk for human review: successive test cycles show declining pass rates and increasing unresolved high-severity defects, potentially extending remediation and regression before the December 4 launch. This is a clear warning, not proof that launch will slip.",
+            "risks": [
+              "Across RC-1 to RC-3, pass rate fell from 94% to 93% to 91%; open high defects rose from 5 to 7 to 9, while newly reported high defects rose from 2 to 4 to 5.",
+              "Potential risk: defect discovery and unresolved defects may outpace remediation, consuming the remaining regression window. Historical security findings required 3\u20135 calendar days plus regression.",
+              "This warrants separate review from R-02's security-remediation scheduling risk, or explicit expansion of that risk to cover the deteriorating test-quality trend."
+            ],
+            "contradictions": [
+              "R-02 is marked stable and STATUS-1112 reports unchanged launch confidence, whereas successive test reports show worsening quality indicators; the latest test report postdates that status update.",
+              "The nine high test defects and two open high pen-test findings may represent different or overlapping populations; they should not be treated as equivalent or added together without reconciliation."
+            ],
+            "recommended_actions": [
+              "Submit the proposed quality/regression risk to the Security Lead and program manager for validation, ownership, severity assessment, and a mitigation plan.",
+              "Reconcile defect populations and review discovery versus closure rates, defect age, affected components, and results on a comparable regression suite.",
+              "Prioritize launch-blocking defects, reserve remediation and regression capacity, and assess impact on the November 25 remediation dependency and December 4 launch.",
+              "Agree measurable escalation and release-exit criteria, then update the risk register and executive forecast."
+            ],
+            "cited_evidence_ids": [
+              "TEST-1108",
+              "TEST-1110",
+              "TEST-1112",
+              "R-02",
+              "RETRO-SEC-Q3",
+              "ATLAS-111",
+              "STATUS-1112",
+              "DEP-MAP-1112",
+              "D-01"
+            ],
+            "missing_information": [
+              "Comparable test coverage across cycles: tests run increased from 420 to 620, so the results do not alone prove worsening quality on an unchanged test suite.",
+              "Defect-level overlap, closure and reopening rates, root causes, and remediation estimates.",
+              "Release acceptance criteria for test pass rate and outstanding test defects.",
+              "Confirmed regression duration, capacity, and recovery forecast."
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E14",
+          "name": "Scope reduction after formal alignment",
+          "question": "If export filtering is formally removed from launch scope, the baseline is updated, and stakeholders are aligned, what is the readiness implication?\nScenario state for this evaluation: {\"baseline_updated\": true, \"decision_status\": \"Approved\", \"removed_from_launch\": true, \"stakeholders_aligned\": true}",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "High",
+            "conclusion": "Removing export filtering with an approved, updated baseline and aligned stakeholders resolves the scope/readiness mismatch and reduces delivery and enablement pressure. It does not make the Dec 4 launch ready: independent critical-path integration, AI, security and staffing risks remain. RED reflects those unresolved risks, not the now-resolved scope issue; a launch slip is not yet certain.",
+            "risks": [
+              "Partner authentication remains blocked. Integration is formally due Nov 18, but engineering expects closer to Nov 20, leaving little margin before the Nov 21 RC dependency; similar integrations have overrun recovery estimates.",
+              "Quality is deteriorating: test pass rates fell from 94% to 91%, while open high defects rose from 5 to 9. Two high pen-test findings also remain open, threatening remediation and regression windows.",
+              "Mandatory compliance sign-off remains outstanding. The evidence package is expected Nov 23, when the approver is unavailable; no backup is confirmed for Nov 23\u201324.",
+              "AI refusal performance is 94% against a 95% launch threshold; citation accuracy is unreported and the evaluator feeds compliance evidence by Nov 21.",
+              "Maya is allocated at 120% across platform recovery and AI evaluator support, coupling two critical paths."
+            ],
+            "contradictions": [
+              "The export-scope contradiction is resolved by the supplied scenario and should no longer count against readiness.",
+              "Reported portfolio GREEN is not supported by the blocked integration, worsening quality results, unmet AI threshold and resource overallocation.",
+              "Platform dates remain inconsistent: the older page says Nov 14, the authoritative milestone says Nov 18, and engineering forecasts closer to Nov 20."
+            ],
+            "recommended_actions": [
+              "Remove export filtering from launch acceptance criteria, tests, enablement and support content under the updated baseline; explicitly confirm whether audit metadata and classification work remain independently required.",
+              "Reforecast the remaining dependency chain through RC, regression, compliance approval and launch using realistic integration recovery assumptions.",
+              "Resolve Maya's overallocation through explicit prioritization or qualified backfill; assess available contingency and lower-priority work before committing capacity.",
+              "Prioritize high-defect closure, reserve regression capacity, and confirm a named compliance approver and backup.",
+              "Require evidence that both AI launch thresholds are met and publish an evidence-based portfolio status before the next go/no-go review."
+            ],
+            "cited_evidence_ids": [
+              "D-01",
+              "D-03",
+              "ATLAS-102",
+              "MTG-1111-PORTFOLIO",
+              "MILESTONES-1112",
+              "DEP-MAP-1112",
+              "RETRO-PLAT-Q3",
+              "TEST-1108",
+              "TEST-1112",
+              "ATLAS-111",
+              "MTG-1112-SEC",
+              "ATLAS-108",
+              "ATLAS-109",
+              "PAGE-AI",
+              "RES-1112",
+              "STATUS-1112",
+              "PAGE-PLAT",
+              "ATLAS-116",
+              "ATLAS-118",
+              "BUD-1112"
+            ],
+            "missing_information": [
+              "Quantified capacity and schedule benefit from removing export filtering, including disposition of associated audit and classification work.",
+              "Resource-feasible recovery dates, remaining effort and verified critical-path float.",
+              "Latest citation accuracy and AI retest results.",
+              "Defect closure and regression forecasts, including overlap between test-system high defects and pen-test findings.",
+              "Confirmed compliance approval coverage and evidence acceptance timing."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_evidence_citation",
+              "case_id": "E14",
+              "detail": "Missing required citations: ['D-02']"
+            },
+            {
+              "kind": "incorrect_forecast_direction",
+              "case_id": "E14",
+              "detail": "Expected GREEN; got RED."
+            },
+            {
+              "kind": "incorrect_prioritization",
+              "case_id": "E14",
+              "detail": "Expected confidence Moderate; got High."
+            }
+          ]
+        },
+        {
+          "case_id": "E15",
+          "name": "Unknown when current testing is absent",
+          "question": "What can we conclude about security/testing readiness if current test evidence is unavailable?\nScenario state for this evaluation: {\"current_test_report_available\": false}",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "Moderate",
+            "conclusion": "Security/testing readiness is not demonstrated. With current test evidence unavailable, we cannot assess regression health, defect trends, or test exit criteria. Non-test records still show two open high pen-test findings and outstanding mandatory compliance approval. The Dec 4 launch remains at risk, but the available evidence does not establish an inevitable delay.",
+            "risks": [
+              "Two high pen-test findings remain open; remediation is due Nov 20 and could consume the regression window (ATLAS-111, R-02). Historical remediation has required 3\u20135 calendar days plus regression (RETRO-SEC-Q3).",
+              "The compliance evidence package is expected Nov 23, while the approver is absent Nov 23\u201324 and no backup is confirmed, putting the Nov 25 sign-off milestone at risk (MTG-1112-SEC, MILESTONES-1112).",
+              "Compliance evidence depends on the unfinished AI citation evaluator being available by Nov 21 (ATLAS-109, DEP-MAP-1112).",
+              "Unavailable current test evidence prevents verification that remediation is effective or that release quality is acceptable."
+            ],
+            "contradictions": [
+              "The portfolio's reported GREEN status is not sufficient evidence of security/testing readiness: mandatory gates remain incomplete and current test results cannot be verified (STATUS-1112, ATLAS-111, D-03). This is a reporting tension, not proof that launch will slip."
+            ],
+            "recommended_actions": [
+              "Obtain a current, release-candidate-specific test report covering execution completeness, pass/fail results, defect severity, remediation retests, and regression outcomes.",
+              "Have the Security Lead confirm closure forecasts for both high findings and reserve the regression slot before the Nov 25 dependency deadline.",
+              "Confirm the named compliance approver's availability or authorize a backup; track Nov 25 sign-off separately from the Dec 3 latest dependency date.",
+              "Verify the AI evaluator handoff into the compliance evidence package and withhold readiness approval until mandatory gates have supporting evidence."
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-111",
+              "ATLAS-109",
+              "R-02",
+              "RETRO-SEC-Q3",
+              "MTG-1112-SEC",
+              "MILESTONES-1112",
+              "DEP-MAP-1112",
+              "D-03",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Current test execution results, defect inventory, and comparable evidence for assessing quality trends.",
+              "Confirmed remediation completion dates and successful retest/regression evidence.",
+              "Agreed testing exit criteria and evidence that they have been met.",
+              "Confirmed compliance approval coverage and completed sign-off."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_evidence_citation",
+              "case_id": "E15",
+              "detail": "Missing required citations: ['PAGE-SEC']"
+            },
+            {
+              "kind": "incorrect_prioritization",
+              "case_id": "E15",
+              "detail": "Expected confidence Low; got Moderate."
+            }
+          ]
+        },
+        {
+          "case_id": "E16",
+          "name": "Critical dependency beyond launch without mitigation",
+          "question": "What is the readiness status if a critical dependency is forecast after launch and no viable mitigation exists?\nScenario state for this evaluation: {\"critical_dependency_forecast_date\": \"2026-12-06\", \"viable_mitigation\": false}",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "High",
+            "conclusion": "Not ready for the committed December 4, 2026 launch. The scenario forecasts a critical dependency for December 6, two days after launch, with no viable mitigation. The current launch date is therefore not achievable under the stated scenario.",
+            "risks": [
+              "The critical dependency will not be available for the committed production launch.",
+              "Launching without satisfying mandatory readiness gates would leave required launch conditions unmet."
+            ],
+            "contradictions": [
+              "The scenario conflicts with the GREEN portfolio assessment in STATUS-1112 and its unchanged launch confidence."
+            ],
+            "recommended_actions": [
+              "Escalate RED status to the Executive Sponsor and seek approval to move the launch date.",
+              "Replan downstream integration, testing and approvals from the December 6 dependency forecast; do not assume launch can occur immediately on delivery.",
+              "Update milestones and stakeholder communications, and require evidence that all mandatory gates are satisfied before authorizing launch."
+            ],
+            "cited_evidence_ids": [
+              "D-01",
+              "MILESTONES-1112",
+              "DEP-MAP-1112",
+              "D-03",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "The scenario does not identify the delayed critical dependency or provide an evidence ID for its forecast.",
+              "Remaining downstream work and validation durations are not provided, so a credible revised launch date cannot be determined."
+            ]
+          },
+          "failures": []
+        }
+      ]
+    },
+    "program_os": {
+      "weighted_penalty": 3,
+      "catastrophic": false,
+      "catastrophic_failures": [],
+      "failure_dimensions": {
+        "Judgment": 1
+      },
+      "cases_without_failures": 15,
+      "cases": [
+        {
+          "case_id": "E01",
+          "name": "Partner date contradiction",
+          "question": "Is the partner integration still on schedule, and what should the PM do next?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "Moderate",
+            "conclusion": "The partner integration is not reliably on schedule. The official completion commitment remains November 18, but the latest explicit engineering forecast is closer to November 20\u2014a likely two-day milestone slip, not an approved rebaseline. Authentication remains blocked and the integration is 70% complete. Atlas portfolio launch readiness is therefore forecast AMBER, versus the published GREEN: November 20 would still precede the critical November 21 and 22 downstream handoffs, but with little margin. The evidence does not establish that the December 4 launch is unachievable. [MILESTONES-1112, MTG-1111-PORTFOLIO, ATLAS-102, ATLAS-101, DEP-MAP-1112, STATUS-1112]",
+            "risks": [
+              "Sandbox instability is an open, worsening risk and blocks critical-path authentication due November 15. Daily vendor escalation and a fallback replay path are recorded responses, but their effectiveness is not verified. [R-01, ATLAS-102]",
+              "A November 20 completion forecast leaves only one calendar day before the APP handoff on November 21 and two before the support-playbook handoff on November 22; further slippage could threaten downstream readiness. [MTG-1111-PORTFOLIO, DEP-MAP-1112]",
+              "Maya is allocated 80% to PLAT and 40% to AI, while PLAT may need her full-time through November 20. Prioritizing integration recovery could displace AI citation-evaluator support, which feeds the compliance evidence package. [RES-1112, MTG-1110-PLAT, DEP-MAP-1112]",
+              "The November 20 forecast needs validation rather than acceptance at face value: prior external integrations exceeded initial recovery estimates by 25\u201350%. This history supports caution, not a mechanically calculated new completion date. [RETRO-PLAT-Q3, MTG-1111-PORTFOLIO]"
+            ],
+            "contradictions": [
+              "The older platform page declares GREEN and November 14 completion; the newer authoritative milestone plan and Jira epic specify November 18. The page should not be treated as the current commitment. [PAGE-PLAT, MILESTONES-1112, ATLAS-101]",
+              "November 10 triage described November 18 as achievable if the sandbox stabilized; November 11 engineering discussion forecast closer to November 20. The latter is the latest explicit forecast, while November 18 remains the recorded commitment. [MTG-1110-PLAT, MTG-1111-PORTFOLIO, MILESTONES-1112]",
+              "Published portfolio and PLAT GREEN statuses do not reflect the blocked critical-path authentication story, worsening sandbox risk, and forecast milestone slip. This assessment proposes AMBER; it does not change the official status. [STATUS-1112, ATLAS-102, R-01, MTG-1111-PORTFOLIO]",
+              "Partner integration dates conflict across current sources: 2026-11-14, 2026-11-18, 2026-11-19, 2026-11-20, 2026-11-21, 2026-11-22, 2026-11-24, 2026-11-25, 2026-11-27, 2026-12-03, 2026-12-04."
+            ],
+            "recommended_actions": [
+              "Have the Platform PM and Backend Lead immediately validate a remaining-work forecast covering sandbox restoration, authentication, transaction replay, and acceptance testing. Record November 18 as the commitment and approximately November 20 as the current forecast until reviewed; do not silently rebaseline. [ATLAS-101, ATLAS-102, ATLAS-103, MTG-1111-PORTFOLIO]",
+              "Continue vendor escalation and obtain a restoration commitment. Require an owner, validation results, and acceptance criteria for the fallback replay path before counting it as recovery capacity. [R-01, ATLAS-102, ATLAS-103]",
+              "Review the forecast with APP and GTM owners against the November 21 and 22 handoffs. Agree explicit escalation triggers if either handoff becomes threatened, and confirm whether the older November 21 load-test plan remains applicable. [DEP-MAP-1112, PAGE-PLAT]",
+              "Seek a human-approved staffing decision with the Backend and AI leads to resolve Maya's 120% allocation. Consider the reported flexibility in lower-priority analytics work, but verify suitable capacity rather than assuming it can replace Maya; document any impact on AI's compliance dependency. [RES-1112, MTG-1111-PORTFOLIO, DEP-MAP-1112]",
+              "Submit the proposed AMBER assessment for status-owner review and reconcile the stale platform page and executive narrative. Preserve the distinction between official dates and forecast dates, and communicate downstream exposure without declaring the launch lost. [PAGE-PLAT, STATUS-1112, MILESTONES-1112, MTG-1111-PORTFOLIO, DEP-MAP-1112]"
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-103",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "MTG-1110-PLAT",
+              "MTG-1111-PORTFOLIO",
+              "PAGE-PLAT",
+              "R-01",
+              "RES-1112",
+              "RETRO-PLAT-Q3",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Current sandbox availability, vendor restoration ETA, and evidence that authentication is unblocked. [ATLAS-102, R-01]",
+              "Remaining effort, sequencing, test duration, and confidence range supporting the approximately November 20 forecast. [ATLAS-101, ATLAS-103, MTG-1111-PORTFOLIO]",
+              "Fallback replay validation, coverage, and approval criteria. [R-01, ATLAS-103]",
+              "Approved resolution of Maya's allocation conflict and availability of suitable alternative staff. [RES-1112, MTG-1111-PORTFOLIO]",
+              "Downstream owners' acceptance of the forecast handoff timing and the current load-test schedule and prerequisites. [DEP-MAP-1112, PAGE-PLAT]"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E02",
+          "name": "Optimistic recovery credibility",
+          "question": "How credible is the current partner-integration recovery plan?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "Moderate",
+            "conclusion": "The recovery plan is plausible but only conditionally credible; it does not yet substantiate the reported GREEN confidence. The official integration target remains Nov 18, while engineering's latest stated expectation is closer to Nov 20. Nov 18 therefore looks likely to slip, and Nov 20 should be treated as an unvalidated forecast, not a commitment. Authentication remains blocked, sandbox risk is worsening, and a key engineer is overallocated. Proposed Atlas portfolio readiness is AMBER on this issue: downstream delivery is exposed, but the evidence does not establish that the Dec 4 launch is likely unachievable or that mitigation is unavailable. [MILESTONES-1112, STATUS-1112, MTG-1111-PORTFOLIO, ATLAS-102, R-01, RES-1112]",
+            "risks": [
+              "Recovery depends on an external sandbox that has already reduced throughput. Daily vendor escalation and a fallback replay path are recorded responses, but their effectiveness is not demonstrated; authentication is still blocked. [ATLAS-101, ATLAS-102, R-01]",
+              "Maya's recorded allocation totals 120%: 80% PLAT and 40% AI. Triage also identified a possible need for her full-time through Nov 20. The recovery staffing requirement is therefore unresolved, and prioritizing PLAT could reduce AI evaluator support. [RES-1112, MTG-1110-PLAT]",
+              "Comparable work exceeded estimates by 25\u201350%. That history weakens confidence in an unbuffered recovery estimate, although it does not establish a precise revised completion date. [RETRO-PLAT-Q3]",
+              "A Nov 20 finish would leave only one calendar day before the APP integration dependency on Nov 21 and two before the GTM dependency on Nov 22. These gaps are not verified usable contingency; further slippage could compress RC-build and support-playbook preparation. [MTG-1111-PORTFOLIO, DEP-MAP-1112]",
+              "The integration epic is 70% complete and replay work is in progress, providing evidence of progress but not proof that the remaining critical-path work can finish on time. Replay has a three-day estimate and a Nov 17 due date; authentication is due Nov 15 but blocked. [ATLAS-101, ATLAS-102, ATLAS-103]"
+            ],
+            "contradictions": [
+              "The older platform page declares GREEN and expects completion Nov 14; the newer authoritative milestone plan and Jira epic specify Nov 18. The Nov 14 date should be treated as stale, not the current commitment. [PAGE-PLAT, MILESTONES-1112, ATLAS-101]",
+              "The executive report declares both PLAT and Atlas GREEN, while operational evidence shows a blocked critical-path story, worsening sandbox risk, and engineering forecasting completion beyond the official milestone. Reported status and forecast confidence are not aligned. [STATUS-1112, ATLAS-102, R-01, MTG-1111-PORTFOLIO]",
+              "The Nov 10 belief that Nov 18 remained achievable was explicitly conditional on sandbox stabilization; the Nov 11 engineering expectation moved closer to Nov 20. The latter is the newer forecast, while the Nov 12 official plan still retains Nov 18. [MTG-1110-PLAT, MTG-1111-PORTFOLIO, MILESTONES-1112]",
+              "Partner integration dates conflict across current sources: 2026-11-14, 2026-11-18, 2026-11-19, 2026-11-20, 2026-11-21, 2026-11-22, 2026-11-24, 2026-11-25, 2026-11-27, 2026-12-03, 2026-12-04.",
+              "Official portfolio GREEN predates fresher operational evidence carrying material risk signals."
+            ],
+            "recommended_actions": [
+              "Ask the Backend Lead and Platform PM to reconcile the Nov 18 target with the Nov 20 forecast in a remaining-work plan covering authentication, replay, integration validation, owners, sequencing, and contingency. Publish official and forecast dates separately. [ATLAS-101, ATLAS-102, ATLAS-103, MILESTONES-1112, MTG-1111-PORTFOLIO]",
+              "Require evidence of sandbox stability and a dated vendor recovery commitment. Review and test whether the fallback covers the blocked authentication flow, with explicit acceptance criteria and a decision deadline. [R-01, ATLAS-102]",
+              "Have resource owners resolve Maya's allocation explicitly rather than assume overtime. Assess the impact on AI evaluator support before approving a PLAT increase; investigate the stated flexibility in lower-priority analytics work without assuming that suitable capacity is available. [RES-1112, MTG-1110-PLAT, MTG-1111-PORTFOLIO]",
+              "Have APP and GTM owners validate whether the Nov 20 forecast preserves their Nov 21 and Nov 22 dependency needs, including validation and handoff time, and identify contingency options if it does not. [DEP-MAP-1112, MTG-1111-PORTFOLIO]",
+              "Submit the proposed AMBER assessment for human review and reconcile stale reporting. Reassess launch impact when the integrated schedule and mitigation evidence are available; do not automatically infer portfolio RED from a likely integration milestone miss. [PAGE-PLAT, STATUS-1112, MILESTONES-1112, DEP-MAP-1112]"
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-103",
+              "ATLAS-105",
+              "ATLAS-106",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "MTG-1110-PLAT",
+              "MTG-1111-PORTFOLIO",
+              "PAGE-PLAT",
+              "R-01",
+              "RES-1112",
+              "RETRO-PLAT-Q3",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Current sandbox availability, vendor restoration commitment, and evidence that stability has improved since the recorded disruption. [R-01, ATLAS-101, MTG-1110-PLAT]",
+              "A resource-feasible remaining-work schedule supporting Nov 20, including authentication unblock timing, replay progress, and integration acceptance criteria. [ATLAS-102, ATLAS-103, RES-1112, MTG-1111-PORTFOLIO]",
+              "Fallback test results, coverage, activation criteria, and confirmation of whether it resolves the authentication dependency. [R-01, ATLAS-102]",
+              "Approved staffing decisions and quantified consequences for Maya's AI commitments. [RES-1112, MTG-1110-PLAT]",
+              "Verified downstream schedule tolerance and mitigation options connecting an integration delay to the Dec 4 launch. [DEP-MAP-1112, MILESTONES-1112]"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E03",
+          "name": "Unapproved export scope",
+          "question": "Is export filtering approved launch scope, and what needs to happen next?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "High",
+            "conclusion": "No\u2014export filtering is not approved launch scope. The authoritative decision remains Pending: evaluate inclusion only if there is no schedule impact; the launch plan excludes it, and the portfolio sync confirms no formal scope change was approved [D-02, PAGE-APP, MTG-1111-PORTFOLIO]. GTM's subsequent assumption that it is included creates an unresolved scope-alignment risk [MTG-1112-GTM]. The proposed Atlas readiness forecast is AMBER for this issue, not an official status change: validation or deferral remains plausible, and the supplied export evidence does not establish that the committed December 4 launch is unachievable [D-02, D-01, DEP-MAP-1112].",
+            "risks": [
+              "GTM may prepare messaging and support materials against unapproved functionality; the support playbook depends on final export behavior [MTG-1112-GTM].",
+              "Adding filtering could affect the approved schedule: its UI is To Do and due November 22, after the November 20 UX milestone and before the November 24 enablement dependency and November 25 RC build. These dates require impact validation, not an assumption of feasibility [ATLAS-117, PAGE-APP, DEP-MAP-1112].",
+              "Export-related work spans platform, application, and security. The classification review is To Do and marked critical-path, although the filtering UI and its enablement dependency are noncritical; the relationship and launch impact need clarification [ATLAS-116, ATLAS-117, ATLAS-118, DEP-MAP-1112]."
+            ],
+            "contradictions": [
+              "GTM messaging assumes filtering is in scope, contradicting the pending decision, explicit launch-plan exclusion, and confirmation that no formal change was approved [MTG-1112-GTM, D-02, PAGE-APP, MTG-1111-PORTFOLIO].",
+              "Export audit metadata is already In Progress despite unresolved filtering approval. This is an execution-versus-approval mismatch to investigate; the evidence does not establish that all export-related work belongs to the filtering request [ATLAS-116, D-02].",
+              "Active implementation exists for new scope that is not formally approved."
+            ],
+            "recommended_actions": [
+              "Have the Program Manager resolve D-02 with engineering, security, and GTM input: approve only after demonstrating no schedule impact, or explicitly defer filtering. Record the decision and rationale before treating it as a launch commitment [D-02].",
+              "Request a linked impact assessment for the filtering UI, audit metadata, and classification review: identify required versus independent work, effort, staffing, security requirements, and effects on UX, RC, and enablement dates. Compare inclusion against deferral, including any rework to work already underway [ATLAS-116, ATLAS-117, ATLAS-118, PAGE-APP, DEP-MAP-1112].",
+              "Ask GTM to reconcile messaging with the currently approved scope and identify the final export behavior needed for the support playbook. If filtering is deferred, revise affected content; if approved, confirm delivery and content-validation timing against the November 24 dependency [MTG-1112-GTM, PAGE-APP, DEP-MAP-1112].",
+              "After human approval, synchronize the decision log, launch plan, Jira scope, and dependency map. Preserve the December 4 commitment unless an authorized decision changes it [D-02, PAGE-APP, ATLAS-117, DEP-MAP-1112, D-01]."
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-116",
+              "ATLAS-117",
+              "ATLAS-118",
+              "D-01",
+              "D-02",
+              "DEP-MAP-1112",
+              "MTG-1111-PORTFOLIO",
+              "MTG-1112-GTM",
+              "PAGE-APP"
+            ],
+            "missing_information": [
+              "A completed scope decision or superseding approval for export filtering [D-02].",
+              "A validated estimate and resource/dependency assessment demonstrating whether inclusion has no schedule impact [D-02, ATLAS-116, ATLAS-117, ATLAS-118].",
+              "Confirmation whether the export classification review and audit metadata are required for baseline launch behavior, filtering specifically, or both [ATLAS-116, ATLAS-118].",
+              "An agreed export-behavior baseline, accountable content owners, and reconciliation dates for GTM messaging, enablement, and the support playbook [MTG-1112-GTM, DEP-MAP-1112]."
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E04",
+          "name": "Shared resource collision",
+          "question": "Do we have a resource conflict affecting Platform and AI delivery?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "High",
+            "conclusion": "Yes. Maya is committed at 120% capacity: 80% to Platform recovery and 40% to AI citation evaluator support, up from 100% in the earlier plan. This is a documented resource conflict affecting two critical-path deliverables due November 18. Forecast Atlas portfolio readiness as AMBER: the conflict threatens delivery, but the evidence does not establish that the December 4 launch is likely unachievable. Official records still show both deliverables In Progress; this forecast is not an approved status change. [RES-1112, RES-1110, ATLAS-101, ATLAS-109, MILESTONES-1112]",
+            "risks": [
+              "Maya's current commitments exceed nominal capacity by 20 percentage points. If Platform's earlier indication that she may be needed full-time through November 20 remains valid, retaining AI's 40% allocation would imply 140% demand. That escalation is conditional, not confirmed. [RES-1112, MTG-1110-PLAT]",
+              "Prioritizing Platform without replacement capacity risks the AI citation evaluator due November 18 and AI launch thresholds due November 19; preserving AI support leaves less capacity for Platform recovery. Both workstreams are critical-path. [RES-1112, ATLAS-101, ATLAS-109, MILESTONES-1112]",
+              "Delay can propagate to the APP release-candidate input required November 21, GTM support-playbook input required November 22, and SEC compliance-evidence input required November 21. These are dependency handoff dates, not proof that downstream milestones will miss. [DEP-MAP-1112]",
+              "Platform recovery also depends on resolving sandbox disruption: authentication is officially Blocked, and the open sandbox risk lists vendor escalation and a fallback replay path. Reallocating people alone may not restore throughput; fallback effectiveness is unverified. [ATLAS-102, R-01]",
+              "Shared resource overallocation detected for Maya."
+            ],
+            "contradictions": [
+              "The November 10 resource plan totals 100% for Maya, while the November 12 plan totals 120%. Treat the newer plan as the current allocation record; the difference demonstrates worsening contention rather than spare capacity. [RES-1110, RES-1112]",
+              "Platform's older page declares GREEN and November 14 integration completion, whereas newer authoritative records set November 18 and show a blocked critical-path authentication task. The older declaration does not substantiate current readiness. [PAGE-PLAT, MILESTONES-1112, ATLAS-102]"
+            ],
+            "recommended_actions": [
+              "Ask the Platform and AI leads, with the resource owner, to approve a dated allocation plan for Maya through November 20, explicitly reconciling the 120% commitment and possible full-time Platform demand. Do not silently change assignments. [RES-1112, MTG-1110-PLAT]",
+              "Have both leads quantify remaining Maya-dependent work, identify qualified cover, and forecast the November 18 deliverables and downstream handoffs under each allocation option. Leo is already allocated 100% to Platform; do not assume he is spare capacity. [RES-1112, ATLAS-101, ATLAS-109, DEP-MAP-1112]",
+              "Request evidence that the sandbox fallback can support completion, then review any proposed deferral of noncritical Platform work for useful capacity release rather than assuming it frees Maya. [R-01, ATLAS-102, ATLAS-116]",
+              "Escalate the explicit Platform-versus-AI tradeoff for human approval and reconcile the stale Platform page with current dates and the resulting forecast. [PAGE-PLAT, MILESTONES-1112, RES-1112]"
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-109",
+              "ATLAS-116",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "MTG-1110-PLAT",
+              "PAGE-PLAT",
+              "R-01",
+              "RES-1110",
+              "RES-1112"
+            ],
+            "missing_information": [
+              "Confirmed allocation periods and whether Platform still needs Maya full-time through November 20. [RES-1112, MTG-1110-PLAT]",
+              "Remaining effort, task-level ownership, qualified replacement availability, and approved prioritization between Platform and AI. [RES-1112, ATLAS-101, ATLAS-109]",
+              "Validated fallback readiness and revised completion forecasts under a feasible staffing plan, including downstream acceptance of any handoff changes. [R-01, DEP-MAP-1112]"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E05",
+          "name": "Worsening defect trend",
+          "question": "What does the current defect trend imply for launch readiness?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "High",
+            "conclusion": "The defect trend weakens Atlas launch confidence and supports a forecast of AMBER, rather than the officially reported portfolio GREEN. Across RC-1 to RC-3, open high defects rose from 5 to 7 to 9, medium defects from 18 to 21 to 24, and pass rate fell from 94% to 93% to 91%; critical defects remained at zero [TEST-1108, TEST-1110, TEST-1112, STATUS-1112]. Readiness is not yet demonstrated against the requirement to remediate high findings before compliance approval on November 25. However, the evidence does not establish that the December 4 launch is likely unachievable, so portfolio RED is not warranted [PAGE-SEC, MILESTONES-1112].",
+            "risks": [
+              "New high defects increased from 2 to 4 to 5 per cycle while the open-high backlog grew, indicating that testing has not yet demonstrated defect convergence [TEST-1108, TEST-1110, TEST-1112].",
+              "Nine open high defects put the mandatory high-findings remediation gate at risk, subject to confirming that these defects fall within that gate's scope [TEST-1112, PAGE-SEC].",
+              "Historical remediation experience is 3\u20135 calendar days plus regression for high-severity findings discovered after RC. Continued discovery could consume time needed for November 25 compliance sign-off and increase pressure on subsequent readiness and launch milestones; this is a risk, not an established schedule miss [RETRO-SEC-Q3, PAGE-SEC, MILESTONES-1112].",
+              "Test volume increased from 420 to 620, so changing coverage may partly explain the worsening results. The raw trend is concerning but does not by itself prove that underlying product quality deteriorated at the same rate [TEST-1108, TEST-1110, TEST-1112].",
+              "High defects increased 5\u21929 while pass rate fell 0.94\u21920.91."
+            ],
+            "contradictions": [
+              "The official November 12 report retains portfolio GREEN and unchanged launch confidence, while the subsequent RC-3 results strengthen the case for a defect-driven AMBER forecast. This is an evidence/status tension, not proof that the official status has been changed; the official SEC status is already AMBER [STATUS-1112, TEST-1112, PAGE-SEC].",
+              "Official portfolio GREEN predates fresher operational evidence carrying material risk signals."
+            ],
+            "recommended_actions": [
+              "Ask the SEC and test owners to review all nine high defects, confirm gate applicability, and provide accountable owners, remediation estimates, retest dates, and regression evidence before the November 25 approval [TEST-1112, PAGE-SEC].",
+              "Request a comparable-test-set trend and a reconciliation of new, closed, reopened, and reclassified defects to distinguish expanded discovery from worsening quality and assess whether the backlog can converge [TEST-1108, TEST-1110, TEST-1112].",
+              "Have the compliance approver validate the evidence needed for sign-off and review a recovery forecast that includes regression time and the downstream effects on November 27 readiness and December 4 launch [PAGE-SEC, RETRO-SEC-Q3, MILESTONES-1112].",
+              "Submit the AMBER forecast for human review against the official GREEN report. Explicitly review the tradeoff between remediation/regression time and milestone protection; do not treat schedule pressure as authorization to bypass mandatory gates [STATUS-1112, PAGE-SEC, MILESTONES-1112]."
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-103",
+              "ATLAS-105",
+              "ATLAS-106",
+              "MILESTONES-1112",
+              "PAGE-SEC",
+              "RETRO-SEC-Q3",
+              "STATUS-1112",
+              "TEST-1108",
+              "TEST-1110",
+              "TEST-1112"
+            ],
+            "missing_information": [
+              "Defect-level gate applicability, impact, ownership, fix estimates, and verified closure or regression results.",
+              "Comparable test coverage and counts of closed, reopened, and reclassified defects across cycles.",
+              "Current compliance approval evidence and an owner-backed recovery forecast through November 25.",
+              "Dependency and contingency detail showing how a compliance delay would affect November 27 readiness and December 4 launch."
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E06",
+          "name": "Compliance approval bottleneck",
+          "question": "Is the compliance approval path creating a launch-readiness risk?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "Moderate",
+            "conclusion": "Yes. The compliance approval path creates a material Atlas launch-readiness risk: named approver sign-off is mandatory before production launch, but the evidence package is forecast for Nov 23, the approver is absent Nov 23\u201324, and no backup is confirmed ahead of the Nov 25 approval target. The proposed Atlas forecast is AMBER, not an official portfolio status change: the evidence does not establish that the Dec 3 launch dependency is unachievable or that recovery is unavailable. The documented SEC status is also AMBER. [D-03, MTG-1112-SEC, ATLAS-112, PAGE-SEC, DEP-MAP-1112]",
+            "risks": [
+              "Approval timing is compressed: evidence readiness on Nov 23 overlaps the approver's absence, leaving little review time before the Nov 25 target unless earlier review or authorized coverage is arranged. [MTG-1112-SEC, PAGE-SEC]",
+              "Two high pen-test findings remain open, while high-finding remediation is a mandatory gate and feeds a critical regression dependency required by Nov 25. Closure and verification are not evidenced. [MTG-1112-SEC, PAGE-SEC, DEP-MAP-1112]",
+              "The grounded citation evaluator is a critical input to the compliance evidence package, required by Nov 21, but its delivery status is not provided. The package itself remains In Progress. [DEP-MAP-1112, ATLAS-112]",
+              "Supporting SEC test indicators have deteriorated across RC-1 to RC-3: pass rate fell from 94% to 91%, open high defects rose from 5 to 9, and new high defects rose from 2 to 5. This adds validation pressure, although changing test scope and overlap with compliance findings are unknown. [TEST-1108, TEST-1110, TEST-1112]",
+              "If sign-off slips beyond the Dec 3 production-launch dependency, launch cannot proceed under the approved requirement. Slippage beyond the Nov 25 approval target would consume the remaining scheduling buffer, but would not by itself establish a launch miss. [D-03, PAGE-SEC, DEP-MAP-1112]",
+              "High defects increased 5\u21929 while pass rate fell 0.94\u21920.91.",
+              "Mandatory compliance sign-off has a named-approver availability risk near the evidence-package deadline."
+            ],
+            "contradictions": [
+              "No direct contradiction is established between the Nov 25 approval target and the Dec 3 launch dependency; they are different milestones whose intended buffer should be confirmed. [PAGE-SEC, DEP-MAP-1112]",
+              "The two open high pen-test findings and nine open high test defects cannot be treated as conflicting counts or added together without confirming their scope and overlap. [MTG-1112-SEC, TEST-1112]"
+            ],
+            "recommended_actions": [
+              "Have the compliance owner confirm the named approver's availability, required review duration, and a reserved decision slot against both the Nov 25 target and Dec 3 launch dependency. [D-03, PAGE-SEC, MTG-1112-SEC, DEP-MAP-1112]",
+              "Ask the Executive Sponsor to confirm whether an authorized backup can be designated. Do not treat informal coverage as satisfying the approved sign-off requirement. [D-03, MTG-1112-SEC]",
+              "Validate the Nov 23 package forecast, assign evidence acceptance owners, and confirm the grounded citation evaluator's Nov 21 delivery and acceptance criteria. Consider staged pre-review, while preserving final evidence completeness. [ATLAS-112, MTG-1112-SEC, DEP-MAP-1112]",
+              "Obtain a dated remediation and regression plan for the two high findings, and reconcile them with the broader high-defect inventory to identify which defects affect approval. Do not compress required verification merely to preserve the approval target. [MTG-1112-SEC, PAGE-SEC, DEP-MAP-1112, TEST-1112]",
+              "Have launch governance review a contingency schedule if Nov 25 approval slips, including remaining review and regression time before Dec 3. Escalate if a validated schedule shows mandatory sign-off cannot be achieved before launch; do not waive the gate or change the launch commitment without authorization. [D-03, PAGE-SEC, DEP-MAP-1112]"
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-112",
+              "D-03",
+              "DEP-MAP-1112",
+              "MTG-1112-SEC",
+              "PAGE-SEC",
+              "TEST-1108",
+              "TEST-1110",
+              "TEST-1112"
+            ],
+            "missing_information": [
+              "Named approver identity, confirmed review capacity, approval turnaround, and authorized delegation arrangements. [D-03, MTG-1112-SEC]",
+              "Verified evidence-package completeness and grounded citation evaluator delivery status. [ATLAS-112, DEP-MAP-1112]",
+              "Owners, closure forecasts, and verification evidence for the two high pen-test findings, plus their relationship to the nine high test defects. [MTG-1112-SEC, TEST-1112]",
+              "An integrated approval and regression schedule explaining the buffer between the Nov 25 target and Dec 3 launch dependency. [PAGE-SEC, DEP-MAP-1112]"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E07",
+          "name": "Mandatory approval absent at launch gate",
+          "question": "At the launch gate, can the program be GREEN if required compliance approval is not verified?\nScenario state for this evaluation: {\"approval_status\": \"not_verified\", \"as_of\": \"2026-12-03T17:00:00-08:00\"}",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "Low",
+            "conclusion": "No. Atlas cannot be assessed GREEN at the launch gate while required compliance approval is unverified. As of the scenario time, 2026-12-03 17:00 PST, approval_status is not_verified; named approver sign-off is mandatory before production launch and is a critical launch dependency [D-03, DEP-MAP-1112]. AMBER reflects an unresolved verification gap, not confirmed absence or refusal of approval. The evidence does not establish that verification or approval is impossible before launch, so portfolio RED is not yet supported. The historical official portfolio status was GREEN; this is a proposed readiness assessment, not an official status change [STATUS-1112].",
+            "risks": [
+              "Production launch without verified named compliance approver sign-off would fail the mandatory launch requirement [D-03, PAGE-SEC].",
+              "The critical sign-off dependency is required by December 3, making immediate verification necessary at the scenario's December 3 launch gate [DEP-MAP-1112; scenario state].",
+              "Holding launch pending verification protects the mandatory gate but may affect the December 4 launch commitment if the gap cannot be closed promptly [D-03, STATUS-1107].",
+              "Mandatory compliance sign-off has a named-approver availability risk near the evidence-package deadline."
+            ],
+            "contradictions": [
+              "Historical executive reporting declared the portfolio GREEN, but that historical label cannot establish current gate readiness when the scenario explicitly states required approval remains unverified [STATUS-1107, STATUS-1112, D-03; scenario state].",
+              "Official portfolio GREEN predates fresher operational evidence carrying material risk signals."
+            ],
+            "recommended_actions": [
+              "Have the launch-gate owner obtain and authenticate the named compliance approver's sign-off record, confirming its scope and applicability to the production release before recommending launch authorization [D-03].",
+              "If approval cannot be verified, recommend holding production authorization and escalating to the Executive Sponsor for a documented decision; do not treat historical GREEN reporting as authorization [D-03, STATUS-1112].",
+              "Ask the accountable owners for a time-bound verification or approval plan and assess its impact on the committed launch. Reassess portfolio RED only if a launch-critical blocker has no viable mitigation or the committed outcome becomes likely unachievable [DEP-MAP-1112, STATUS-1107].",
+              "Submit this proposed AMBER assessment for human review, keeping it distinct from the historical official GREEN status [STATUS-1112]."
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-103",
+              "D-03",
+              "DEP-MAP-1112",
+              "MTG-1112-SEC",
+              "PAGE-SEC",
+              "RES-1112",
+              "STATUS-1107",
+              "STATUS-1112",
+              "TEST-1112"
+            ],
+            "missing_information": [
+              "An authenticated approval artifact identifying the named approver, approval time, and covered production release.",
+              "Whether approval exists but is unverified, remains pending, or has been refused.",
+              "A current verification or approval recovery plan and confirmation that it can complete before production launch.",
+              "The current official launch-gate decision and precise production launch time."
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E08",
+          "name": "Executive report stale versus operations",
+          "question": "Does the current executive GREEN still match fresher operational evidence?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "Moderate",
+            "conclusion": "No. Official portfolio status remains GREEN, but fresher operational evidence supports an AMBER launch-readiness forecast: critical-path authentication is blocked, partner integration is forecast later than its recorded due date, and security testing reports five new high defects. The direction is deteriorating, although the evidence does not establish that the committed December 4 launch is likely unachievable. RED is therefore not justified on the supplied record. This is a recommendation for human review, not an official status change. [STATUS-1112, ATLAS-102, ATLAS-101, MTG-1111-PORTFOLIO, TEST-1112, D-01]",
+            "risks": [
+              "Partner integration is 70% complete with sandbox-related throughput loss; authentication remains blocked ahead of its November 15 due date. Engineering's forecast of approximately November 20 leaves only one calendar day before the critical APP RC-build dependency on November 21 and two before the GTM support-playbook dependency on November 22. These are nominal date gaps, not verified usable schedule float. [ATLAS-101, ATLAS-102, MTG-1111-PORTFOLIO, DEP-MAP-1112]",
+              "Security RC-3 has a 91% pass rate, nine open high defects and five new high defects. Two high penetration-test findings also remain open. Remediation feeds a critical November 25 regression dependency; closure forecasts and release acceptance thresholds are not supplied. [TEST-1112, MTG-1112-SEC, DEP-MAP-1112]",
+              "Compliance sign-off is mandatory before production launch. The evidence package is expected November 23, when the approver is unavailable through November 24, and no backup is confirmed. This creates approval-scheduling risk, but does not establish a miss of the December 3 sign-off dependency. [D-03, ATLAS-112, MTG-1112-SEC, DEP-MAP-1112]",
+              "Maya is allocated at 120% across PLAT recovery and AI evaluator support. Prioritizing either could delay the other; the AI evaluator is itself a critical input to the compliance evidence package by November 21. [RES-1112, DEP-MAP-1112]"
+            ],
+            "contradictions": [
+              "The November 12 executive report retains portfolio and PLAT GREEN with unchanged launch confidence, while later same-day operational records show a blocked critical-path authentication story and continuing sandbox disruption. The executive report acknowledges recovery activity but does not substantiate resolution of these risks. [STATUS-1112, ATLAS-102, ATLAS-101]",
+              "The partner-integration record retains a November 18 due date, whereas engineering's November 11 forecast is closer to November 20. The planned date and operational forecast remain unreconciled; the later Jira update does not explicitly resolve that discrepancy. [ATLAS-101, MTG-1111-PORTFOLIO]",
+              "Official portfolio GREEN predates fresher operational evidence carrying material risk signals."
+            ],
+            "recommended_actions": [
+              "Ask the portfolio owner to review an AMBER forecast against the official GREEN and record the rationale, evidence cutoff and next review point; do not silently overwrite the official status. [STATUS-1112, ATLAS-102, TEST-1112]",
+              "Have the Backend Lead validate sandbox restoration, authentication unblock timing and the remaining replay work, then reconcile the November 18 plan with the approximately November 20 forecast. Obtain APP and GTM confirmation of downstream acceptance and usable contingency. [ATLAS-101, ATLAS-102, ATLAS-103, MTG-1111-PORTFOLIO, DEP-MAP-1112]",
+              "Request a security defect closure and retest forecast against explicit release gates. Reconcile the two penetration-test findings with the nine test-system high defects before aggregating counts. [TEST-1112, MTG-1112-SEC, DEP-MAP-1112]",
+              "Confirm the named approver's availability after November 24 or seek an authorized backup, and reserve a review window before December 3 without weakening the mandatory approval requirement. [D-03, MTG-1112-SEC, DEP-MAP-1112]",
+              "Have resource owners resolve Maya's over-allocation and explicitly assess the PLAT-versus-AI/compliance tradeoff. Validate whether deferring the identified lower-priority analytics work would actually release suitable capacity before approving reassignment. [RES-1112, MTG-1111-PORTFOLIO, DEP-MAP-1112]"
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-103",
+              "ATLAS-105",
+              "ATLAS-106",
+              "ATLAS-112",
+              "D-01",
+              "D-03",
+              "DEP-MAP-1112",
+              "MTG-1111-PORTFOLIO",
+              "MTG-1112-SEC",
+              "RES-1112",
+              "STATUS-1112",
+              "TEST-1112"
+            ],
+            "missing_information": [
+              "Sandbox recovery ETA, validated integration completion forecast, task sequencing and usable downstream schedule float. [ATLAS-101, ATLAS-102, ATLAS-103, DEP-MAP-1112]",
+              "Release test thresholds, defect overlap, remediation owners and closure/retest dates. [TEST-1112, MTG-1112-SEC]",
+              "AI evaluator delivery status and a feasible, approved allocation plan for shared engineering capacity. [RES-1112, DEP-MAP-1112]",
+              "Confirmed compliance reviewer availability, required review duration and backup approval authority. [D-03, MTG-1112-SEC]",
+              "An integrated recovery schedule demonstrating whether the remaining dependencies can meet the December 4 commitment. [D-01, DEP-MAP-1112]"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E09",
+          "name": "Healthy budget should not dominate delivery risk",
+          "question": "Does healthy budget status materially change current delivery risk?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "Moderate",
+            "conclusion": "No\u2014not on the evidence available. Budget remains within plan and contingency offers a potential staffing mitigation, but it has not demonstrably resolved the external dependency, capacity conflict, or worsening test indicators. Official portfolio status remains GREEN; the evidence-based launch-readiness forecast is AMBER. The Dec 4 commitment is at risk, but the evidence does not establish that it is likely unachievable or that mitigation is unavailable. [BUD-1112, STATUS-1112, STATUS-1107, ATLAS-102, RES-1112, TEST-1108, TEST-1112]",
+            "risks": [
+              "Critical-path partner authentication is blocked by the external sandbox. Engineering expects integration closer to Nov 20 versus the recorded Nov 18 due date; available funding alone does not establish that this dependency can be recovered. [ATLAS-102, ATLAS-101, MTG-1111-PORTFOLIO, BUD-1112]",
+              "Maya is allocated 120% across PLAT and AI, so recovery capacity is not fully credible without resolving competing commitments. Contractor contingency is available, but deployment or delivery benefit is not evidenced. [RES-1112, BUD-1112]",
+              "Test indicators are deteriorating: pass rate fell from 94% to 91%, open high defects rose from 5 to 9, and new high defects rose from 2 to 5 across RC-1 to RC-3. No critical defects are recorded, and release-gate implications remain unknown. [TEST-1108, TEST-1110, TEST-1112]",
+              "The integration forecast near Nov 20 coincides with the planned demo-flow freeze, creating a potential downstream enablement tradeoff. [MTG-1111-PORTFOLIO, R-04]",
+              "High defects increased 5\u21929 while pass rate fell 0.94\u21920.91."
+            ],
+            "contradictions": [
+              "Official portfolio and PLAT status are GREEN with unchanged launch confidence, while operational evidence shows a blocked critical-path story and an integration forecast later than the recorded milestone. This is an unresolved status-versus-delivery tension, not proof that the portfolio launch will miss. [STATUS-1112, ATLAS-102, ATLAS-101, MTG-1111-PORTFOLIO]",
+              "Official portfolio GREEN predates fresher operational evidence carrying material risk signals."
+            ],
+            "recommended_actions": [
+              "Ask the Backend Lead and partner dependency owner to validate sandbox recovery, authentication and replay sequencing, and a dated integration forecast; show the resulting impact on the Dec 4 launch path. [ATLAS-101, ATLAS-102, ATLAS-103, STATUS-1107]",
+              "Have delivery and finance owners assess contractor availability, onboarding time, and work that can proceed despite sandbox instability before proposing contingency use. Do not equate available money with recovered schedule. [BUD-1112, ATLAS-102, RES-1112]",
+              "Resolve Maya's competing allocations through human review. Compare contractor support with a short delay to lower-priority analytics work, explicitly validating which work could move and its downstream consequences. [RES-1112, MTG-1111-PORTFOLIO]",
+              "Have the security/test owner confirm defect severity, closure forecasts, retest capacity, and release acceptance criteria; reconcile these findings and integration recovery with the official GREEN assessment. [TEST-1112, STATUS-1112]",
+              "Coordinate integration recovery with the GTM Lead's Nov 20 demo freeze and document any required enablement changes. [MTG-1111-PORTFOLIO, R-04]"
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-103",
+              "ATLAS-104",
+              "ATLAS-105",
+              "ATLAS-106",
+              "BUD-1112",
+              "MTG-1111-PORTFOLIO",
+              "R-04",
+              "RES-1112",
+              "STATUS-1107",
+              "STATUS-1112",
+              "TEST-1108",
+              "TEST-1110",
+              "TEST-1112"
+            ],
+            "missing_information": [
+              "Validated sandbox recovery date and fallback options. [ATLAS-102]",
+              "An integrated schedule showing launch float, remaining validation work, and the effect of the Nov 20 integration forecast. [ATLAS-101, MTG-1111-PORTFOLIO, STATUS-1107]",
+              "Contractor availability, usable contingency amount, onboarding lead time, and expected schedule benefit. [BUD-1112]",
+              "Release quality thresholds, high-defect launch impact, and comparable test coverage across cycles. [TEST-1108, TEST-1110, TEST-1112]",
+              "An approved resolution of the competing staffing commitments. [RES-1112]"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E10",
+          "name": "AI threshold just below requirement",
+          "question": "Are the AI refusal tests meeting the documented launch threshold?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "High",
+            "conclusion": "No. The reported refusal-test pass rate is 94%, below the documented 95% launch threshold by 1 percentage point. The critical-path test story remains In Progress. The official AI plan declares GREEN, but the proposed Atlas readiness forecast is AMBER for this unresolved threshold miss. Meeting the November 19 AI milestone remains unverified; the evidence does not establish that the December 4 launch is unachievable. [ATLAS-108, PAGE-AI, MILESTONES-1112]",
+            "risks": [
+              "The refusal-test story is due November 16 and is on the critical path; the current shortfall puts the November 19 AI launch-threshold milestone at risk. No refusal-specific recovery plan or retest forecast is supplied. [ATLAS-108, MILESTONES-1112]",
+              "Launching with the currently reported result would leave the documented refusal threshold unmet; recovery needs validation rather than reliance on the plan's GREEN declaration. [ATLAS-108, PAGE-AI]",
+              "Observed refusal-test pass rate 0.94 is below launch threshold 0.95."
+            ],
+            "contradictions": [
+              "The November 5 AI plan declares GREEN, while the newer November 12 refusal-test record reports 94% against the plan's 95% threshold. This is a readiness-status discrepancy; the plan's separate statement of no open severity-1 model safety failures does not demonstrate threshold attainment. [PAGE-AI, ATLAS-108]"
+            ],
+            "recommended_actions": [
+              "Have the AI owner verify test coverage, sample size and scoring, and confirm that the reported 94% is the applicable launch-gate result. [ATLAS-108, PAGE-AI]",
+              "Request a remediation and retest forecast against the November 16 story deadline and November 19 milestone, including any downstream schedule impact if validation slips. [ATLAS-108, MILESTONES-1112]",
+              "Reconcile the official GREEN declaration through human review; require validated evidence of threshold attainment before treating this gate as met. Any proposed threshold exception should receive explicit approval rather than be assumed. [PAGE-AI, ATLAS-108]"
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-108",
+              "MILESTONES-1112",
+              "PAGE-AI"
+            ],
+            "missing_information": [
+              "Refusal-test sample size, coverage, scoring methodology and underlying execution evidence. [ATLAS-108]",
+              "Prior comparable refusal results needed to establish improvement or deterioration. [ATLAS-108]",
+              "Refusal-specific remediation owner, recovery plan, retest date and forecast for meeting the November 19 threshold milestone. [ATLAS-108, MILESTONES-1112]"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E11",
+          "name": "No evidence for partner root cause",
+          "question": "What do we actually know about the root cause of partner sandbox instability?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "Low",
+            "conclusion": "We know the reported symptoms and delivery impact, not the technical root cause. Triage reported a six-hour sandbox outage; Jira attributes reduced throughput to external sandbox instability and explicitly blocks partner authentication on PARTNER-SANDBOX. None of the supplied records provides a technical diagnosis or verified vendor root-cause analysis. Calling this an external sandbox problem identifies the reported dependency, not the underlying failure mechanism [MTG-1110-PLAT, ATLAS-101, ATLAS-102, R-01]. Official portfolio status remains GREEN; the proposed AMBER forecast reflects this unresolved critical-path risk, whose registered trend is worsening. Engineering's latest supplied estimate is integration closer to November 20, versus the official November 18 milestone. The evidence does not establish that the December 4 launch is likely unachievable [STATUS-1112, R-01, MTG-1111-PORTFOLIO, MILESTONES-1112, DEP-MAP-1112].",
+            "risks": [
+              "Authentication is officially Blocked and due November 15. Integration recovery remains exposed to sandbox availability; no verified restoration or stabilization is supplied [ATLAS-102, R-01].",
+              "The November 20 engineering forecast would miss the November 18 integration milestone and leave little time before the November 21 application dependency and November 22 support-playbook dependency [MTG-1111-PORTFOLIO, MILESTONES-1112, DEP-MAP-1112].",
+              "Daily vendor escalation and a fallback replay path are recorded responses, not demonstrated resolutions. Replay work remains In Progress, and the evidence does not establish that replay can unblock authentication or replace live integration validation [R-01, ATLAS-103, ATLAS-102].",
+              "Recovery may require Maya full-time through November 20, while the resource plan allocates her 80% to PLAT and 40% to AI. Prioritizing recovery therefore creates a capacity tradeoff; this is not evidence of the sandbox's technical root cause [MTG-1110-PLAT, RES-1112]."
+            ],
+            "contradictions": [
+              "The older platform page declares GREEN and expects integration November 14; the newer authoritative milestone is November 18, while engineering forecasts closer to November 20. These are conflicting schedule/status signals, not competing technical root-cause explanations [PAGE-PLAT, MILESTONES-1112, MTG-1111-PORTFOLIO].",
+              "The official GREEN portfolio/PLAT report is in tension with the open worsening sandbox risk and blocked critical-path authentication story; it does not demonstrate that instability has been resolved [STATUS-1112, R-01, ATLAS-102].",
+              "Partner integration dates conflict across current sources: 2026-11-14, 2026-11-18, 2026-11-19, 2026-11-20, 2026-11-21, 2026-11-22, 2026-11-24, 2026-11-25, 2026-11-27, 2026-12-03, 2026-12-04."
+            ],
+            "recommended_actions": [
+              "Ask the Platform PM to obtain the vendor incident record, technical diagnosis, restoration estimate, and supporting telemetry through the existing escalation. Require separation of confirmed cause, hypotheses, and observed symptoms [R-01, MTG-1110-PLAT].",
+              "Have the Backend Lead review timestamped failed requests, response codes, authentication traces, and reproducibility with the vendor before accepting a root-cause claim [ATLAS-101, ATLAS-102].",
+              "Request a demonstrated replay-path test and explicit coverage limits, especially whether live authentication remains necessary; do not count the fallback as validated mitigation yet [R-01, ATLAS-103, ATLAS-102].",
+              "Have milestone and downstream owners reconcile November 18 versus the November 20 forecast, define recovery acceptance criteria, and review Maya's allocation tradeoff. Submit any baseline, staffing, or status changes for human approval rather than treating them as decided [MILESTONES-1112, MTG-1111-PORTFOLIO, DEP-MAP-1112, RES-1112]."
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-103",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "MTG-1110-PLAT",
+              "MTG-1111-PORTFOLIO",
+              "PAGE-PLAT",
+              "R-01",
+              "RES-1112",
+              "RETRO-PLAT-Q3",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Vendor RCA or incident report, error signatures, correlated logs, and evidence locating the technical failure; the supplied records describe symptoms and attribution only [MTG-1110-PLAT, ATLAS-101, ATLAS-102].",
+              "Current sandbox health, recurrence frequency, restoration ETA, and a verified stability observation period [R-01, MTG-1110-PLAT].",
+              "Fallback validation results, authentication coverage, and remaining work supporting the November 20 forecast [ATLAS-103, ATLAS-102, MTG-1111-PORTFOLIO]."
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E12",
+          "name": "Portfolio intervention tradeoff",
+          "question": "What portfolio intervention should we make for the shared Platform/AI resource conflict, including the downside elsewhere?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "Moderate",
+            "conclusion": "Recommend portfolio approval of a time-boxed resource transfer from lower-priority analytics work to protect both Platform recovery and AI evaluator delivery, rather than continuing Maya's 120% allocation. Subject to a validated backfill and delivery plan, reserve Maya for Platform through Nov 20 and cover her AI responsibilities with suitably skilled capacity. Explicitly accept a short analytics staffing delay as the downside. Atlas readiness is forecast AMBER, not an official status change: the last reported portfolio status was GREEN, but resource contention and the Platform forecast have worsened. Neither a Dec 4 launch miss nor an unmitigable launch blocker is established by this conflict. [RES-1112, RES-1110, MTG-1110-PLAT, MTG-1111-PORTFOLIO, STATUS-1107]",
+            "risks": [
+              "Maya is allocated 0.8 to Platform and 0.4 to AI, totaling 1.2. If Platform needs her full-time, retaining the AI assignment would require 1.4 capacity; neither plan is sustainable without reassignment or reduced demand. [RES-1112, MTG-1110-PLAT]",
+              "Moving Maya to Platform without AI backfill transfers risk rather than resolving it: the evaluator is critical-path, due Nov 18, and required for the compliance evidence package by Nov 21. Compliance sign-off is mandatory before production launch. [ATLAS-109, DEP-MAP-1112, D-03]",
+              "Platform's engineering forecast of approximately Nov 20 leaves only one calendar day before the APP RC dependency and two before the GTM support-playbook dependency. Additional staffing does not itself resolve the blocked partner sandbox. [MTG-1111-PORTFOLIO, DEP-MAP-1112, ATLAS-102]",
+              "The proposed intervention delays lower-priority analytics work and introduces handover and ramp-up risk. Portfolio notes say a short staffing delay is absorbable, but do not establish the affected milestone, duration, or availability of suitable skills. Contractor contingency is another option, not confirmed capacity. [MTG-1111-PORTFOLIO, BUD-1112]",
+              "Shared resource overallocation detected for Maya."
+            ],
+            "contradictions": [
+              "The Nov 10 resource plan allocated Maya at 100%; the newer Nov 12 plan allocates 120%. Use the newer plan for the current conflict, while treating the earlier plan as historical. [RES-1110, RES-1112]",
+              "Platform's older page expected Nov 14 and declared GREEN; the current Jira due date is Nov 18, while engineering forecasts closer to Nov 20. Nov 20 is a forecast, not an approved replacement commitment. [PAGE-PLAT, ATLAS-101, MTG-1111-PORTFOLIO]",
+              "The Nov 7 official portfolio GREEN predates the latest overallocation and blocked critical-path work; it should not be presented as a verified current readiness assessment. [STATUS-1107, RES-1112, ATLAS-102]"
+            ],
+            "recommended_actions": [
+              "Have portfolio leadership and the Platform, AI, and analytics owners approve a named, time-boxed staffing plan. Confirm whether Platform needs Maya at 0.8 or 1.0; backfill the corresponding AI work and remove the 120% allocation. If Maya is reserved full-time, cover her existing 0.4 AI allocation, with actual effort and handover requirements validated. [RES-1112, MTG-1110-PLAT]",
+              "Prefer a temporary transfer from lower-priority analytics, explicitly recording its revised milestones and stakeholder impact. If no suitable internal capacity is available, seek approval to use contractor contingency after checking onboarding lead time and cost; do not count that capacity before confirmation. [MTG-1111-PORTFOLIO, BUD-1112]",
+              "Require both workstream leads to validate completion forecasts against the Nov 21 APP RC and compliance-evidence dependencies and the Nov 22 support-playbook dependency. Do not protect Platform by silently sacrificing AI's critical-path delivery. [ATLAS-101, ATLAS-109, DEP-MAP-1112]",
+              "Pair the staffing decision with the existing vendor escalation and validation of the fallback replay path. Review progress daily and release the temporary allocation when recovery permits; additional people alone cannot remove the sandbox dependency. [ATLAS-102, R-01]",
+              "Submit the AMBER forecast and revised resource plan for human review, retaining official dates until formally changed. Escalate if validated forecasts show launch-critical dependencies cannot be met with viable mitigation; the present evidence does not establish portfolio RED. [STATUS-1107, ATLAS-101, ATLAS-109, DEP-MAP-1112, R-01]"
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-109",
+              "BUD-1112",
+              "D-03",
+              "DEP-MAP-1112",
+              "MTG-1110-PLAT",
+              "MTG-1111-PORTFOLIO",
+              "PAGE-PLAT",
+              "R-01",
+              "RES-1110",
+              "RES-1112",
+              "STATUS-1107"
+            ],
+            "missing_information": [
+              "Named analytics staff, relevant skills, earliest release date, and the specific analytics deliverables and delay leadership would accept. [MTG-1111-PORTFOLIO]",
+              "Remaining Platform and AI effort, Maya's essential tasks, backfill productivity, and handover time needed to validate the proposed allocation. [RES-1112, ATLAS-101, ATLAS-109]",
+              "Sandbox restoration confidence, fallback replay readiness, and downstream teams' ability to absorb delivery near their required-by dates. [ATLAS-102, R-01, DEP-MAP-1112]",
+              "Contractor availability, onboarding time, and approved spending limits; available contingency alone does not establish a viable staffing solution. [BUD-1112]"
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E13",
+          "name": "Novel risk proposal",
+          "question": "Do the testing results suggest a new risk that should be proposed for human review?",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "High",
+            "conclusion": "Yes\u2014propose a worsening security test-exit risk for human review, preferably as an update to existing risk R-02 rather than an automatic new entry. Across RC-1 to RC-3, pass rate fell from 94% to 91%, open high defects rose from 5 to 9, and newly reported high defects increased from 2 to 5 per cycle. These results threaten the remediation and regression window, but do not establish that Atlas launch is unachievable. The proposed Atlas portfolio forecast is AMBER; the recorded SEC status is also AMBER, and no official portfolio status change is evidenced. [TEST-1108, TEST-1110, TEST-1112, R-02, PAGE-SEC]",
+            "risks": [
+              "Proposed risk wording: Continued discovery of high-severity defects may outpace remediation and regression, delaying satisfaction of the mandatory high-findings gate and compliance approval due November 25. Historical remediation frequently takes 3\u20135 calendar days plus regression, but current defect-level completion forecasts are unavailable. [TEST-1112, RETRO-SEC-Q3, PAGE-SEC]",
+              "Approval timing provides limited contingency: the evidence package is expected November 23, the approver is unavailable November 23\u201324, and no backup is confirmed. Further testing or remediation delays could compress the approval window; named sign-off remains required before production launch. [MTG-1112-SEC, PAGE-SEC, D-03]",
+              "High defects increased 5\u21929 while pass rate fell 0.94\u21920.91."
+            ],
+            "contradictions": [
+              "R-02 records a stable trend, whereas subsequent test results support a deteriorating assessment for human review. This is a forecast difference, not an authorized register change. [R-02, TEST-1110, TEST-1112]",
+              "Meeting notes report two open high pen-test findings, while the later test-system record reports nine open high defects. These may represent different scopes rather than conflicting counts; reconciliation is needed before equating them. [MTG-1112-SEC, TEST-1112]"
+            ],
+            "recommended_actions": [
+              "Ask the Security Lead to review R-02 for a deteriorating trend and revised exposure. Create a linked new risk only if review establishes a distinct failure mode; do not duplicate or change the register automatically. [R-02, TEST-1112]",
+              "Reconcile high-defect and pen-test inventories, identify gate-relevant findings, and obtain owners, remediation dates, regression scope, and reserved test capacity. [TEST-1112, MTG-1112-SEC, PAGE-SEC, R-02]",
+              "Build a dated remediation-to-approval forecast and confirm approver availability or an authorized backup. Surface the tradeoff between additional testing/remediation and remaining approval time without bypassing required gates. [RETRO-SEC-Q3, MTG-1112-SEC, PAGE-SEC, D-03]"
+            ],
+            "cited_evidence_ids": [
+              "D-03",
+              "MTG-1112-SEC",
+              "PAGE-SEC",
+              "R-02",
+              "RETRO-SEC-Q3",
+              "TEST-1108",
+              "TEST-1110",
+              "TEST-1112"
+            ],
+            "missing_information": [
+              "Committed Atlas launch date and available schedule contingency.",
+              "Defect-level gate applicability, remediation forecasts, regression duration, and capacity.",
+              "Comparable test coverage and failure categories across cycles.",
+              "Confirmed evidence-package delivery and authorized approver coverage."
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E14",
+          "name": "Scope reduction after formal alignment",
+          "question": "If export filtering is formally removed from launch scope, the baseline is updated, and stakeholders are aligned, what is the readiness implication?\nScenario state for this evaluation: {\"baseline_updated\": true, \"decision_status\": \"Approved\", \"removed_from_launch\": true, \"stakeholders_aligned\": true}",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "Moderate",
+            "conclusion": "The approved removal, updated baseline, and stakeholder alignment resolve the export-filtering scope issue under the provided scenario state. Export filtering should no longer count as an unmet launch commitment. This improves readiness but does not alone establish Atlas portfolio GREEN: partner integration still has a blocked critical-path task and a forecast later than its committed milestone, although recovery before downstream need dates remains plausible [ATLAS-102, MTG-1111-PORTFOLIO, MILESTONES-1112, DEP-MAP-1112]. This is a readiness forecast, not an official portfolio status change.",
+            "risks": [
+              "Partner integration is forecast around November 20 versus the November 18 milestone, leaving limited margin before application and support dependencies on November 21\u201322. The evidence does not establish that the December 4 launch is unachievable [MTG-1111-PORTFOLIO, MILESTONES-1112, DEP-MAP-1112].",
+              "Removing filtering reduces launch functionality and requires enablement and support materials to describe the retained export behavior accurately; historical materials assumed filtering was included [MTG-1112-GTM, DEP-MAP-1112]."
+            ],
+            "contradictions": [
+              "D-02 records a pending decision, and MTG-1111-PORTFOLIO states that no scope change was approved. These are historical and superseded by the explicit approved scenario state [D-02, MTG-1111-PORTFOLIO].",
+              "Historical GTM messaging assumed filtering was in scope, while the application plan excluded it. The scenario establishes current alignment, so this is not treated as an unresolved scope contradiction [MTG-1112-GTM, PAGE-APP].",
+              "Active implementation exists for new scope that is not formally approved."
+            ],
+            "recommended_actions": [
+              "Have the program owner reconcile the historical decision and scope records with the approved baseline, without reopening the settled scope decision [D-02, MTG-1111-PORTFOLIO, PAGE-APP].",
+              "Have GTM owners verify that enablement, messaging, and the support playbook reflect the agreed retained export behavior and no longer depend on filtering [MTG-1112-GTM, DEP-MAP-1112].",
+              "Have security and platform owners confirm which classification and audit obligations remain for retained export behavior; do not automatically cancel those tasks [ATLAS-118, ATLAS-116].",
+              "Review partner recovery evidence against downstream need dates before upgrading the portfolio forecast to GREEN [ATLAS-102, MTG-1111-PORTFOLIO, DEP-MAP-1112]."
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-102",
+              "ATLAS-116",
+              "ATLAS-117",
+              "ATLAS-118",
+              "D-02",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "MTG-1111-PORTFOLIO",
+              "MTG-1112-GTM",
+              "PAGE-APP"
+            ],
+            "missing_information": [
+              "Verified partner recovery progress sufficient to support the November 21\u201322 downstream handoffs [ATLAS-102, DEP-MAP-1112].",
+              "Disposition of classification-review and audit-metadata work under the revised launch scope [ATLAS-118, ATLAS-116]."
+            ]
+          },
+          "failures": [
+            {
+              "kind": "incorrect_forecast_direction",
+              "case_id": "E14",
+              "detail": "Expected GREEN; got AMBER."
+            }
+          ]
+        },
+        {
+          "case_id": "E15",
+          "name": "Unknown when current testing is absent",
+          "question": "What can we conclude about security/testing readiness if current test evidence is unavailable?\nScenario state for this evaluation: {\"current_test_report_available\": false}",
+          "output": {
+            "forecast_rag": "AMBER",
+            "confidence": "Low",
+            "conclusion": "Security/testing readiness is unverified, not demonstrated ready or failed: the scenario states that the current test report is unavailable. The last reported security position was AMBER, with two high pen-test findings open and mandatory remediation and compliance approval gates outstanding or unverified [PAGE-SEC; MTG-1112-SEC]. For Atlas launch readiness, propose AMBER pending validation\u2014not RED: the evidence does not establish that the December 4 launch is likely unachievable or that mitigation is unavailable [MILESTONES-1112]. This is a forecast recommendation, not a change to the last official portfolio GREEN [STATUS-1112].",
+            "risks": [
+              "Without current test evidence, finding closure, regression results and test coverage cannot be verified; the November 12 report of two open high findings must not be treated as a current test result [scenario: current_test_report_available=false; MTG-1112-SEC].",
+              "Compliance approval is due November 25. The evidence package was forecast for November 23, when the approver is unavailable through November 24, and no backup was confirmed; this leaves limited review time [PAGE-SEC; MTG-1112-SEC; MILESTONES-1112].",
+              "Late high-severity discoveries could consume 3\u20135 calendar days plus regression, based on historical experience. With release candidate and compliance sign-off both scheduled November 25, this could pressure November 27 readiness and the December 4 launch, but a miss is not established [RETRO-SEC-Q3; MILESTONES-1112]."
+            ],
+            "contradictions": [
+              "The last official portfolio status is GREEN while SEC is explicitly AMBER. These are different assessment scopes, not a direct factual contradiction; however, portfolio GREEN does not demonstrate that security/testing gates are satisfied [STATUS-1112; PAGE-SEC].",
+              "Official portfolio GREEN predates fresher operational evidence carrying material risk signals."
+            ],
+            "recommended_actions": [
+              "Ask security and test owners to provide or regenerate a dated report identifying the tested build, scope, results, finding disposition and remediation retest evidence before recommending readiness approval [PAGE-SEC; MTG-1112-SEC].",
+              "Have the compliance owner confirm evidence-package timing, reviewer availability and an authorized backup or alternative review arrangement before November 25 [MTG-1112-SEC; MILESTONES-1112].",
+              "Request a human-reviewed contingency assessment for remediation and regression. Make explicit the tradeoff between preserving milestone dates and allowing sufficient validation time; do not waive gates or change dates based on missing evidence [PAGE-SEC; RETRO-SEC-Q3; MILESTONES-1112]."
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-103",
+              "ATLAS-104",
+              "ATLAS-105",
+              "ATLAS-106",
+              "MILESTONES-1112",
+              "MTG-1112-SEC",
+              "PAGE-SEC",
+              "RETRO-SEC-Q3",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Current test report, tested build/version, execution date, coverage and pass/fail results.",
+              "Verified disposition and retest evidence for the two previously reported high findings.",
+              "Actual evidence-package readiness and confirmed compliance approval arrangements.",
+              "Current remediation/regression estimates and validated schedule contingency."
+            ]
+          },
+          "failures": []
+        },
+        {
+          "case_id": "E16",
+          "name": "Critical dependency beyond launch without mitigation",
+          "question": "What is the readiness status if a critical dependency is forecast after launch and no viable mitigation exists?\nScenario state for this evaluation: {\"critical_dependency_forecast_date\": \"2026-12-06\", \"viable_mitigation\": false}",
+          "output": {
+            "forecast_rag": "RED",
+            "confidence": "High",
+            "conclusion": "Atlas portfolio launch readiness is forecast RED: the current scenario places a critical dependency on 2026-12-06, two days after the approved 2026-12-04 launch, with no viable mitigation. The committed launch is therefore likely unachievable. This is a proposed forecast assessment, not an approved status or launch-date change; the historical reported portfolio status was GREEN. [Scenario state; D-01; MILESTONES-1112; STATUS-1112]",
+            "risks": [
+              "The launch-critical dependency arrives after the committed launch with no viable mitigation, preventing readiness for the existing commitment. Dependency completion on December 6 does not establish that launch could occur that day. [Scenario state; D-01; MILESTONES-1112]",
+              "Downstream impacts cannot be precisely determined without identifying the affected dependency. The dependency map includes critical inputs to the release candidate, support playbook, compliance evidence and production launch. [DEP-MAP-1112]"
+            ],
+            "contradictions": [
+              "Historical GREEN reporting and unchanged launch confidence conflict with the current scenario's post-launch dependency forecast and absence of mitigation. Treat those reports as historical rather than overriding the scenario. [STATUS-1107; STATUS-1112; Scenario state]",
+              "Official portfolio GREEN predates fresher operational evidence carrying material risk signals."
+            ],
+            "recommended_actions": [
+              "Ask the portfolio owner and Executive Sponsor to review the proposed RED forecast against the unchanged December 4 commitment; do not represent it as an already approved status change. [D-01; Scenario state]",
+              "Have the dependency owner identify the affected dependency and calculate downstream completion, validation and launch dates before proposing a revised commitment. [DEP-MAP-1112; MILESTONES-1112; Scenario state]",
+              "Escalate for an explicit decision on launch postponement or an authorized scope change. Document schedule and scope tradeoffs; neither option is currently established as an approved or viable mitigation. [D-01; Scenario state]"
+            ],
+            "cited_evidence_ids": [
+              "ATLAS-101",
+              "ATLAS-102",
+              "ATLAS-103",
+              "ATLAS-104",
+              "ATLAS-105",
+              "ATLAS-106",
+              "D-01",
+              "DEP-MAP-1112",
+              "MILESTONES-1112",
+              "STATUS-1107",
+              "STATUS-1112"
+            ],
+            "missing_information": [
+              "Identity and accountable owner of the critical dependency forecast for December 6.",
+              "Remaining downstream work and validation time after dependency delivery.",
+              "Any subsequent approved launch-date or scope decision."
+            ]
+          },
+          "failures": []
+        }
+      ]
+    }
+  }
+}
