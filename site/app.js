@@ -33,9 +33,9 @@ function renderActions(data) {
       <div class="rank">${String(index + 1).padStart(2, "0")}</div>
       <div>
         <div class="meta">
-          <span>${esc(a.project_id)}</span>
+          <span>${esc(String(a.project_id).toUpperCase())}</span>
           <span>Impact ${esc(a.impact)}</span>
-          <span>P ${esc(a.probability)}</span>
+          <span>Probability ${esc(a.probability)}</span>
           <span>Score ${Number(a.priority_score).toFixed(3)}</span>
         </div>
         <h3>${esc(a.issue_or_risk)}</h3>
@@ -80,7 +80,7 @@ function renderFriday(data) {
 function renderSignals(data) {
   document.getElementById("signals").innerHTML = data.signals.map((s) => `
     <article class="signal">
-      <span class="pill">${esc(s.project_id)}</span>
+      <span class="pill">${esc(String(s.project_id).toUpperCase())}</span>
       <h3>${esc(s.kind.replaceAll("_", " "))}</h3>
       <p>${esc(s.summary)}</p>
       <p class="evidence">${s.evidence_ids.map(esc).join(", ")}</p>

@@ -2,6 +2,8 @@
 
 ## Fastest path
 
+You need Python 3.12 or newer, Node.js 20.9 or newer, and macOS or Linux. On Windows, use the [containerized preview](#containerized-preview).
+
 From the repository root:
 
 ```bash
@@ -42,7 +44,17 @@ Human override + audit:
 
 - `POST /atlas/override`
 
-Audit records default to `/tmp/program-os/audit.jsonl` and do not modify model behavior.
+The demo UI is read-only, so an override goes through the API. With the demo running:
+
+```bash
+curl -s -X POST http://127.0.0.1:8000/atlas/override \
+  -H 'content-type: application/json' \
+  -d '{"actor": "you", "assessment_id": "atlas-portfolio", "new_status": "RED", "rationale": "Partner date is unconfirmed."}'
+```
+
+The response contains the override, the audit event and an unapproved learning proposal.
+
+Audit records default to `/tmp/program-os/audit.jsonl` (`var/audit.jsonl` under `make demo`) and do not modify model behavior.
 
 ## Manual frontend
 

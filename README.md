@@ -2,6 +2,8 @@
 
 **An evidence-grounded portfolio control and decision-intelligence system for program managers.**
 
+Built by [Matt Gehrmann](https://www.linkedin.com/in/mattgehrmann), a product and program leader. See [Who built this, and how](#who-built-this-and-how).
+
 Program OS sits above existing systems of record such as Jira, Confluence, meeting notes, testing systems, risk logs, calendars, and finance data. It reconciles conflicting operational evidence, forecasts delivery risk, prioritizes interventions across a portfolio, and preserves human accountability for consequential decisions.
 
 ## Status
@@ -18,7 +20,9 @@ The final 16-case benchmark used `gpt-6.1-sol` against the same locked cases for
 
 ## Start here
 
-For the fastest review:
+For the fastest review, open the [live demo](https://gehrm-ca.github.io/ai-work/). It shows the deterministic Atlas portfolio with nothing to install and no API key.
+
+To run the full demo locally you need Python 3.12 or newer, Node.js 20.9 or newer, and macOS or Linux:
 
 ```bash
 git clone https://github.com/gehrm-ca/ai-work.git
@@ -26,7 +30,9 @@ cd ai-work
 make demo
 ```
 
-Then open `http://127.0.0.1:3000`.
+The first run installs dependencies and takes about a minute. Then open `http://127.0.0.1:3000`.
+
+On Windows, or without Python and Node installed, use the containers instead: `docker compose up --build`.
 
 The deterministic Atlas demo does **not** require an OpenAI API key. A key is only required for live agent calls and live evaluation runs.
 
@@ -35,7 +41,22 @@ The deterministic Atlas demo does **not** require an OpenAI API key. A key is on
 - [V2 measured evaluation](docs/V2_EVALUATION_RESULTS.md)
 - [Detailed demo instructions](docs/RUN_DEMO.md)
 - [Hosted deterministic demo boundary](docs/HOSTED_DEMO.md)
-- Public GitHub Pages demo is generated from the same deterministic Atlas payload; deployment URL is added after the Pages workflow succeeds.
+- [Live demo on GitHub Pages](https://gehrm-ca.github.io/ai-work/), generated from the same deterministic Atlas payload
+
+## For beta testers
+
+Thanks for looking. Ten minutes is enough, and the data is synthetic: nothing here belongs to a real company.
+
+1. Open the [live demo](https://gehrm-ca.github.io/ai-work/) and read it as if Atlas were your program.
+2. Then tell me:
+   - Which finding would you act on first, and is it the one ranked first?
+   - What would you need to see before you trusted a finding enough to raise it in a status meeting?
+   - What is wrong, missing or noise?
+   - Would you run this every week on a real program? What would stop you?
+
+Send feedback whichever way is easier: [open a feedback issue](https://github.com/gehrm-ca/ai-work/issues/new?template=beta-feedback.md), or message me on [LinkedIn](https://www.linkedin.com/in/mattgehrmann).
+
+Known gaps in this version, so you need not report them: evidence IDs are shown but cannot be opened yet, and approving or overriding a recommendation works through the API only ([example](docs/RUN_DEMO.md)).
 
 ## The problem
 
@@ -79,7 +100,7 @@ Actions are resolved through new evidence, documented remediation, stakeholder a
 
 ### Thursday / Friday
 
-Program OS produces an evidence-backed one-page status for each project: official RAG, forecast RAG, confidence, trend, top risks and dependencies, milestones, budget signal, launch date, and material changes since the prior report.
+Program OS produces an evidence-backed one-page status for each project: official RAG (red, amber or green) status, forecast RAG, confidence, trend, top risks and dependencies, milestones, budget signal, launch date, and material changes since the prior report.
 
 ## Trust contract
 
@@ -95,6 +116,8 @@ Every material recommendation, forecast, status assessment, or alert must expose
 - what would change the conclusion.
 
 Program OS prefers **insufficient evidence** over false certainty.
+
+What V2 implements of this contract: the demo shows the conclusion, confidence, supporting evidence IDs and contradictions. The live agent path adds assumptions and missing information. Evidence freshness feeds the confidence score but is not displayed, and reasoning factors and "what would change the conclusion" are not implemented yet.
 
 Official status remains a human accountability decision. The system can recommend, forecast, and challenge; it does not silently establish ground truth.
 
@@ -189,8 +212,16 @@ V2.1 is focused on **external validity**, not more synthetic benchmark tuning: o
 
 See the [V2.1 external-validation plan](docs/V2_1_EXTERNAL_VALIDATION.md) and tracking issue [#21](https://github.com/gehrm-ca/ai-work/issues/21).
 
+## Who built this, and how
+
+Program OS is a solo project by [Matt Gehrmann](https://www.linkedin.com/in/mattgehrmann). I am a product and program leader, not a software engineer.
+
+My part is the product: the problem definition, the product boundary, the trust contract, the governance rules, the evaluation design and the release decisions, including the decision to stop tuning with case E14 still failing.
+
+AI coding agents wrote the code, the tests and the first drafts of these documents. They worked under the [development harness](docs/DEVELOPMENT_HARNESS.md): separate lanes for data, evals, core engine and workflow, a gatekeeper review, and the fixed evaluation suite as the merge gate. I directed and reviewed that work.
+
+The repository is meant to show how I define, evaluate and govern an AI product, not to claim I hand-wrote the implementation.
+
 ## Release boundary
 
 V1 documents the product definition. V2 is the evaluated vertical slice. It is still a portfolio and learning prototype, not a production-certified autonomous business decision system.
-
-The project is a portfolio and learning prototype, not a production-certified autonomous business decision system.
