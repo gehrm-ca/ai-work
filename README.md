@@ -34,7 +34,7 @@ The first run installs dependencies and takes about a minute. Then open `http://
 
 On Windows, or without Python and Node installed, use the containers instead: `docker compose up --build`.
 
-The deterministic Atlas demo does **not** require an OpenAI API key. Protected API operations (human override and live-agent drafts) require a locally configured bearer token; live agent calls additionally require an OpenAI API key and explicit feature flag.
+The deterministic Atlas demo does **not** require an OpenAI API key. Protected local operations require a locally configured bearer token. When that token is present, the full local UI can record audited human overrides through a server-side proxy; live agent calls additionally require an OpenAI API key and explicit feature flag.
 
 - [Five-minute case study](docs/CASE_STUDY.md)
 - [V2 release notes](docs/V2_RELEASE_NOTES.md)
@@ -57,7 +57,7 @@ Thanks for looking. Ten minutes is enough, and the data is synthetic: nothing he
 
 Send feedback whichever way is easier: [open a feedback issue](https://github.com/gehrm-ca/ai-work/issues/new?template=beta-feedback.md), or message me on [LinkedIn](https://www.linkedin.com/in/mattgehrmann).
 
-Known gap in this version, so you need not report it: approving or overriding a recommendation still works through the protected API only ([example](docs/RUN_DEMO.md)).
+The public hosted showcase is intentionally read-only. The full local demo can record an audited human override from the UI when `PROGRAM_OS_API_TOKEN` is configured; the bearer token remains server-side and is not exposed to the browser.
 
 ## Using it on your own
 
