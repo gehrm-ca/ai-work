@@ -1,0 +1,15 @@
+[
+  {
+    "source_type": "jira",
+    "source_id": "DEMO-101",
+    "project_id": "DEMO",
+    "source_updated_at": "2026-11-16T18:00:00Z",
+    "authority_tier": 2,
+    "payload": {
+      "summary": "Partner integration validation is incomplete",
+      "status": "In Progress",
+      "due_date": "2026-11-20"
+    },
+    "source_url": "https://example.invalid/browse/DEMO-101"
+  }
+]

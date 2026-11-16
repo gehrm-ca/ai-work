@@ -64,7 +64,8 @@ fi
 # shellcheck disable=SC1091
 source .venv/bin/activate
 echo "Installing Python dependencies (the first run can take a minute) ..."
-python -m pip install --quiet --disable-pip-version-check -e ".[dev]"
+python -m pip install --quiet --disable-pip-version-check -r requirements.lock
+python -m pip install --quiet --disable-pip-version-check --no-deps -e .
 
 if [[ ! -d "web/node_modules" ]]; then
   echo "Installing web dependencies (the first run can take a minute) ..."

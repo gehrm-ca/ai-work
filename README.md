@@ -34,12 +34,13 @@ The first run installs dependencies and takes about a minute. Then open `http://
 
 On Windows, or without Python and Node installed, use the containers instead: `docker compose up --build`.
 
-The deterministic Atlas demo does **not** require an OpenAI API key. A key is only required for live agent calls and live evaluation runs.
+The deterministic Atlas demo does **not** require an OpenAI API key. Protected API operations (human override and live-agent drafts) require a locally configured bearer token; live agent calls additionally require an OpenAI API key and explicit feature flag.
 
 - [Five-minute case study](docs/CASE_STUDY.md)
 - [V2 release notes](docs/V2_RELEASE_NOTES.md)
 - [V2 measured evaluation](docs/V2_EVALUATION_RESULTS.md)
 - [Detailed demo instructions](docs/RUN_DEMO.md)
+- [Use Program OS on your own / pilot ingestion](docs/USE_YOUR_OWN_PROGRAM.md)
 - [Hosted deterministic demo boundary](docs/HOSTED_DEMO.md)
 - [Live demo on GitHub Pages](https://gehrm-ca.github.io/ai-work/), generated from the same deterministic Atlas payload
 
@@ -57,6 +58,14 @@ Thanks for looking. Ten minutes is enough, and the data is synthetic: nothing he
 Send feedback whichever way is easier: [open a feedback issue](https://github.com/gehrm-ca/ai-work/issues/new?template=beta-feedback.md), or message me on [LinkedIn](https://www.linkedin.com/in/mattgehrmann).
 
 Known gaps in this version, so you need not report them: evidence IDs are shown but cannot be opened yet, and approving or overriding a recommendation works through the API only ([example](docs/RUN_DEMO.md)).
+
+## Using it on your own
+
+The hosted and local Atlas demos are fully self-contained. For a pilot with your own data, the repository includes read-only JSON and Jira ingestion paths that validate provenance, permission context and snapshot completeness.
+
+The current V2 signal logic and dashboard remain intentionally Atlas-specific. A successful connector smoke test is **not** a claim that arbitrary organizational data already drives the complete Monday → Friday workflow.
+
+See [Use Program OS on your own](docs/USE_YOUR_OWN_PROGRAM.md) for the supported paths and production boundaries.
 
 ## The problem
 
@@ -199,6 +208,7 @@ A high aggregate score cannot compensate for a catastrophic trust failure such a
 - [Atlas synthetic program](examples/atlas/README.md)
 - [V2 development harness](docs/DEVELOPMENT_HARNESS.md)
 - [Run the V2 demo](docs/RUN_DEMO.md)
+- [Use Program OS on your own](docs/USE_YOUR_OWN_PROGRAM.md)
 - [Run V2 evaluations](docs/RUN_EVALS.md)
 - [V2 evaluation results](docs/V2_EVALUATION_RESULTS.md)
 - [V2 case study](docs/CASE_STUDY.md)
