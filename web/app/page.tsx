@@ -55,6 +55,23 @@ function Rag({ value }: { value: string }) {
   return <span className={`rag rag-${value.toLowerCase()}`}>{value}</span>;
 }
 
+function EvidenceRefs({ ids, label = "Evidence: " }: { ids?: string[]; label?: string }) {
+  if (!ids?.length) return null;
+  return (
+    <p className="evidence">
+      {label}
+      {ids.map((id, index) => (
+        <span key={id}>
+          {index > 0 ? " · " : ""}
+          <a className="evidenceLink" href={`/evidence/${encodeURIComponent(id)}`}>
+            {id}
+          </a>
+        </span>
+      ))}
+    </p>
+  );
+}
+
 export default async function Home() {
   const data = await getDemo();
 
@@ -109,7 +126,7 @@ export default async function Home() {
                 </div>
                 <h3>{action.issue_or_risk}</h3>
                 <p>{action.next_step}</p>
-                <p className="evidence">Evidence: {action.evidence_ids.join(", ")}</p>
+                <EvidenceRefs ids={action.evidence_ids} />
               </div>
             </article>
           ))}
@@ -124,7 +141,7 @@ export default async function Home() {
           <ul>
             {data.recommendation?.downstream_consequences.map((item) => <li key={item}>{item}</li>)}
           </ul>
-          <p className="evidence">Evidence: {data.recommendation?.evidence_ids.join(", ")}</p>
+          <EvidenceRefs ids={data.recommendation?.evidence_ids} />
         </article>
 
         <article className="panel">
@@ -142,6 +159,7 @@ export default async function Home() {
       <section>
         <div className="sectionHead">
           <div><p className="eyebrow">TRUST CONTRACT</p><h2>Signals and contradictions</h2></div>
+          <span className="muted">Open any evidence ID to inspect the immutable source observation.</span>
         </div>
         <div className="signalGrid">
           {data.signals.map((signal) => (
@@ -149,7 +167,7 @@ export default async function Home() {
               <span className="pill">{signal.project_id.toUpperCase()}</span>
               <h3>{signal.kind.replaceAll("_", " ")}</h3>
               <p>{signal.summary}</p>
-              <p className="evidence">{signal.evidence_ids.join(", ")}</p>
+              <EvidenceRefs ids={signal.evidence_ids} label="" />
             </article>
           ))}
         </div>

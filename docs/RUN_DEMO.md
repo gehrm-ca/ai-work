@@ -27,6 +27,7 @@ Deterministic demo data is available at:
 
 - GET /health
 - GET /atlas/demo
+- GET /atlas/evidence/{evidence_id}
 - GET /capabilities
 
 These read-only endpoints do not require authentication in the local demo.
@@ -88,7 +89,7 @@ Open http://localhost:3000.
 
 1. Compare official GREEN with forecast AMBER.
 2. Review Monday interventions sorted by portfolio priority.
-3. Drill into source IDs for the partner-date contradiction and defect trend.
+3. Open the source IDs for the partner-date contradiction and defect trend; inspect source freshness, authority tier and the immutable observed payload.
 4. Review the resource tradeoff and its downside to AI work.
 5. Read the Friday status.
 6. Optionally configure PROGRAM_OS_API_TOKEN, submit an override through the API and inspect the audit + unapproved learning proposal.
