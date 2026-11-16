@@ -21,6 +21,7 @@ services:
       dockerfile: Dockerfile
     environment:
       PROGRAM_OS_API_URL: http://api:8000
+      PROGRAM_OS_API_TOKEN: ${PROGRAM_OS_API_TOKEN:-}
     depends_on:
       - api
     ports:
