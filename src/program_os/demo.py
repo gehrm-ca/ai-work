@@ -180,6 +180,9 @@ def build_demo_payload(data_dir: Path) -> dict:
     recommendation = recommend_resource_tradeoff(signals, evidence)
     return {
         "evidence_count": len(evidence),
+        "evidence_records": [
+            item.model_dump(mode="json") for item in evidence
+        ],
         "monday_actions": [
             item.model_dump(mode="json") for item in build_monday_actions(signals)
         ],
