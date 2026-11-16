@@ -10,7 +10,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from .agent import run_agent_assessment
 from .audit import AuditStore, audit_override, create_override, propose_learning_from_override
@@ -100,17 +100,21 @@ app.add_middleware(
 
 
 class AssessmentRequest(BaseModel):
-    question: str = "Can Atlas launch on December 4, and what should the PM do next?"
+    question: str = Field(
+        default="Can Atlas launch on December 4, and what should the PM do next?",
+        min_length=1,
+        max_length=4000,
+    )
 
 
 class OverrideRequest(BaseModel):
-    actor: str
-    assessment_id: str
+    actor: str = Field(min_length=1, max_length=120)
+    assessment_id: str = Field(min_length=1, max_length=200)
     new_status: Rag
-    rationale: str
-    missed_context: str | None = None
-    exception_type: str = "one_time_exception"
-    expected_consequence_if_wrong: str | None = None
+    rationale: str = Field(min_length=1, max_length=2000)
+    missed_context: str | None = Field(default=None, max_length=2000)
+    exception_type: str = Field(default="one_time_exception", min_length=1, max_length=120)
+    expected_consequence_if_wrong: str | None = Field(default=None, max_length=2000)
 
 
 @app.get("/health")

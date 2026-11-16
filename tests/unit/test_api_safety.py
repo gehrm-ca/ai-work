@@ -118,3 +118,39 @@ def test_evidence_endpoint_returns_404_for_unknown_id():
     response = client.get("/atlas/evidence/NOT-REAL")
 
     assert response.status_code == 404
+
+
+def test_override_rejects_blank_actor_before_audit(monkeypatch):
+    monkeypatch.setenv("PROGRAM_OS_API_TOKEN", "expected-test-token")
+    api._PROTECTED_CALLS.clear()
+
+    response = client.post(
+        "/atlas/override",
+        headers={"authorization": "Bearer expected-test-token"},
+        json={
+            "actor": "",
+            "assessment_id": "atlas-portfolio",
+            "new_status": "RED",
+            "rationale": "Test-only override.",
+        },
+    )
+
+    assert response.status_code == 422
+
+
+def test_override_rejects_oversized_rationale_before_audit(monkeypatch):
+    monkeypatch.setenv("PROGRAM_OS_API_TOKEN", "expected-test-token")
+    api._PROTECTED_CALLS.clear()
+
+    response = client.post(
+        "/atlas/override",
+        headers={"authorization": "Bearer expected-test-token"},
+        json={
+            "actor": "tester",
+            "assessment_id": "atlas-portfolio",
+            "new_status": "RED",
+            "rationale": "x" * 2001,
+        },
+    )
+
+    assert response.status_code == 422
