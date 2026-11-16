@@ -60,7 +60,11 @@ Human override + audit:
 
 - POST /atlas/override
 
-The demo UI is read-only, so an override goes through the protected API. With the demo running from a shell where PROGRAM_OS_API_TOKEN is set:
+When the full local demo is started from a shell where `PROGRAM_OS_API_TOKEN` is set, the browser UI exposes a **Human accountability** panel. The browser never receives the bearer token: a same-origin Next.js server route validates the form, injects the fixed Atlas assessment ID and token server-side, and forwards the protected request to FastAPI.
+
+The public GitHub Pages showcase remains static and read-only.
+
+The protected API can still be exercised directly:
 
 ~~~bash
 curl -s -X POST http://127.0.0.1:8000/atlas/override \
@@ -93,7 +97,7 @@ Open http://localhost:3000.
 4. Expand **Why this conclusion · what would change it** on a finding and verify the reasoning factor and clearing condition are concrete.
 5. Review the resource tradeoff and its downside to AI work.
 6. Read the Friday status.
-7. Optionally configure PROGRAM_OS_API_TOKEN, submit an override through the API and inspect the audit + unapproved learning proposal.
+7. Optionally configure `PROGRAM_OS_API_TOKEN`, record a human status decision in the local UI, and inspect the override ID, audit event, and unapproved learning proposal.
 8. Compare the behavior with the measured evaluation results.
 
 ## Containerized preview
@@ -106,6 +110,6 @@ Open http://127.0.0.1:3000.
 
 The Compose ports bind to 127.0.0.1 by default. This configuration is intentionally **local-demo-only** and should not be changed to a public bind address without implementing the production controls described in [Production trust boundaries](PRODUCTION_TRUST_BOUNDARIES.md).
 
-To exercise protected operations through Compose, set PROGRAM_OS_API_TOKEN in the shell before starting the containers.
+To exercise protected operations through Compose, set `PROGRAM_OS_API_TOKEN` in the shell before starting the containers. Compose passes it to both the FastAPI service and the Next.js server; the browser does not receive the token.
 
 See [Hosted deterministic demo](HOSTED_DEMO.md) for the public deployment boundary and [Use Program OS on your own](USE_YOUR_OWN_PROGRAM.md) for pilot ingestion.
