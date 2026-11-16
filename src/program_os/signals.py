@@ -33,13 +33,59 @@ def _text(item: Evidence) -> str:
     return json.dumps(item.payload, sort_keys=True)
 
 
-def _extract_dates(item: Evidence) -> set[str]:
-    text = _text(item)
+def _dates_in(text: str, default_year: int) -> set[str]:
     dates = set(_ISO_DATE.findall(text))
     for month, day in _MONTH_DATE.findall(text):
-        year = item.source_updated_at.year
         month_number = _MONTHS[month[:3].lower()]
-        dates.add(f"{year:04d}-{month_number:02d}-{int(day):02d}")
+        dates.add(f"{default_year:04d}-{month_number:02d}-{int(day):02d}")
+    return dates
+
+
+def _names_partner_integration(text: str) -> bool:
+    lowered = text.lower()
+    return "partner" in lowered and "integration" in lowered
+
+
+def _partner_integration_dates(item: Evidence) -> set[str]:
+    """Dates this record states for the partner integration itself.
+
+    A record can mention the partner integration and still hold many dates that
+    belong to other work: a milestone plan, a dependency map, a launch plan.
+    Only three places count, so unrelated dates never read as a conflict:
+
+    1. the record's own date fields, when its title names the integration;
+    2. milestones whose name names the integration;
+    3. free-text statements that name the integration.
+
+    Dependency "required by" dates are downstream need-by dates, not dates for
+    the integration, so they are left out.
+    """
+    payload = item.payload
+    year = item.source_updated_at.year
+    dates: set[str] = set()
+
+    if _names_partner_integration(str(payload.get("title", ""))):
+        for key in ("due_date", "target_date", "forecast_date", "date"):
+            value = payload.get(key)
+            if isinstance(value, str):
+                dates |= _dates_in(value, year)
+
+    for milestone in payload.get("milestones", []):
+        if isinstance(milestone, dict):
+            name, value = milestone.get("name", ""), milestone.get("date", "")
+        elif isinstance(milestone, (list, tuple)) and len(milestone) >= 2:
+            name, value = milestone[0], milestone[1]
+        else:
+            continue
+        if _names_partner_integration(str(name)):
+            dates |= _dates_in(str(value), year)
+
+    statements = [payload.get(key) for key in ("notes", "summary", "finding")]
+    statements += list(payload.get("statements", []))
+    for statement in statements:
+        if isinstance(statement, str) and _names_partner_integration(statement):
+            dates |= _dates_in(statement, year)
+
     return dates
 
 
@@ -113,15 +159,22 @@ def detect_signals(evidence: Iterable[Evidence]) -> list[Signal]:
         item for item in items
         if "partner" in _text(item).lower() and "integration" in _text(item).lower()
     ]
-    partner_dates: set[str] = set()
+    # Map each stated date to the records that state it, so the finding names
+    # which source says what instead of listing every date in those records.
+    partner_dates: dict[str, list[str]] = {}
     for item in partner:
-        partner_dates.update(_extract_dates(item))
+        for stated in _partner_integration_dates(item):
+            partner_dates.setdefault(stated, []).append(item.evidence_id)
     if len(partner_dates) >= 2:
+        stated_dates = ", ".join(
+            f"{stated} ({', '.join(sorted(sources))})"
+            for stated, sources in sorted(partner_dates.items())
+        )
         signals.append(Signal(
             "cross_source_date_conflict",
             "PLAT",
             "high",
-            "Partner integration dates conflict across current sources: " + ", ".join(sorted(partner_dates)) + ".",
+            "Partner integration dates conflict across current sources: " + stated_dates + ".",
             tuple(item.evidence_id for item in partner),
         ))
 
