@@ -1,3 +1,5 @@
+import { OverridePanel } from "./components/OverridePanel";
+
 export const dynamic = "force-dynamic";
 
 type DemoPayload = {
@@ -125,6 +127,7 @@ export default async function Home() {
   }
 
   const status = data.friday_status;
+  const protectedDecisionEnabled = Boolean(process.env.PROGRAM_OS_API_TOKEN);
 
   return (
     <main className="shell">
@@ -204,6 +207,11 @@ export default async function Home() {
           />
         </article>
       </section>
+
+      <OverridePanel
+        enabled={protectedDecisionEnabled}
+        defaultStatus={status.forecast_rag}
+      />
 
       <section>
         <div className="sectionHead">
