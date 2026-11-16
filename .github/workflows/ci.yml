@@ -41,6 +41,10 @@ jobs:
           rm -rf /tmp/program-os-showcase
           python -m program_os.showcase --output /tmp/program-os-showcase/atlas-demo.json
           python -m json.tool /tmp/program-os-showcase/atlas-demo.json >/dev/null
+      - name: Validate self-serve JSON ingestion example
+        run: |
+          python scripts/json_ingest_smoke.py examples/pilot/source-record-example.json > /tmp/program-os-json-smoke.json
+          python -m json.tool /tmp/program-os-json-smoke.json >/dev/null
 
   web:
     runs-on: ubuntu-latest
@@ -62,6 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Validate local-only Compose configuration
+        run: docker compose config >/dev/null
       - name: Build API container
         run: docker build -f Dockerfile.api -t program-os-api .
       - name: Build web container
