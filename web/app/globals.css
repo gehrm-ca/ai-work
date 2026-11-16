@@ -70,3 +70,46 @@ dd { margin: 0; }
 @media (max-width: 520px) {
   .evidenceMetaGrid { grid-template-columns: 1fr; }
 }
+
+.decisionGrid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 16px; }
+.decisionForm { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
+.decisionForm label { display: grid; gap: 7px; }
+.decisionForm label > span { color: #8e98a6; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.decisionForm input,
+.decisionForm select,
+.decisionForm textarea {
+  width: 100%;
+  border: 1px solid #343a43;
+  border-radius: 9px;
+  padding: 11px 12px;
+  background: #0b0d10;
+  color: #f4f4f1;
+  font: inherit;
+}
+.decisionForm textarea { resize: vertical; }
+.decisionForm input:focus,
+.decisionForm select:focus,
+.decisionForm textarea:focus { outline: 2px solid #6f7f34; outline-offset: 1px; }
+.decisionWide { grid-column: 1 / -1; }
+.decisionActions { display: flex; justify-content: flex-start; }
+.decisionActions button {
+  border: 1px solid #d7ff5f;
+  border-radius: 9px;
+  padding: 11px 15px;
+  background: #d7ff5f;
+  color: #10130a;
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+.decisionActions button:disabled { cursor: wait; opacity: .6; }
+.decisionDisabled { margin-top: 20px; border: 1px solid #4a3513; border-radius: 10px; padding: 16px; background: #211a0e; }
+.decisionDisabled code { color: #ffd27a; }
+.decisionReceipt dl { margin-top: 18px; }
+.decisionReceipt dd { overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+.decisionError { color: #ff9ca7; }
+.decisionSuccess { margin-top: 20px; color: #8cf0bd; }
+@media (max-width: 800px) {
+  .decisionGrid, .decisionForm { grid-template-columns: 1fr; }
+  .decisionWide { grid-column: auto; }
+}
