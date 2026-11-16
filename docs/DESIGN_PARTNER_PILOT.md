@@ -70,6 +70,16 @@ For every source object preserve:
 
 Program OS must be evaluated against what was knowable at that point in time.
 
+## Evidence readiness gate
+
+Before Program OS analysis, run the connector/export smoke command and retain the aggregate evidence-readiness result with the private pilot materials.
+
+For a full portfolio pilot, prefer a **pilot_candidate** snapshot: complete ingestion, more than one source type, more than one project/workstream, and at least one authority-tier 1 or 2 source. A **connector_ready** result is sufficient to validate a single read-only connector, but it is not sufficient evidence that cross-source contradiction or portfolio-tradeoff behavior can be evaluated.
+
+Review all readiness limitations before analysis, especially partial retrieval, missing permission context, stale records, weak authority mix, and single-source/single-project coverage.
+
+The readiness profile validates structure and coverage. It does not establish organization-specific semantic mapping or compatibility with Atlas-specific detectors.
+
 ## Program OS run
 
 Generate:
@@ -220,7 +230,7 @@ python scripts/pilot_packet.py init \
 ```
 
 Before Program OS analysis, populate the `baseline` and `evidence_snapshot`
-sections, then enforce the anti-hindsight gate:
+sections, run the applicable ingestion smoke/readiness check, then enforce the anti-hindsight gate:
 
 ```bash
 python scripts/pilot_packet.py check-ready var/pilots/pilot-001.json
