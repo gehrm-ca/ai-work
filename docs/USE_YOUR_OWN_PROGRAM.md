@@ -81,7 +81,8 @@ Optional fields include **source_url** and permission metadata.
 Run the safe smoke check:
 
 ~~~bash
-python -m pip install -e .
+python -m pip install -r requirements.lock
+python -m pip install --no-deps -e .
 python scripts/json_ingest_smoke.py /absolute/path/to/export.json
 ~~~
 
