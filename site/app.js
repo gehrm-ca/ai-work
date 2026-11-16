@@ -24,6 +24,26 @@ function evidenceLinks(ids, { prefix = "Evidence: " } = {}) {
   ).join('<span class="evidence-separator"> · </span>')}`;
 }
 
+function trustDetails(reasoningFactors = [], whatWouldChange = []) {
+  if (!reasoningFactors.length && !whatWouldChange.length) return "";
+  const list = (items) => items.map((item) => `<li>${esc(item)}</li>`).join("");
+  return `
+    <details class="trust-details">
+      <summary>Why this conclusion · what would change it</summary>
+      <div class="trust-detail-grid">
+        <div>
+          <span>Reasoning factors</span>
+          <ul>${list(reasoningFactors)}</ul>
+        </div>
+        <div>
+          <span>What would change it</span>
+          <ul>${list(whatWouldChange)}</ul>
+        </div>
+      </div>
+    </details>
+  `;
+}
+
 function evidenceTitle(record) {
   const payload = record?.payload ?? {};
   return payload.title ?? payload.summary ?? payload.cycle ?? record.evidence_id;
@@ -89,6 +109,7 @@ function renderActions(data) {
         <h3>${esc(a.issue_or_risk)}</h3>
         <p>${esc(a.next_step)}</p>
         <p class="evidence">${evidenceLinks(a.evidence_ids)}</p>
+        ${trustDetails(a.reasoning_factors, a.what_would_change)}
       </div>
     </article>
   `).join("");
@@ -107,6 +128,7 @@ function renderTradeoff(data) {
     <p>${esc(r.expected_benefit)}</p>
     <ul>${r.downstream_consequences.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
     <p class="evidence">${evidenceLinks(r.evidence_ids)}</p>
+    ${trustDetails(r.reasoning_factors, r.what_would_change)}
   `;
 }
 
@@ -122,6 +144,7 @@ function renderFriday(data) {
       <div><dt>Budget</dt><dd>${esc(s.budget_tracking)}</dd></div>
       <div><dt>Forecast</dt><dd>${esc(s.forecast_rag)} / ${esc(s.confidence)}</dd></div>
     </dl>
+    ${trustDetails(s.reasoning_factors, s.what_would_change)}
   `;
 }
 
@@ -132,6 +155,7 @@ function renderSignals(data) {
       <h3>${esc(s.kind.replaceAll("_", " "))}</h3>
       <p>${esc(s.summary)}</p>
       <p class="evidence">${evidenceLinks(s.evidence_ids, { prefix: "" })}</p>
+      ${trustDetails(s.reasoning_factors, s.what_would_change)}
     </article>
   `).join("");
 }

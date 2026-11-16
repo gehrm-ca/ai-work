@@ -42,6 +42,13 @@ section { padding-top: 56px; }
 .evidenceMetaGrid span { display: block; margin-bottom: 6px; color: #737c89; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .evidenceMetaGrid strong { display: block; overflow-wrap: anywhere; font-size: 14px; }
 .evidencePayload { margin: 0; border: 1px solid #292d33; border-radius: 14px; padding: 24px; overflow: auto; background: #090c10; color: #d8dde4; font: 13px/1.65 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.trustDetails { margin-top: 18px; border-top: 1px solid #292d33; padding-top: 14px; }
+.trustDetails summary { color: #d7ff5f; cursor: pointer; font-size: 12px; font-weight: 800; }
+.trustDetailGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trustDetailGrid > div { min-width: 0; border: 1px solid #292d33; border-radius: 10px; padding: 14px; background: #181e26; }
+.trustDetailGrid span { display: block; margin-bottom: 8px; color: #8e98a6; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.trustDetailGrid ul { margin: 0; padding-left: 18px; }
+.trustDetailGrid li { margin: 6px 0; color: #b8bec7; font-size: 13px; line-height: 1.45; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .panel { padding: 28px; }
 .panel ul { color: #b8bec7; line-height: 1.6; }
@@ -55,6 +62,7 @@ dd { margin: 0; }
 @media (max-width: 800px) {
   .hero, .grid2, .signalGrid { grid-template-columns: 1fr; }
   .evidenceMetaGrid { grid-template-columns: 1fr 1fr; }
+  .trustDetailGrid { grid-template-columns: 1fr; }
   h1 { font-size: 52px; }
   .sectionHead { align-items: start; flex-direction: column; }
 }
