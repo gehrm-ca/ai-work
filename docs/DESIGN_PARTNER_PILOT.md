@@ -230,11 +230,30 @@ python scripts/pilot_packet.py init \
 ```
 
 Before Program OS analysis, populate the `baseline` and `evidence_snapshot`
-sections, run the applicable ingestion smoke/readiness check, then enforce the anti-hindsight gate:
+sections, then save the applicable ingestion smoke/readiness output:
+
+```bash
+python scripts/json_ingest_smoke.py /absolute/path/to/export.json \
+  > var/pilots/pilot-001-readiness.json
+```
+
+For Jira, redirect `scripts/jira_ingest_smoke.py` the same way.
+
+Attach that readiness result to the frozen pilot record:
+
+```bash
+python scripts/pilot_packet.py attach-readiness \
+  var/pilots/pilot-001.json \
+  var/pilots/pilot-001-readiness.json
+```
+
+Then enforce the anti-hindsight + evidence-quality gate:
 
 ```bash
 python scripts/pilot_packet.py check-ready var/pilots/pilot-001.json
 ```
+
+`check-ready` succeeds only when the human baseline exists, the evidence snapshot is frozen, and the attached readiness level is `pilot_candidate`. A `connector_ready` result remains valid evidence that a source connector works, but it does not open the full design-partner analysis gate.
 
 Validate the record:
 
