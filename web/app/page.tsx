@@ -53,7 +53,11 @@ type DemoPayload = {
 async function getDemo(): Promise<DemoPayload | null> {
   const base = process.env.PROGRAM_OS_API_URL ?? "http://127.0.0.1:8000";
   try {
-    const response = await fetch(`${base}/atlas/demo`, { cache: "no-store" });
+    const token = process.env.PROGRAM_OS_API_TOKEN;
+    const response = await fetch(`${base}/atlas/demo`, {
+      cache: "no-store",
+      headers: token ? { authorization: `Bearer ${token}` } : undefined,
+    });
     if (!response.ok) return null;
     return await response.json();
   } catch {
