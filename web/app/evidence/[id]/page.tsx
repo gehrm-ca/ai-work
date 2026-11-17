@@ -16,9 +16,13 @@ type EvidenceRecord = {
 async function getEvidence(id: string): Promise<EvidenceRecord | null> {
   const base = process.env.PROGRAM_OS_API_URL ?? "http://127.0.0.1:8000";
   try {
+    const token = process.env.PROGRAM_OS_API_TOKEN;
     const response = await fetch(
       `${base}/atlas/evidence/${encodeURIComponent(id)}`,
-      { cache: "no-store" },
+      {
+        cache: "no-store",
+        headers: token ? { authorization: `Bearer ${token}` } : undefined,
+      },
     );
     if (response.status === 404) return null;
     if (!response.ok) throw new Error(`Evidence API returned ${response.status}`);
