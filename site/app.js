@@ -57,7 +57,7 @@ function renderEvidenceDetail(record) {
   const payload = JSON.stringify(record.payload ?? {}, null, 2);
   detail.innerHTML = `
     <p class="eyebrow">IMMUTABLE EVIDENCE / ${esc(record.evidence_id)}</p>
-    <h2>${esc(evidenceTitle(record))}</h2>
+    <h2 id="evidence-detail-title">${esc(evidenceTitle(record))}</h2>
     <div class="evidence-meta-grid">
       <div><span>Source</span><strong>${esc(record.source_type)}</strong></div>
       <div><span>Project</span><strong>${esc(String(record.project_id).toUpperCase())}</strong></div>
