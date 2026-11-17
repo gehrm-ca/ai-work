@@ -40,13 +40,16 @@ The deterministic Atlas demo does **not** require an OpenAI API key. Protected l
 - [V2 release notes](docs/V2_RELEASE_NOTES.md)
 - [V2 measured evaluation](docs/V2_EVALUATION_RESULTS.md)
 - [Detailed demo instructions](docs/RUN_DEMO.md)
+- [Beta-testing guide](docs/BETA_TESTING.md)
 - [Use Program OS on your own / pilot ingestion](docs/USE_YOUR_OWN_PROGRAM.md)
 - [Hosted deterministic demo boundary](docs/HOSTED_DEMO.md)
 - [Live demo on GitHub Pages](https://gehrm-ca.github.io/ai-work/), generated from the same deterministic Atlas payload
 
 ## For beta testers
 
-Thanks for looking. Ten minutes is enough, and the data is synthetic: nothing here belongs to a real company.
+Use the [beta-testing guide](docs/BETA_TESTING.md) to choose the correct track: broad hosted synthetic review, local synthetic full-product review, or a controlled real-data connector pilot.
+
+For most reviewers, ten minutes on the hosted demo is enough, and the data is synthetic: nothing here belongs to a real company.
 
 1. Open the [live demo](https://gehrm-ca.github.io/ai-work/) and read it as if Atlas were your program.
 2. Then tell me:
