@@ -9,11 +9,19 @@ services:
       dockerfile: Dockerfile.api
     environment:
       PROGRAM_OS_ENABLE_LIVE_AGENT: "false"
-      PROGRAM_OS_AUDIT_PATH: /tmp/program-os/audit.jsonl
+      PROGRAM_OS_AUDIT_PATH: /var/program-os/audit.jsonl
       PROGRAM_OS_API_TOKEN: ${PROGRAM_OS_API_TOKEN:-}
       PROGRAM_OS_PROTECTED_RPM: ${PROGRAM_OS_PROTECTED_RPM:-30}
     ports:
       - "127.0.0.1:8000:8000"
+    volumes:
+      - program_os_audit:/var/program-os
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+      start_period: 3s
 
   web:
     build:
@@ -23,6 +31,11 @@ services:
       PROGRAM_OS_API_URL: http://api:8000
       PROGRAM_OS_API_TOKEN: ${PROGRAM_OS_API_TOKEN:-}
     depends_on:
-      - api
+      api:
+        condition: service_healthy
     ports:
       - "127.0.0.1:3000:3000"
+
+
+volumes:
+  program_os_audit:
