@@ -75,7 +75,7 @@ curl -s -X POST http://127.0.0.1:8000/atlas/override \
 
 The response contains the override, the audit event and an unapproved learning proposal.
 
-Audit records default to /tmp/program-os/audit.jsonl (var/audit.jsonl under make demo) and do not modify model behavior.
+Audit records are stored at `var/audit.jsonl` under `make demo`. The Docker path stores them in the named volume `program_os_audit` at `/var/program-os/audit.jsonl`, so container recreation does not silently erase the local decision history. These prototype audit records do not modify model behavior and are not production tamper-evident storage.
 
 Protected operations have an in-process demo rate limit controlled by PROGRAM_OS_PROTECTED_RPM (default 30 requests per minute per client). This is not a substitute for production gateway controls.
 
@@ -111,5 +111,17 @@ Open http://127.0.0.1:3000.
 The Compose ports bind to 127.0.0.1 by default. This configuration is intentionally **local-demo-only** and should not be changed to a public bind address without implementing the production controls described in [Production trust boundaries](PRODUCTION_TRUST_BOUNDARIES.md).
 
 To exercise protected operations through Compose, set `PROGRAM_OS_API_TOKEN` in the shell before starting the containers. Compose passes it to both the FastAPI service and the Next.js server; the browser does not receive the token.
+
+Inspect Docker audit records with:
+
+~~~bash
+docker compose exec api cat /var/program-os/audit.jsonl
+~~~
+
+Delete containers and the retained audit volume after testing with sensitive rationale:
+
+~~~bash
+docker compose down -v
+~~~
 
 See [Hosted deterministic demo](HOSTED_DEMO.md) for the public deployment boundary and [Use Program OS on your own](USE_YOUR_OWN_PROGRAM.md) for pilot ingestion.

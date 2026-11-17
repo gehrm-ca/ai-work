@@ -156,7 +156,7 @@ export function OverridePanel({
           )}
         </div>
 
-        <div className="panel decisionReceipt">
+        <div className="panel decisionReceipt" aria-live="polite">
           <p className="eyebrow">DECISION RECEIPT</p>
           {state === "idle" && (
             <p>

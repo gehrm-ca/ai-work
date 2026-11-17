@@ -19,7 +19,8 @@ from .evidence import index_evidence, load_evidence_dir
 from .models import Rag
 
 
-DATA_DIR = Path(os.getenv("PROGRAM_OS_ATLAS_DIR", "examples/atlas/data"))
+DEFAULT_DATA_DIR = Path("examples/atlas/data")
+DATA_DIR = Path(os.getenv("PROGRAM_OS_ATLAS_DIR", str(DEFAULT_DATA_DIR)))
 AUDIT_PATH = Path(os.getenv("PROGRAM_OS_AUDIT_PATH", "/tmp/program-os/audit.jsonl"))
 _PROTECTED_CALLS: dict[str, deque[float]] = defaultdict(deque)
 _PROTECTED_CALLS_LOCK = threading.Lock()
@@ -31,6 +32,14 @@ def _env_truthy(name: str) -> bool:
 
 def live_agent_enabled() -> bool:
     return _env_truthy("PROGRAM_OS_ENABLE_LIVE_AGENT")
+
+
+def custom_demo_data_configured() -> bool:
+    return DATA_DIR != DEFAULT_DATA_DIR
+
+
+def custom_demo_data_allowed() -> bool:
+    return _env_truthy("PROGRAM_OS_ALLOW_CUSTOM_DATA_API")
 
 
 def protected_api_auth_configured() -> bool:
@@ -52,6 +61,22 @@ def _protected_rate_limit_per_minute() -> int:
     except ValueError:
         value = 30
     return max(1, min(value, 600))
+
+
+def _authorize_demo_data_request(request: Request) -> None:
+    if not custom_demo_data_configured():
+        return
+    if not custom_demo_data_allowed():
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "Custom demo data is disabled by default. Do not point the local "
+                "Atlas API at employer/customer data. If you intentionally need a "
+                "custom local dataset, set PROGRAM_OS_ALLOW_CUSTOM_DATA_API=true "
+                "and configure PROGRAM_OS_API_TOKEN."
+            ),
+        )
+    _authorize_protected_request(request)
 
 
 def _authorize_protected_request(request: Request) -> None:
@@ -128,16 +153,20 @@ def capabilities() -> dict:
         "deterministic_demo": True,
         "protected_api_auth_configured": protected_api_auth_configured(),
         "live_agent_enabled": live_agent_ready(),
+        "custom_demo_data_configured": custom_demo_data_configured(),
+        "custom_demo_data_allowed": custom_demo_data_allowed(),
     }
 
 
 @app.get("/atlas/demo")
-def atlas_demo() -> dict:
+def atlas_demo(http_request: Request) -> dict:
+    _authorize_demo_data_request(http_request)
     return build_demo_payload(DATA_DIR)
 
 
 @app.get("/atlas/evidence/{evidence_id}")
-def atlas_evidence(evidence_id: str) -> dict:
+def atlas_evidence(evidence_id: str, http_request: Request) -> dict:
+    _authorize_demo_data_request(http_request)
     evidence = index_evidence(load_evidence_dir(DATA_DIR)).get(evidence_id)
     if evidence is None:
         raise HTTPException(status_code=404, detail="Evidence record not found.")
@@ -146,6 +175,15 @@ def atlas_evidence(evidence_id: str) -> dict:
 
 @app.post("/atlas/agent-draft")
 def atlas_agent_draft(request: AssessmentRequest, http_request: Request) -> dict:
+    if custom_demo_data_configured() and not custom_demo_data_allowed():
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "Custom demo data is disabled for the live-agent path. Set "
+                "PROGRAM_OS_ALLOW_CUSTOM_DATA_API=true only after reviewing the "
+                "model-provider data boundary."
+            ),
+        )
     if not live_agent_enabled():
         raise HTTPException(
             status_code=503,
