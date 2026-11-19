@@ -1,8 +1,9 @@
+import json
 from datetime import datetime, timezone
 
 import pytest
 
-from program_os.agent import AgentAssessmentDraft, build_agent
+from program_os.agent import AgentAssessmentDraft, build_agent, render_evidence
 from program_os.confidence import ConfidenceInputs
 from program_os.controls import ControlContext
 from program_os.grounding import GroundingError, finalize_assessment
@@ -85,3 +86,27 @@ def test_resolved_historical_contradiction_does_not_force_amber():
     )
     assert result.forecast_rag == Rag.GREEN
     assert result.hard_gates == []
+
+
+def test_model_context_excludes_connector_permission_metadata():
+    item = evidence_item().model_copy(
+        update={
+            "payload": {
+                "status": "Blocked",
+                "_connector": {
+                    "connector_id": "jira-live",
+                    "source_url": "https://customer.example.invalid/browse/SECRET-1",
+                    "permission_context": {
+                        "principal": "person@example.invalid",
+                        "scopes": ["read:jira-work"],
+                    },
+                },
+            }
+        }
+    )
+
+    rendered = json.loads(render_evidence([item]))
+
+    assert rendered[0]["payload"] == {"status": "Blocked"}
+    assert "person@example.invalid" not in json.dumps(rendered)
+    assert "customer.example.invalid" not in json.dumps(rendered)

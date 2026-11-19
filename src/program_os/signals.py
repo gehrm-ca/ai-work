@@ -27,6 +27,81 @@ class Signal:
     severity: str
     summary: str
     evidence_ids: tuple[str, ...]
+    reasoning_factors: tuple[str, ...] = ()
+    what_would_change: tuple[str, ...] = ()
+
+
+_SIGNAL_GUIDANCE: dict[str, dict[str, tuple[str, ...]]] = {
+    "resource_overallocation": {
+        "reasoning_factors": (
+            "A shared critical resource is allocated beyond available capacity across concurrent launch work.",
+        ),
+        "what_would_change": (
+            "A current resource plan shows the shared resource at or below full capacity, or an alternate owner is assigned without moving a critical milestone.",
+        ),
+    },
+    "worsening_defect_trend": {
+        "reasoning_factors": (
+            "Multiple test cycles show high-severity defects rising while overall pass rate declines.",
+        ),
+        "what_would_change": (
+            "Fresh test evidence shows the high-defect trend reversing and readiness metrics recovering to the agreed launch threshold.",
+        ),
+    },
+    "unapproved_scope_change": {
+        "reasoning_factors": (
+            "Delivery work tagged as new scope is active while the corresponding formal scope decision is still pending.",
+        ),
+        "what_would_change": (
+            "The scope change is formally approved or rejected and implementation plus downstream commitments are reconciled to that decision.",
+        ),
+    },
+    "cross_source_date_conflict": {
+        "reasoning_factors": (
+            "Current sources state incompatible completion dates for the same critical-path partner integration.",
+        ),
+        "what_would_change": (
+            "Fresh authoritative planning and execution evidence converges on one partner-integration completion date and the critical-path baseline is updated.",
+        ),
+    },
+    "launch_threshold_gap": {
+        "reasoning_factors": (
+            "The observed readiness metric is below the documented launch threshold.",
+        ),
+        "what_would_change": (
+            "Current test evidence meets or exceeds the documented threshold, or an authorized decision formally changes the threshold.",
+        ),
+    },
+    "approval_timing_risk": {
+        "reasoning_factors": (
+            "Mandatory compliance sign-off is scheduled near a period when the named approver is unavailable.",
+        ),
+        "what_would_change": (
+            "The required sign-off is completed early or a confirmed backup approver has authority and availability before the critical date.",
+        ),
+    },
+    "official_status_lag": {
+        "reasoning_factors": (
+            "The latest official GREEN predates fresher operational evidence that contains high-severity delivery signals.",
+        ),
+        "what_would_change": (
+            "A new official status reconciles the fresher evidence, or the underlying operational signals are corrected or demonstrably resolved.",
+        ),
+    },
+}
+
+
+def _with_guidance(signal: Signal) -> Signal:
+    guidance = _SIGNAL_GUIDANCE.get(signal.kind, {})
+    return Signal(
+        kind=signal.kind,
+        project_id=signal.project_id,
+        severity=signal.severity,
+        summary=signal.summary,
+        evidence_ids=signal.evidence_ids,
+        reasoning_factors=guidance.get("reasoning_factors", ()),
+        what_would_change=guidance.get("what_would_change", ()),
+    )
 
 
 def _text(item: Evidence) -> str:
@@ -233,4 +308,4 @@ def detect_signals(evidence: Iterable[Evidence]) -> list[Signal]:
                 tuple([latest_status.evidence_id] + [item.evidence_id for item in fresher[:6]]),
             ))
 
-    return signals
+    return [_with_guidance(signal) for signal in signals]

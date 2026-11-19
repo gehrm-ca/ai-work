@@ -19,7 +19,7 @@ Tracking: [#17](https://github.com/gehrm-ca/ai-work/issues/17)
 
 Start with one read-only source path.
 
-The connector is successful only if it preserves provenance, timestamps, permissions, and partial-failure state. The milestone does not require production OAuth UX or write-back.
+The connector is successful only if it preserves provenance, timestamps, permissions, and partial-failure state. Its smoke output also produces a content-minimizing readiness profile so connector success is not confused with cross-source portfolio readiness. The milestone does not require production OAuth UX or write-back.
 
 A live connector must not silently turn missing or inaccessible records into absence of risk.
 

@@ -110,13 +110,13 @@ The issue closes only after a real or vendor-sandbox Jira site is fetched and Pr
 - safe behavior under partial/inaccessible data.
 
 
-## GitHub Actions live-source smoke test
+## GitHub Actions sandbox smoke test
 
-The repository includes a manual `Jira Ingestion Smoke` workflow.
+The repository includes a manual `Jira Ingestion Smoke` workflow for synthetic or vendor-sandbox validation.
 
-Because this repository is public, the workflow intentionally does **not** print
-Jira issue keys or upload source records. It publishes only record count,
-completion status, and failure categories.
+**Do not run confidential employer/customer partner data through this public repository's Actions workflow.** GitHub Actions history and logs for a public repository are visible to repository readers. The workflow suppresses the detailed readiness JSON from logs and deletes it before job teardown, but public CI is still the wrong boundary for confidential partner evidence.
+
+For a real design-partner pilot, run `scripts/jira_ingest_smoke.py` locally or in an organization-approved private environment.
 
 Configure repository Actions secrets:
 
@@ -139,6 +139,4 @@ Configure repository Actions secrets:
 
 Do not configure both auth modes at once.
 
-The workflow fails if the snapshot is partial or returns zero records. A successful
-run proves read-only connectivity and complete retrieval for the supplied JQL, but
-#17 still requires using imported evidence in a Program OS assessment before closure.
+The workflow fails if the snapshot is partial or returns zero records. It prints only a pass/fail result after the private runner-local summary is checked and does not upload that summary as an artifact. A successful sandbox run proves read-only connectivity and complete retrieval for the supplied JQL, but #17 still requires using imported evidence in a Program OS assessment before closure.

@@ -12,6 +12,7 @@ from program_os.pilot import (
     PilotRecord,
     new_pilot_record,
 )
+from program_os.readiness import EvidenceReadinessLevel
 
 
 def test_new_pilot_is_not_ready_until_baseline_and_snapshot_exist():
@@ -36,6 +37,7 @@ def test_pilot_ready_requires_frozen_human_baseline_and_evidence_snapshot():
             source_types=("jira", "meeting_notes"),
             evidence_count=42,
             private_location="var/pilots/pilot-1/evidence",
+            readiness_level=EvidenceReadinessLevel.PILOT_CANDIDATE,
         ),
     )
     assert record.ready_for_analysis is True
@@ -88,3 +90,52 @@ def test_aggregate_summary_excludes_finding_text_and_evidence_ids():
     assert summary["would_run_again_next_week"] is True
     assert "Private rationale" not in serialized
     assert "PRIVATE-123" not in serialized
+
+
+def test_pilot_is_not_ready_with_connector_only_evidence():
+    record = PilotRecord(
+        pilot_id="pilot-connector-only",
+        program_alias="Program A",
+        started_at=datetime.now(timezone.utc),
+        baseline=PilotBaseline(
+            recorded_at=datetime.now(timezone.utc),
+            official_rag=Rag.GREEN,
+            forecast_expectation="On track.",
+            plan_confidence=ConfidenceBand.MODERATE,
+        ),
+        evidence_snapshot=PilotEvidenceSnapshot(
+            snapshot_id="snap-connector",
+            captured_at=datetime.now(timezone.utc),
+            source_types=("jira",),
+            evidence_count=12,
+            private_location="var/pilots/pilot-connector/evidence",
+            readiness_level=EvidenceReadinessLevel.CONNECTOR_READY,
+        ),
+    )
+
+    assert record.ready_for_analysis is False
+    assert record.aggregate_summary()["evidence_readiness_level"] == "connector_ready"
+
+
+def test_pilot_is_not_ready_when_readiness_has_not_been_attached():
+    record = PilotRecord(
+        pilot_id="pilot-no-readiness",
+        program_alias="Program A",
+        started_at=datetime.now(timezone.utc),
+        baseline=PilotBaseline(
+            recorded_at=datetime.now(timezone.utc),
+            official_rag=Rag.GREEN,
+            forecast_expectation="On track.",
+            plan_confidence=ConfidenceBand.MODERATE,
+        ),
+        evidence_snapshot=PilotEvidenceSnapshot(
+            snapshot_id="snap-unprofiled",
+            captured_at=datetime.now(timezone.utc),
+            source_types=("jira", "risk_log"),
+            evidence_count=12,
+            private_location="var/pilots/pilot-unprofiled/evidence",
+        ),
+    )
+
+    assert record.ready_for_analysis is False
+    assert record.aggregate_summary()["evidence_readiness_level"] is None
