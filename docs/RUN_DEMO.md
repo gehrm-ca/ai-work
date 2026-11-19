@@ -61,7 +61,7 @@ Human override + audit:
 
 - POST /atlas/override
 
-When both `PROGRAM_OS_API_TOKEN` and `PROGRAM_OS_UI_TOKEN` are set, start the local demo and visit http://127.0.0.1:3000/login. Enter **only** the separate `PROGRAM_OS_UI_TOKEN`, not the backend API token. The UI issues an eight-hour HttpOnly session cookie, and the **Human accountability** panel then becomes available. The browser never receives the backend bearer token. The proxy assigns the actor `local-authenticated-operator`; this is a shared local operator identity and not enterprise identity proof.
+When both `PROGRAM_OS_API_TOKEN` and `PROGRAM_OS_UI_TOKEN` are set, start the local demo and visit http://127.0.0.1:3000/login. Enter **only** the separate `PROGRAM_OS_UI_TOKEN`, not the backend API token. The UI issues an eight-hour HttpOnly session cookie, and the **Human accountability** panel then becomes available. The browser never receives the backend bearer token. The proxy supplies a local-only actor label, and FastAPI records `local-token-holder` as the authoritative local bearer identity. This is not an authenticated human identity; enterprise SSO and RBAC remain production blockers.
 
 The public GitHub Pages showcase remains static and read-only.
 

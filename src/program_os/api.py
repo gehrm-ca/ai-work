@@ -236,7 +236,9 @@ def atlas_override(request: OverrideRequest, http_request: Request) -> dict:
     _authorize_protected_request(http_request)
 
     override = create_override(
-        actor=request.actor,
+        # A shared local bearer token proves possession, not a human identity.
+        # Never trust the actor field as an authenticated audit principal.
+        actor="local-token-holder",
         assessment_id=request.assessment_id,
         new_status=request.new_status,
         rationale=request.rationale,
