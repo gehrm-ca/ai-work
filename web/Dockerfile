@@ -8,6 +8,7 @@ RUN npm ci --no-audit --no-fund
 
 COPY . .
 RUN npm run build
+RUN npm prune --omit=dev --no-audit --no-fund
 
 FROM node:22-alpine AS runtime
 
@@ -18,6 +19,8 @@ ENV NODE_ENV=production \
 COPY --from=build /app/package.json ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/.next ./.next
+RUN chown -R node:node /app
+USER node
 
 EXPOSE 3000
 

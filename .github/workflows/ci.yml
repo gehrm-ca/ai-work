@@ -30,6 +30,8 @@ jobs:
           python -m pip freeze --exclude-editable | sort > /tmp/program-os-resolved.txt
           grep -v '^#' requirements.lock | sed '/^[[:space:]]*$/d' | sort > /tmp/program-os-expected.txt
           diff -u /tmp/program-os-expected.txt /tmp/program-os-resolved.txt
+      - name: Scan tracked files for secret patterns
+        run: python scripts/security_scan.py
       - name: Test
         run: python -m pytest -q
       - name: Validate demo launcher
@@ -60,6 +62,8 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Build
         run: npm run build
+      - name: Security route smoke test
+        run: node scripts/security-smoke.mjs
 
 
   containers:

@@ -24,6 +24,8 @@ DATA_DIR = Path(os.getenv("PROGRAM_OS_ATLAS_DIR", str(DEFAULT_DATA_DIR)))
 AUDIT_PATH = Path(os.getenv("PROGRAM_OS_AUDIT_PATH", "/tmp/program-os/audit.jsonl"))
 _PROTECTED_CALLS: dict[str, deque[float]] = defaultdict(deque)
 _PROTECTED_CALLS_LOCK = threading.Lock()
+_LIVE_CALLS_LOCK = threading.Lock()
+_LIVE_CALLS_PER_PROCESS = 0
 
 
 def _env_truthy(name: str) -> bool:
@@ -40,6 +42,22 @@ def custom_demo_data_configured() -> bool:
 
 def custom_demo_data_allowed() -> bool:
     return _env_truthy("PROGRAM_OS_ALLOW_CUSTOM_DATA_API")
+
+
+def max_live_calls_per_process() -> int:
+    raw = os.getenv("PROGRAM_OS_MAX_LIVE_CALLS_PER_PROCESS", "10")
+    try:
+        return max(0, min(int(raw), 1000))
+    except ValueError:
+        return 10
+
+
+def _reserve_live_call() -> None:
+    global _LIVE_CALLS_PER_PROCESS
+    with _LIVE_CALLS_LOCK:
+        if _LIVE_CALLS_PER_PROCESS >= max_live_calls_per_process():
+            raise HTTPException(status_code=429, detail="Local live-agent call quota reached. Restart only after reviewing spend.")
+        _LIVE_CALLS_PER_PROCESS += 1
 
 
 def protected_api_auth_configured() -> bool:
@@ -200,9 +218,17 @@ def atlas_agent_draft(request: AssessmentRequest, http_request: Request) -> dict
             status_code=503,
             detail="OPENAI_API_KEY is not configured; deterministic demo endpoints remain available.",
         )
+    _reserve_live_call()
     evidence = load_evidence_dir(DATA_DIR)
     draft = run_agent_assessment(request.question, evidence)
-    return draft.model_dump(mode="json")
+    # This route is deliberately draft-only. Reject fabricated/unavailable citations.
+    from .grounding import GroundingError, validate_citations
+
+    try:
+        validate_citations(draft, evidence)
+    except GroundingError as exc:
+        raise HTTPException(status_code=422, detail="Draft citations failed validation.") from exc
+    return {"draft_only": True, "validated_final_assessment": False, **draft.model_dump(mode="json")}
 
 
 @app.post("/atlas/override")

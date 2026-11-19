@@ -12,7 +12,13 @@ COPY src ./src
 COPY examples ./examples
 
 RUN python -m pip install --no-cache-dir -r requirements.lock \
-    && python -m pip install --no-cache-dir --no-deps .
+    && python -m pip install --no-cache-dir --no-deps . \
+    && groupadd --system programos \
+    && useradd --system --gid programos --home-dir /app --shell /usr/sbin/nologin programos \
+    && mkdir -p /var/program-os \
+    && chown -R programos:programos /var/program-os /app
+
+USER programos
 
 EXPOSE 8000
 

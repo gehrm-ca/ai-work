@@ -12,6 +12,10 @@ services:
       PROGRAM_OS_AUDIT_PATH: /var/program-os/audit.jsonl
       PROGRAM_OS_API_TOKEN: ${PROGRAM_OS_API_TOKEN:-}
       PROGRAM_OS_PROTECTED_RPM: ${PROGRAM_OS_PROTECTED_RPM:-30}
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     ports:
       - "127.0.0.1:8000:8000"
     volumes:
@@ -35,6 +39,10 @@ services:
     depends_on:
       api:
         condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     ports:
       - "127.0.0.1:3000:3000"
 
