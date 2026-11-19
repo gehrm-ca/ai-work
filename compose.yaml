@@ -30,6 +30,8 @@ services:
     environment:
       PROGRAM_OS_API_URL: http://api:8000
       PROGRAM_OS_API_TOKEN: ${PROGRAM_OS_API_TOKEN:-}
+      PROGRAM_OS_UI_TOKEN: ${PROGRAM_OS_UI_TOKEN:-}
+      PROGRAM_OS_ALLOW_CUSTOM_DATA_API: "false"
     depends_on:
       api:
         condition: service_healthy
