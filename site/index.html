@@ -60,7 +60,7 @@
       <ol class="walkthrough-steps">
         <li><strong>Compare status.</strong><span>Official GREEN versus forecast AMBER shows the core disagreement.</span></li>
         <li><strong>Read Monday priorities.</strong><span>Start with the highest-ranked intervention, not the loudest status update.</span></li>
-        <li><strong>Inspect contradictions.</strong><span>Use evidence IDs to see why confidence drops when sources disagree.</span></li>
+        <li><strong>Inspect contradictions.</strong><span>Open any evidence ID to inspect the immutable source record behind the claim.</span></li>
         <li><strong>Check the tradeoff.</strong><span>The recommendation names the downstream cost instead of hiding it.</span></li>
         <li><strong>Finish with Friday.</strong><span>See how the evidence becomes an accountable status narrative.</span></li>
       </ol>
@@ -139,6 +139,13 @@
         <span>Audit + learning proposal</span>
       </div>
     </section>
+
+    <dialog id="evidence-dialog" class="evidence-dialog" aria-labelledby="evidence-detail-title">
+      <form method="dialog" class="evidence-dialog-close-row">
+        <button class="evidence-dialog-close" type="submit" aria-label="Close evidence detail">Close</button>
+      </form>
+      <div id="evidence-detail"></div>
+    </dialog>
 
     <footer>
       <p>
