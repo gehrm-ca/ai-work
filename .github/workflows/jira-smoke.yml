@@ -61,7 +61,7 @@ jobs:
           PROGRAM_OS_SHOW_SOURCE_IDS: "false"
         run: |
           mkdir -p artifacts
-          python scripts/jira_ingest_smoke.py | tee artifacts/jira-smoke-summary.json
+          python scripts/jira_ingest_smoke.py > artifacts/jira-smoke-summary.json
 
       - name: Enforce complete pilot snapshot
         run: |
@@ -77,13 +77,9 @@ jobs:
               )
           if summary["records"] < 1:
               raise SystemExit("Jira query returned zero records; live-source acceptance is not proven.")
-          print(f"Read-only Jira snapshot passed with {summary['records']} record(s).")
+          print("Read-only Jira snapshot passed.")
           PY
 
-      - name: Upload non-sensitive smoke summary
+      - name: Remove smoke summary before job teardown
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: jira-ingestion-smoke-summary
-          path: artifacts/jira-smoke-summary.json
-          if-no-files-found: warn
+        run: rm -f artifacts/jira-smoke-summary.json

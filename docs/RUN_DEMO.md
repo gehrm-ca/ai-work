@@ -27,6 +27,7 @@ Deterministic demo data is available at:
 
 - GET /health
 - GET /atlas/demo
+- GET /atlas/evidence/{evidence_id}
 - GET /capabilities
 
 These read-only endpoints do not require authentication in the local demo.
@@ -59,7 +60,11 @@ Human override + audit:
 
 - POST /atlas/override
 
-The demo UI is read-only, so an override goes through the protected API. With the demo running from a shell where PROGRAM_OS_API_TOKEN is set:
+When the full local demo is started from a shell where `PROGRAM_OS_API_TOKEN` is set, the browser UI exposes a **Human accountability** panel. The browser never receives the bearer token: a same-origin Next.js server route validates the form, injects the fixed Atlas assessment ID and token server-side, and forwards the protected request to FastAPI.
+
+The public GitHub Pages showcase remains static and read-only.
+
+The protected API can still be exercised directly:
 
 ~~~bash
 curl -s -X POST http://127.0.0.1:8000/atlas/override \
@@ -70,7 +75,7 @@ curl -s -X POST http://127.0.0.1:8000/atlas/override \
 
 The response contains the override, the audit event and an unapproved learning proposal.
 
-Audit records default to /tmp/program-os/audit.jsonl (var/audit.jsonl under make demo) and do not modify model behavior.
+Audit records are stored at `var/audit.jsonl` under `make demo`. The Docker path stores them in the named volume `program_os_audit` at `/var/program-os/audit.jsonl`, so container recreation does not silently erase the local decision history. These prototype audit records do not modify model behavior and are not production tamper-evident storage.
 
 Protected operations have an in-process demo rate limit controlled by PROGRAM_OS_PROTECTED_RPM (default 30 requests per minute per client). This is not a substitute for production gateway controls.
 
@@ -88,11 +93,12 @@ Open http://localhost:3000.
 
 1. Compare official GREEN with forecast AMBER.
 2. Review Monday interventions sorted by portfolio priority.
-3. Drill into source IDs for the partner-date contradiction and defect trend.
-4. Review the resource tradeoff and its downside to AI work.
-5. Read the Friday status.
-6. Optionally configure PROGRAM_OS_API_TOKEN, submit an override through the API and inspect the audit + unapproved learning proposal.
-7. Compare the behavior with the measured evaluation results.
+3. Open the source IDs for the partner-date contradiction and defect trend; inspect source freshness, authority tier and the immutable observed payload.
+4. Expand **Why this conclusion · what would change it** on a finding and verify the reasoning factor and clearing condition are concrete.
+5. Review the resource tradeoff and its downside to AI work.
+6. Read the Friday status.
+7. Optionally configure `PROGRAM_OS_API_TOKEN`, record a human status decision in the local UI, and inspect the override ID, audit event, and unapproved learning proposal.
+8. Compare the behavior with the measured evaluation results.
 
 ## Containerized preview
 
@@ -104,6 +110,18 @@ Open http://127.0.0.1:3000.
 
 The Compose ports bind to 127.0.0.1 by default. This configuration is intentionally **local-demo-only** and should not be changed to a public bind address without implementing the production controls described in [Production trust boundaries](PRODUCTION_TRUST_BOUNDARIES.md).
 
-To exercise protected operations through Compose, set PROGRAM_OS_API_TOKEN in the shell before starting the containers.
+To exercise protected operations through Compose, set `PROGRAM_OS_API_TOKEN` in the shell before starting the containers. Compose passes it to both the FastAPI service and the Next.js server; the browser does not receive the token.
+
+Inspect Docker audit records with:
+
+~~~bash
+docker compose exec api cat /var/program-os/audit.jsonl
+~~~
+
+Delete containers and the retained audit volume after testing with sensitive rationale:
+
+~~~bash
+docker compose down -v
+~~~
 
 See [Hosted deterministic demo](HOSTED_DEMO.md) for the public deployment boundary and [Use Program OS on your own](USE_YOUR_OWN_PROGRAM.md) for pilot ingestion.

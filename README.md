@@ -34,19 +34,22 @@ The first run installs dependencies and takes about a minute. Then open `http://
 
 On Windows, or without Python and Node installed, use the containers instead: `docker compose up --build`.
 
-The deterministic Atlas demo does **not** require an OpenAI API key. Protected API operations (human override and live-agent drafts) require a locally configured bearer token; live agent calls additionally require an OpenAI API key and explicit feature flag.
+The deterministic Atlas demo does **not** require an OpenAI API key. Protected local operations require a locally configured bearer token. When that token is present, the full local UI can record audited human overrides through a server-side proxy; live agent calls additionally require an OpenAI API key and explicit feature flag.
 
 - [Five-minute case study](docs/CASE_STUDY.md)
 - [V2 release notes](docs/V2_RELEASE_NOTES.md)
 - [V2 measured evaluation](docs/V2_EVALUATION_RESULTS.md)
 - [Detailed demo instructions](docs/RUN_DEMO.md)
+- [Beta-testing guide](docs/BETA_TESTING.md)
 - [Use Program OS on your own / pilot ingestion](docs/USE_YOUR_OWN_PROGRAM.md)
 - [Hosted deterministic demo boundary](docs/HOSTED_DEMO.md)
 - [Live demo on GitHub Pages](https://gehrm-ca.github.io/ai-work/), generated from the same deterministic Atlas payload
 
 ## For beta testers
 
-Thanks for looking. Ten minutes is enough, and the data is synthetic: nothing here belongs to a real company.
+Use the [beta-testing guide](docs/BETA_TESTING.md) to choose the correct track: broad hosted synthetic review, local synthetic full-product review, or a controlled real-data connector pilot.
+
+For most reviewers, ten minutes on the hosted demo is enough, and the data is synthetic: nothing here belongs to a real company.
 
 1. Open the [live demo](https://gehrm-ca.github.io/ai-work/) and read it as if Atlas were your program.
 2. Then tell me:
@@ -57,11 +60,11 @@ Thanks for looking. Ten minutes is enough, and the data is synthetic: nothing he
 
 Send feedback whichever way is easier: [open a feedback issue](https://github.com/gehrm-ca/ai-work/issues/new?template=beta-feedback.md), or message me on [LinkedIn](https://www.linkedin.com/in/mattgehrmann).
 
-Known gaps in this version, so you need not report them: evidence IDs are shown but cannot be opened yet, and approving or overriding a recommendation works through the API only ([example](docs/RUN_DEMO.md)).
+The public hosted showcase is intentionally read-only. The full local demo can record an audited human override from the UI when `PROGRAM_OS_API_TOKEN` is configured; the bearer token remains server-side and is not exposed to the browser.
 
 ## Using it on your own
 
-The hosted and local Atlas demos are fully self-contained. For a pilot with your own data, the repository includes read-only JSON and Jira ingestion paths that validate provenance, permission context and snapshot completeness.
+The hosted and local Atlas demos are fully self-contained. For a pilot with your own data, the repository includes read-only JSON and Jira ingestion paths that validate provenance, permission context and snapshot completeness, then report aggregate evidence readiness across source diversity, project coverage, authority, freshness, and partial-retrieval state.
 
 The current V2 signal logic and dashboard remain intentionally Atlas-specific. A successful connector smoke test is **not** a claim that arbitrary organizational data already drives the complete Monday → Friday workflow.
 
@@ -126,7 +129,7 @@ Every material recommendation, forecast, status assessment, or alert must expose
 
 Program OS prefers **insufficient evidence** over false certainty.
 
-What V2 implements of this contract: the demo shows the conclusion, confidence, supporting evidence IDs and contradictions. The live agent path adds assumptions and missing information. Evidence freshness feeds the confidence score but is not displayed, and reasoning factors and "what would change the conclusion" are not implemented yet.
+What the current prototype implements of this contract: the demo shows the conclusion, confidence, contradictions, supporting evidence, deterministic reasoning factors, and explicit conditions that would clear or materially change each signal. Every evidence ID can be opened to inspect the immutable source observation, source-updated time, retrieval time, project, source type, and authority tier. The live agent path additionally exposes assumptions and missing information.
 
 Official status remains a human accountability decision. The system can recommend, forecast, and challenge; it does not silently establish ground truth.
 
@@ -215,6 +218,8 @@ A high aggregate score cannot compensate for a catastrophic trust failure such a
 - [V2 release notes](docs/V2_RELEASE_NOTES.md)
 - [V2 release checklist](docs/V2_RELEASE_CHECKLIST.md)
 - [V2.1 external-validation plan](docs/V2_1_EXTERNAL_VALIDATION.md)
+- [Beta-testing guide](docs/BETA_TESTING.md)
+- [Beta-readiness QA audit](docs/QA_BETA_READINESS_AUDIT.md)
 - [Design-partner pilot protocol](docs/DESIGN_PARTNER_PILOT.md)
 - [Jira Cloud read-only connector](docs/JIRA_CONNECTOR.md)
 
