@@ -38,9 +38,14 @@ jobs:
       - name: Run baseline vs Program OS
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          EVAL_MODEL: ${{ inputs.model }}
         run: |
+          if [[ ! "$EVAL_MODEL" =~ ^[A-Za-z0-9_.-]{1,80}$ ]]; then
+            echo "Invalid model identifier"
+            exit 1
+          fi
           python -m program_os.evals.live \
-            --model "${{ inputs.model }}" \
+            --model "$EVAL_MODEL" \
             --output artifacts/eval-report.json
 
       - name: Publish evaluation summary

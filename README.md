@@ -34,7 +34,7 @@ The first run installs dependencies and takes about a minute. Then open `http://
 
 On Windows, or without Python and Node installed, use the containers instead: `docker compose up --build`.
 
-The deterministic Atlas demo does **not** require an OpenAI API key. Protected local operations require a locally configured bearer token. When that token is present, the full local UI can record audited human overrides through a server-side proxy; live agent calls additionally require an OpenAI API key and explicit feature flag.
+The deterministic Atlas demo does **not** require an OpenAI API key. Protected FastAPI operations require a locally configured bearer token. UI-based overrides additionally require a **separate** `PROGRAM_OS_UI_TOKEN` (32+ characters) and a login at `/login`; private-data UI mode also requires this login. Live agent calls require an OpenAI API key and explicit feature flag. This is local-demo authentication, not enterprise SSO.
 
 - [Five-minute case study](docs/CASE_STUDY.md)
 - [V2 release notes](docs/V2_RELEASE_NOTES.md)
@@ -60,7 +60,7 @@ For most reviewers, ten minutes on the hosted demo is enough, and the data is sy
 
 Send feedback whichever way is easier: [open a feedback issue](https://github.com/gehrm-ca/ai-work/issues/new?template=beta-feedback.md), or message me on [LinkedIn](https://www.linkedin.com/in/mattgehrmann).
 
-The public hosted showcase is intentionally read-only. The full local demo can record an audited human override from the UI when `PROGRAM_OS_API_TOKEN` is configured; the bearer token remains server-side and is not exposed to the browser.
+The public hosted showcase is intentionally read-only. The full local demo can record an audited human override from the UI only with both `PROGRAM_OS_API_TOKEN` and separate `PROGRAM_OS_UI_TOKEN` configured and the operator logged in. Backend credentials remain server-side.
 
 ## Using it on your own
 

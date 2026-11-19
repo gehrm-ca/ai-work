@@ -81,7 +81,7 @@ def test_override_accepts_valid_bearer_token(monkeypatch, tmp_path):
     )
     assert response.status_code == 200
     body = response.json()
-    assert body["override"]["actor"] == "tester"
+    assert body["override"]["actor"] == "local-token-holder"
     assert body["learning_proposal"]["approved"] is False
 
 
@@ -205,3 +205,38 @@ def test_custom_evidence_endpoint_requires_bearer_auth_when_opted_in(monkeypatch
 
     assert response.status_code == 200
     assert response.json()["evidence_id"] == "ATLAS-101"
+
+
+def test_live_call_quota_blocks_when_exhausted(monkeypatch):
+    from fastapi import HTTPException
+
+    monkeypatch.setenv("PROGRAM_OS_MAX_LIVE_CALLS_PER_PROCESS", "1")
+    monkeypatch.setattr(api, "_LIVE_CALLS_PER_PROCESS", 0)
+    api._reserve_live_call()
+    try:
+        api._reserve_live_call()
+        assert False, "Quota should have rejected the second model call"
+    except HTTPException as exc:
+        assert exc.status_code == 429
+
+
+def test_agent_draft_citation_validation_failure(monkeypatch):
+    from program_os.agent import AgentAssessmentDraft
+    from program_os.models import Rag, Trend
+
+    monkeypatch.setenv("PROGRAM_OS_API_TOKEN", "expected-test-token")
+    monkeypatch.setenv("PROGRAM_OS_ENABLE_LIVE_AGENT", "true")
+    monkeypatch.setenv("OPENAI_API_KEY", "fake-test-key")
+    monkeypatch.setattr(api, "_LIVE_CALLS_PER_PROCESS", 0)
+    api._PROTECTED_CALLS.clear()
+    monkeypatch.setattr(api, "run_agent_assessment", lambda question, evidence: AgentAssessmentDraft(
+        proposed_rag=Rag.GREEN,
+        trend=Trend.STABLE,
+        conclusion="Fabricated evidence.",
+        cited_evidence_ids=["FAKE-CITATION"],
+    ))
+    response = client.post("/atlas/agent-draft",
+        headers={"authorization": "Bearer expected-test-token"},
+        json={"question": "Assess Atlas."})
+    assert response.status_code == 422
+    assert "failed validation" in response.json()["detail"]

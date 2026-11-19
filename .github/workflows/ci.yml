@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: "3.12"
@@ -30,6 +32,8 @@ jobs:
           python -m pip freeze --exclude-editable | sort > /tmp/program-os-resolved.txt
           grep -v '^#' requirements.lock | sed '/^[[:space:]]*$/d' | sort > /tmp/program-os-expected.txt
           diff -u /tmp/program-os-expected.txt /tmp/program-os-resolved.txt
+      - name: Scan tracked files for secret patterns
+        run: python scripts/security_scan.py --history
       - name: Test
         run: python -m pytest -q
       - name: Validate demo launcher
@@ -60,6 +64,8 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Build
         run: npm run build
+      - name: Security route smoke test
+        run: node scripts/security-smoke.mjs
 
 
   containers:
@@ -72,3 +78,7 @@ jobs:
         run: docker build -f Dockerfile.api -t program-os-api .
       - name: Build web container
         run: docker build -f web/Dockerfile -t program-os-web web
+      - name: Verify non-root runtimes and writable audit directory
+        run: |
+          docker run --rm --entrypoint sh program-os-api -c 'test "$(id -u)" -ne 0 && test -w /var/program-os'
+          docker run --rm --entrypoint sh program-os-web -c 'test "$(id -u)" -ne 0 && test -w /app/.next'
