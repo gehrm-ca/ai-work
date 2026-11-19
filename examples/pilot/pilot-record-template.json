@@ -23,7 +23,9 @@
     ],
     "evidence_count": 1,
     "private_location": "var/pilots/private-evidence/",
-    "public_data": false
+    "public_data": false,
+    "readiness_level": null,
+    "readiness_limitations": []
   },
   "findings": [],
   "commercial_signal": null,

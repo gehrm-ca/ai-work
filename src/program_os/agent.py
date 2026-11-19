@@ -73,6 +73,11 @@ def build_agent() -> Agent:
 def render_evidence(evidence: Iterable[Evidence]) -> str:
     records = []
     for item in evidence:
+        payload = {
+            key: value
+            for key, value in item.payload.items()
+            if key != "_connector"
+        }
         records.append({
             "evidence_id": item.evidence_id,
             "source_type": item.source_type,
@@ -80,7 +85,7 @@ def render_evidence(evidence: Iterable[Evidence]) -> str:
             "source_updated_at": item.source_updated_at.isoformat(),
             "retrieved_at": item.retrieved_at.isoformat(),
             "authority_tier": item.authority_tier,
-            "payload": item.payload,
+            "payload": payload,
         })
     return json.dumps(records, indent=2, default=str)
 

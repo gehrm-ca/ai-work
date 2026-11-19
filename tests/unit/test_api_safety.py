@@ -1,3 +1,5 @@
+import shutil
+
 from fastapi.testclient import TestClient
 
 import program_os.api as api
@@ -101,3 +103,105 @@ def test_protected_endpoint_rate_limit(monkeypatch, tmp_path):
 
     assert first.status_code == 200
     assert second.status_code == 429
+
+
+def test_evidence_endpoint_is_public_and_inspectable():
+    response = client.get("/atlas/evidence/ATLAS-101")
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["source_type"] == "jira"
+    assert body["project_id"] == "PLAT"
+    assert body["authority_tier"] == 1
+    assert body["payload"]["title"] == "Partner API integration"
+
+
+def test_evidence_endpoint_returns_404_for_unknown_id():
+    response = client.get("/atlas/evidence/NOT-REAL")
+
+    assert response.status_code == 404
+
+
+def test_override_rejects_blank_actor_before_audit(monkeypatch):
+    monkeypatch.setenv("PROGRAM_OS_API_TOKEN", "expected-test-token")
+    api._PROTECTED_CALLS.clear()
+
+    response = client.post(
+        "/atlas/override",
+        headers={"authorization": "Bearer expected-test-token"},
+        json={
+            "actor": "",
+            "assessment_id": "atlas-portfolio",
+            "new_status": "RED",
+            "rationale": "Test-only override.",
+        },
+    )
+
+    assert response.status_code == 422
+
+
+def test_override_rejects_oversized_rationale_before_audit(monkeypatch):
+    monkeypatch.setenv("PROGRAM_OS_API_TOKEN", "expected-test-token")
+    api._PROTECTED_CALLS.clear()
+
+    response = client.post(
+        "/atlas/override",
+        headers={"authorization": "Bearer expected-test-token"},
+        json={
+            "actor": "tester",
+            "assessment_id": "atlas-portfolio",
+            "new_status": "RED",
+            "rationale": "x" * 2001,
+        },
+    )
+
+    assert response.status_code == 422
+
+
+def test_custom_demo_data_is_blocked_without_explicit_opt_in(monkeypatch, tmp_path):
+    custom = tmp_path / "private-demo-data"
+    shutil.copytree("examples/atlas/data", custom)
+    monkeypatch.setattr(api, "DATA_DIR", custom)
+    monkeypatch.delenv("PROGRAM_OS_ALLOW_CUSTOM_DATA_API", raising=False)
+    monkeypatch.delenv("PROGRAM_OS_API_TOKEN", raising=False)
+
+    response = client.get("/atlas/demo")
+
+    assert response.status_code == 503
+    assert "Custom demo data is disabled" in response.json()["detail"]
+
+
+def test_custom_demo_data_requires_bearer_auth_when_opted_in(monkeypatch, tmp_path):
+    custom = tmp_path / "private-demo-data"
+    shutil.copytree("examples/atlas/data", custom)
+    monkeypatch.setattr(api, "DATA_DIR", custom)
+    monkeypatch.setenv("PROGRAM_OS_ALLOW_CUSTOM_DATA_API", "true")
+    monkeypatch.setenv("PROGRAM_OS_API_TOKEN", "expected-test-token")
+    api._PROTECTED_CALLS.clear()
+
+    unauthenticated = client.get("/atlas/demo")
+    authenticated = client.get(
+        "/atlas/demo",
+        headers={"authorization": "Bearer expected-test-token"},
+    )
+
+    assert unauthenticated.status_code == 401
+    assert authenticated.status_code == 200
+    assert authenticated.json()["evidence_count"] == 48
+
+
+def test_custom_evidence_endpoint_requires_bearer_auth_when_opted_in(monkeypatch, tmp_path):
+    custom = tmp_path / "private-demo-data"
+    shutil.copytree("examples/atlas/data", custom)
+    monkeypatch.setattr(api, "DATA_DIR", custom)
+    monkeypatch.setenv("PROGRAM_OS_ALLOW_CUSTOM_DATA_API", "true")
+    monkeypatch.setenv("PROGRAM_OS_API_TOKEN", "expected-test-token")
+    api._PROTECTED_CALLS.clear()
+
+    response = client.get(
+        "/atlas/evidence/ATLAS-101",
+        headers={"authorization": "Bearer expected-test-token"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["evidence_id"] == "ATLAS-101"

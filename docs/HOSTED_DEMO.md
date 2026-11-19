@@ -8,7 +8,7 @@ The public demo is intentionally deterministic. It must never become a live mode
 
 ## Safety boundary
 
-The GitHub Pages showcase is static. It contains generated synthetic Atlas output and no FastAPI service, API token, OpenAI key, customer data or write endpoint.
+The GitHub Pages showcase is static. It contains generated synthetic Atlas output and no FastAPI service, API token, OpenAI key, customer data or write endpoint. The human-decision UI exists only in the full local Next.js application and is unavailable on the static showcase.
 
 A live model call in the FastAPI prototype requires all three controls:
 

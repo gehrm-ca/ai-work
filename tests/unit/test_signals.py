@@ -67,3 +67,18 @@ def test_date_conflict_still_cites_every_partner_integration_record():
         "ATLAS-101", "PAGE-PLAT", "MTG-1111-PORTFOLIO", "RETRO-PLAT-Q3",
         "STATUS-1112", "DEP-MAP-1112", "MILESTONES-1112",
     }
+
+
+def test_detected_signals_expose_reasoning_and_change_conditions():
+    evidence = load_evidence_dir(Path("examples/atlas/data"))
+    signals = detect_signals(evidence)
+
+    assert signals
+    assert all(signal.reasoning_factors for signal in signals)
+    assert all(signal.what_would_change for signal in signals)
+
+    date_conflict = next(
+        signal for signal in signals if signal.kind == "cross_source_date_conflict"
+    )
+    assert "incompatible completion dates" in date_conflict.reasoning_factors[0]
+    assert "converges on one partner-integration completion date" in date_conflict.what_would_change[0]
