@@ -25,6 +25,8 @@ class MondayAction(BaseModel):
     escalation: str
     priority_score: float = Field(ge=0, le=1)
     evidence_ids: list[str]
+    reasoning_factors: list[str] = Field(default_factory=list)
+    what_would_change: list[str] = Field(default_factory=list)
 
 
 class FridayStatus(BaseModel):
@@ -39,6 +41,8 @@ class FridayStatus(BaseModel):
     next_milestone: str
     budget_tracking: str
     summary: str
+    reasoning_factors: list[str] = Field(default_factory=list)
+    what_would_change: list[str] = Field(default_factory=list)
 
 
 _ACTION_CONFIG = {
@@ -109,8 +113,14 @@ def build_monday_actions(signals: Iterable[Signal]) -> list[MondayAction]:
             escalation=config["escalation"],
             priority_score=round(score, 4),
             evidence_ids=list(signal.evidence_ids),
+            reasoning_factors=list(signal.reasoning_factors),
+            what_would_change=list(signal.what_would_change),
         ))
     return sorted(actions, key=lambda item: item.priority_score, reverse=True)
+
+
+def _unique(items: Iterable[str]) -> list[str]:
+    return list(dict.fromkeys(item for item in items if item))
 
 
 def _latest_payload(evidence, source_type: str) -> dict:
@@ -171,6 +181,16 @@ def build_friday_status(data_dir: Path) -> FridayStatus:
             "operational evidence shows dependency, resource, quality, scope, and "
             "approval risks that require intervention."
         ),
+        reasoning_factors=_unique(
+            factor
+            for signal in signals
+            for factor in signal.reasoning_factors
+        ),
+        what_would_change=_unique(
+            condition
+            for signal in signals
+            for condition in signal.what_would_change
+        ),
     )
 
 
@@ -178,8 +198,28 @@ def build_demo_payload(data_dir: Path) -> dict:
     evidence = load_evidence_dir(data_dir)
     signals = detect_signals(evidence)
     recommendation = recommend_resource_tradeoff(signals, evidence)
+    recommendation_payload = recommendation.model_dump(mode="json") if recommendation else None
+    if recommendation_payload is not None:
+        recommendation_signals = [
+            signal for signal in signals
+            if signal.kind in {"resource_overallocation", "cross_source_date_conflict"}
+        ]
+        recommendation_payload["reasoning_factors"] = _unique(
+            factor
+            for signal in recommendation_signals
+            for factor in signal.reasoning_factors
+        )
+        recommendation_payload["what_would_change"] = _unique(
+            condition
+            for signal in recommendation_signals
+            for condition in signal.what_would_change
+        )
+
     return {
         "evidence_count": len(evidence),
+        "evidence_records": [
+            item.model_dump(mode="json") for item in evidence
+        ],
         "monday_actions": [
             item.model_dump(mode="json") for item in build_monday_actions(signals)
         ],
@@ -190,11 +230,11 @@ def build_demo_payload(data_dir: Path) -> dict:
                 "severity": item.severity,
                 "summary": item.summary,
                 "evidence_ids": list(item.evidence_ids),
+                "reasoning_factors": list(item.reasoning_factors),
+                "what_would_change": list(item.what_would_change),
             }
             for item in signals
         ],
-        "recommendation": (
-            recommendation.model_dump(mode="json") if recommendation else None
-        ),
+        "recommendation": recommendation_payload,
         "friday_status": build_friday_status(data_dir).model_dump(mode="json"),
     }

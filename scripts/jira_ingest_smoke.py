@@ -10,6 +10,7 @@ from pathlib import Path
 
 from program_os.adapters import normalize_batch
 from program_os.adapters.jira_cloud import JiraCloudAdapter
+from program_os.readiness import assess_evidence_readiness
 
 
 def required(name: str) -> str:
@@ -46,11 +47,13 @@ def main() -> None:
         batch = adapter.fetch()
 
     evidence = normalize_batch(batch)
+    readiness = assess_evidence_readiness(batch)
     summary = {
         "connector_id": batch.connector_id,
         "records": len(evidence),
         "complete": batch.complete,
         "failure_kinds": [failure.kind.value for failure in batch.failures],
+        "evidence_readiness": readiness.model_dump(mode="json"),
     }
     if os.getenv("PROGRAM_OS_SHOW_SOURCE_IDS", "false").lower() in {
         "1", "true", "yes", "on"

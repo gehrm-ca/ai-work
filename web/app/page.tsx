@@ -1,3 +1,5 @@
+import { OverridePanel } from "./components/OverridePanel";
+
 export const dynamic = "force-dynamic";
 
 type DemoPayload = {
@@ -11,6 +13,8 @@ type DemoPayload = {
     next_step: string;
     priority_score: number;
     evidence_ids: string[];
+    reasoning_factors: string[];
+    what_would_change: string[];
   }>;
   signals: Array<{
     kind: string;
@@ -18,6 +22,8 @@ type DemoPayload = {
     severity: string;
     summary: string;
     evidence_ids: string[];
+    reasoning_factors: string[];
+    what_would_change: string[];
   }>;
   recommendation: null | {
     action: string;
@@ -25,6 +31,8 @@ type DemoPayload = {
     downstream_consequences: string[];
     confidence: string;
     evidence_ids: string[];
+    reasoning_factors: string[];
+    what_would_change: string[];
   };
   friday_status: {
     official_rag: string;
@@ -37,13 +45,19 @@ type DemoPayload = {
     next_milestone: string;
     budget_tracking: string;
     summary: string;
+    reasoning_factors: string[];
+    what_would_change: string[];
   };
 };
 
 async function getDemo(): Promise<DemoPayload | null> {
   const base = process.env.PROGRAM_OS_API_URL ?? "http://127.0.0.1:8000";
   try {
-    const response = await fetch(`${base}/atlas/demo`, { cache: "no-store" });
+    const token = process.env.PROGRAM_OS_API_TOKEN;
+    const response = await fetch(`${base}/atlas/demo`, {
+      cache: "no-store",
+      headers: token ? { authorization: `Bearer ${token}` } : undefined,
+    });
     if (!response.ok) return null;
     return await response.json();
   } catch {
@@ -53,6 +67,52 @@ async function getDemo(): Promise<DemoPayload | null> {
 
 function Rag({ value }: { value: string }) {
   return <span className={`rag rag-${value.toLowerCase()}`}>{value}</span>;
+}
+
+function EvidenceRefs({ ids, label = "Evidence: " }: { ids?: string[]; label?: string }) {
+  if (!ids?.length) return null;
+  return (
+    <p className="evidence">
+      {label}
+      {ids.map((id, index) => (
+        <span key={id}>
+          {index > 0 ? " · " : ""}
+          <a className="evidenceLink" href={`/evidence/${encodeURIComponent(id)}`}>
+            {id}
+          </a>
+        </span>
+      ))}
+    </p>
+  );
+}
+
+function TrustDetails({
+  reasoningFactors,
+  whatWouldChange,
+}: {
+  reasoningFactors?: string[];
+  whatWouldChange?: string[];
+}) {
+  if (!reasoningFactors?.length && !whatWouldChange?.length) return null;
+  return (
+    <details className="trustDetails">
+      <summary>Why this conclusion · what would change it</summary>
+      <div className="trustDetailGrid">
+        <div>
+          <span>Reasoning factors</span>
+          <ul>
+            {reasoningFactors?.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </div>
+        <div>
+          <span>What would change it</span>
+          <ul>
+            {whatWouldChange?.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+    </details>
+  );
 }
 
 export default async function Home() {
@@ -71,6 +131,7 @@ export default async function Home() {
   }
 
   const status = data.friday_status;
+  const protectedDecisionEnabled = Boolean(process.env.PROGRAM_OS_API_TOKEN);
 
   return (
     <main className="shell">
@@ -109,7 +170,11 @@ export default async function Home() {
                 </div>
                 <h3>{action.issue_or_risk}</h3>
                 <p>{action.next_step}</p>
-                <p className="evidence">Evidence: {action.evidence_ids.join(", ")}</p>
+                <EvidenceRefs ids={action.evidence_ids} />
+                <TrustDetails
+                  reasoningFactors={action.reasoning_factors}
+                  whatWouldChange={action.what_would_change}
+                />
               </div>
             </article>
           ))}
@@ -124,7 +189,11 @@ export default async function Home() {
           <ul>
             {data.recommendation?.downstream_consequences.map((item) => <li key={item}>{item}</li>)}
           </ul>
-          <p className="evidence">Evidence: {data.recommendation?.evidence_ids.join(", ")}</p>
+          <EvidenceRefs ids={data.recommendation?.evidence_ids} />
+          <TrustDetails
+            reasoningFactors={data.recommendation?.reasoning_factors}
+            whatWouldChange={data.recommendation?.what_would_change}
+          />
         </article>
 
         <article className="panel">
@@ -136,12 +205,22 @@ export default async function Home() {
             <div><dt>Next milestone</dt><dd>{status.next_milestone}</dd></div>
             <div><dt>Budget</dt><dd>{status.budget_tracking}</dd></div>
           </dl>
+          <TrustDetails
+            reasoningFactors={status.reasoning_factors}
+            whatWouldChange={status.what_would_change}
+          />
         </article>
       </section>
+
+      <OverridePanel
+        enabled={protectedDecisionEnabled}
+        defaultStatus={status.forecast_rag}
+      />
 
       <section>
         <div className="sectionHead">
           <div><p className="eyebrow">TRUST CONTRACT</p><h2>Signals and contradictions</h2></div>
+          <span className="muted">Open any evidence ID to inspect the immutable source observation.</span>
         </div>
         <div className="signalGrid">
           {data.signals.map((signal) => (
@@ -149,7 +228,11 @@ export default async function Home() {
               <span className="pill">{signal.project_id.toUpperCase()}</span>
               <h3>{signal.kind.replaceAll("_", " ")}</h3>
               <p>{signal.summary}</p>
-              <p className="evidence">{signal.evidence_ids.join(", ")}</p>
+              <EvidenceRefs ids={signal.evidence_ids} label="" />
+              <TrustDetails
+                reasoningFactors={signal.reasoning_factors}
+                whatWouldChange={signal.what_would_change}
+              />
             </article>
           ))}
         </div>

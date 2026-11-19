@@ -15,4 +15,9 @@ def test_showcase_export_uses_deterministic_demo_payload(tmp_path):
     assert written["friday_status"]["forecast_rag"] == "AMBER"
     assert len(written["monday_actions"]) >= 1
     assert written["signals"]
+    assert len(written["evidence_records"]) == 48
+    assert any(
+        item["evidence_id"] == "ATLAS-101"
+        for item in written["evidence_records"]
+    )
     assert payload["evidence_count"] == written["evidence_count"]

@@ -67,9 +67,24 @@ echo "Installing Python dependencies (the first run can take a minute) ..."
 python -m pip install --quiet --disable-pip-version-check -r requirements.lock
 python -m pip install --quiet --disable-pip-version-check --no-deps -e .
 
-if [[ ! -d "web/node_modules" ]]; then
-  echo "Installing web dependencies (the first run can take a minute) ..."
+NODE_DEPS_HASH="$(
+  "$PYTHON" - <<'PY'
+from hashlib import sha256
+from pathlib import Path
+
+digest = sha256()
+for path in (Path("web/package.json"), Path("web/package-lock.json")):
+    digest.update(path.read_bytes())
+print(digest.hexdigest())
+PY
+)"
+NODE_DEPS_STAMP="web/node_modules/.program-os-deps-hash"
+if [[ ! -d "web/node_modules" ]] \
+  || [[ ! -f "$NODE_DEPS_STAMP" ]] \
+  || [[ "$(cat "$NODE_DEPS_STAMP" 2>/dev/null || true)" != "$NODE_DEPS_HASH" ]]; then
+  echo "Installing/updating locked web dependencies ..."
   (cd web && npm ci --no-audit --no-fund --loglevel=error)
+  printf '%s\n' "$NODE_DEPS_HASH" > "$NODE_DEPS_STAMP"
 fi
 
 # --- run ---------------------------------------------------------------------

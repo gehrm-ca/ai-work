@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from program_os.adapters import ReadOnlyJsonAdapter, normalize_batch
+from program_os.readiness import assess_evidence_readiness
 
 
 def parse_args() -> argparse.Namespace:
@@ -28,12 +29,14 @@ def main() -> None:
     )
     batch = adapter.fetch()
     evidence = normalize_batch(batch)
+    readiness = assess_evidence_readiness(batch)
 
     summary: dict[str, object] = {
         "connector_id": batch.connector_id,
         "records": len(evidence),
         "complete": batch.complete,
         "failure_kinds": [failure.kind.value for failure in batch.failures],
+        "evidence_readiness": readiness.model_dump(mode="json"),
     }
     if args.show_source_ids:
         summary["sample_evidence_ids"] = [item.evidence_id for item in evidence[:10]]

@@ -21,9 +21,9 @@ The prototype uses read-only source-adapter contracts and has no autonomous cons
 
 The public GitHub Pages showcase is static and deterministic.
 
-The local FastAPI prototype keeps read-only deterministic endpoints available without credentials, while human override and live-agent draft endpoints require PROGRAM_OS_API_TOKEN bearer authentication. Live agent calls additionally require an explicit PROGRAM_OS_ENABLE_LIVE_AGENT=true flag and OPENAI_API_KEY. Protected endpoints have a small in-process demo rate limit.
+The local FastAPI prototype keeps the default synthetic Atlas read-only endpoints available without credentials. If a custom `PROGRAM_OS_ATLAS_DIR` is configured, the API refuses it unless `PROGRAM_OS_ALLOW_CUSTOM_DATA_API=true` is explicitly set, and custom-data endpoints then require `PROGRAM_OS_API_TOKEN` bearer authentication. Human override and live-agent draft endpoints also require PROGRAM_OS_API_TOKEN bearer authentication. The full local Next.js UI can submit human overrides only through a same-origin server-side proxy; the bearer token is read from the server environment and is not sent to browser code. Live agent calls additionally require an explicit PROGRAM_OS_ENABLE_LIVE_AGENT=true flag and OPENAI_API_KEY. Connector principal/permission/source-URL metadata is stripped before model context construction, but normalized business evidence can still be sent to the configured model provider. Protected endpoints have a small in-process demo rate limit.
 
-The Docker Compose preview binds published ports to 127.0.0.1 by default and is not an internet-facing deployment recipe.
+The Docker Compose preview binds published ports to 127.0.0.1 by default and is not an internet-facing deployment recipe. Docker audit events persist in a named local volume until the tester explicitly removes it.
 
 These prototype controls do not provide enterprise SSO, tenant authorization, source ACL enforcement, managed secrets, durable audit storage or production abuse protection.
 
@@ -36,6 +36,7 @@ See [Production trust boundaries](docs/PRODUCTION_TRUST_BOUNDARIES.md) for the r
 - Dependabot monitors Python, npm, Docker and GitHub Actions dependencies.
 - Third-party GitHub Actions are pinned to full commit SHAs in repository workflows.
 - CI runs tests, builds the frontend and builds both containers.
+- The public-repository Jira Actions workflow is limited to sandbox/synthetic use and does not retain its readiness summary as a public artifact.
 
 ## Reporting a vulnerability
 
