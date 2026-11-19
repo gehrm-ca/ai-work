@@ -63,7 +63,10 @@ export function sameRequestOrigin(request: Request): boolean {
   const origin = request.headers.get("origin");
   if (!origin) return false;
   try {
-    return new URL(origin).origin === new URL(request.url).origin;
+    const host = request.headers.get("host");
+    const parsed = new URL(origin);
+    // Origin is a CSRF guard only; a forged Host/Origin pair is not authentication.
+    return Boolean(host && (parsed.protocol === "http:" || parsed.protocol === "https:") && parsed.host === host);
   } catch {
     return false;
   }
