@@ -9,6 +9,8 @@ import json
 from typing import Iterable
 
 from agents import Agent, Runner
+import os
+
 from pydantic import BaseModel, Field
 
 from .models import Evidence, Rag, Trend
@@ -67,6 +69,7 @@ def build_agent() -> Agent:
         name="Program OS Analyst",
         instructions=INSTRUCTIONS,
         output_type=AgentAssessmentDraft,
+        model=os.getenv("PROGRAM_OS_LIVE_MODEL", "gpt-6.1-sol"),
     )
 
 

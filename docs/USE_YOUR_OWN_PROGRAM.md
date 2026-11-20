@@ -127,9 +127,10 @@ Generate a local token without committing it:
 
 ~~~bash
 export PROGRAM_OS_API_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+export PROGRAM_OS_UI_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
 ~~~
 
-Then start the demo from the same shell.
+Then start the demo from the same shell. To use the protected browser UI, visit `/login` and enter `PROGRAM_OS_UI_TOKEN`. This separate login is a local single-operator preview guard, not per-user RBAC or SSO.
 
 Protected requests use the HTTP header:
 
@@ -146,7 +147,7 @@ export OPENAI_API_KEY=...
 
 An OpenAI key by itself never enables live model calls. When enabled, normalized evidence payload content is sent to the configured OpenAI model. Program OS removes connector principal, permission metadata, and source URLs from model context, but business content in the evidence payload can still be sensitive. Do not enable live-agent calls on employer/customer data without explicit organizational approval for the model-provider/data-processing boundary.
 
-The Atlas API also refuses a custom `PROGRAM_OS_ATLAS_DIR` by default. Intentional custom-data API use requires both `PROGRAM_OS_ALLOW_CUSTOM_DATA_API=true` and `PROGRAM_OS_API_TOKEN`; the custom read-only endpoints are then bearer-protected. This is a safety guard, not a claim that arbitrary organizational data is supported by the Atlas UI.
+The Atlas API also refuses a custom `PROGRAM_OS_ATLAS_DIR` by default. Intentional custom-data API use requires both `PROGRAM_OS_ALLOW_CUSTOM_DATA_API=true` and `PROGRAM_OS_API_TOKEN`; the custom read-only endpoints are then bearer-protected. The Next.js pages also require a valid `PROGRAM_OS_UI_TOKEN` local session; without it, custom-data pages fail closed. This is a safety guard, not a claim that arbitrary organizational data is supported by the Atlas UI.
 
 Protected endpoints have a small in-process demo rate limit controlled by **PROGRAM_OS_PROTECTED_RPM** (default 30/minute). A production deployment still requires gateway-level authentication, authorization and rate limiting.
 

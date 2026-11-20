@@ -349,3 +349,9 @@ At minimum, production CI/evaluation must prove:
 - A model cannot execute a consequential write without approved authorization context.
 - Audit records preserve the original recommendation and human decision.
 - Global AI behavior cannot change without a versioned approved deployment.
+
+## November 2026 local-preview hardening
+
+The local Next.js preview now uses a separate UI token and expiring HttpOnly session cookie for protected operations and custom-data pages. This is a local single-operator guard and **not** enterprise authentication or source-level RBAC. API calls are additionally subject to local request and model-call quotas, not billing-level spend guarantees. The local audit includes hash-chain checks but remains rewritable by anyone controlling the underlying file. No production blockers above are removed by these prototype safeguards.
+
+The live evaluation workflow now validates its model input through an environment variable rather than interpolating user input into shell source. Container images run without root privileges and drop unnecessary Linux capabilities in Compose. Digest pinning remains pending verified registry digests.

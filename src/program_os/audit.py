@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import hashlib
+import threading
 from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
@@ -10,13 +12,35 @@ from .models import AuditEvent, LearningProposal, Override, Rag
 
 
 class AuditStore:
+    """Prototype append-only JSONL store with a verifiable hash chain.
+
+    A local file owner can still rewrite the entire file and recalculate hashes.
+    This is NOT immutable/WORM production audit storage.
+    """
+
+    _lock = threading.Lock()
+
     def __init__(self, path: Path):
         self.path = path
 
+    @staticmethod
+    def _digest(record: dict, previous: str) -> str:
+        content = json.dumps(record, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+        return hashlib.sha256((previous + "\n" + content).encode("utf-8")).hexdigest()
+
     def append(self, event: AuditEvent) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        with self.path.open("a", encoding="utf-8") as handle:
-            handle.write(json.dumps(event.model_dump(mode="json"), sort_keys=True) + "\n")
+        with self._lock:
+            existing = self.read_all()
+            previous = existing[-1].get("_audit_hash", "") if existing else ""
+            if existing and not previous:
+                # Pre-hardening records remain readable but are not retroactively verifiable.
+                previous = hashlib.sha256(json.dumps(existing[-1], sort_keys=True).encode()).hexdigest()
+            record = event.model_dump(mode="json")
+            record["_audit_prev_hash"] = previous
+            record["_audit_hash"] = self._digest(record, previous)
+            with self.path.open("a", encoding="utf-8") as handle:
+                handle.write(json.dumps(record, sort_keys=True) + "\n")
 
     def read_all(self) -> list[dict]:
         if not self.path.exists():
@@ -26,6 +50,20 @@ class AuditStore:
             for line in self.path.read_text(encoding="utf-8").splitlines()
             if line.strip()
         ]
+
+    def verify_integrity(self) -> bool:
+        previous = ""
+        for row in self.read_all():
+            if "_audit_hash" not in row:
+                # Historical records predate chain verification; do not certify them.
+                previous = hashlib.sha256(json.dumps(row, sort_keys=True).encode()).hexdigest()
+                continue
+            claimed = row.get("_audit_hash")
+            body = {key: value for key, value in row.items() if key != "_audit_hash"}
+            if body.get("_audit_prev_hash") != previous or claimed != self._digest(body, previous):
+                return False
+            previous = claimed
+        return True
 
 
 def create_override(

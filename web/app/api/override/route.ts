@@ -1,19 +1,9 @@
 import { NextResponse } from "next/server";
+import { protectedActionGranted, sameRequestOrigin } from "../../../lib/local-access";
 
 export const dynamic = "force-dynamic";
 
 const ALLOWED_RAG = new Set(["GREEN", "AMBER", "RED", "UNKNOWN"]);
-
-function sameOrigin(request: Request): boolean {
-  const origin = request.headers.get("origin");
-  const host = request.headers.get("host");
-  if (!origin || !host) return false;
-  try {
-    return new URL(origin).host === host;
-  } catch {
-    return false;
-  }
-}
 
 function cleanOptional(value: unknown, maxLength: number): string | null {
   if (value === undefined || value === null || value === "") return null;
@@ -23,11 +13,15 @@ function cleanOptional(value: unknown, maxLength: number): string | null {
 }
 
 export async function POST(request: Request) {
-  if (!sameOrigin(request)) {
+  if (!sameRequestOrigin(request)) {
     return NextResponse.json(
       { detail: "Human-decision requests must originate from the local Program OS UI." },
       { status: 403 },
     );
+  }
+
+  if (!(await protectedActionGranted())) {
+    return NextResponse.json({ detail: "An authenticated local UI session is required." }, { status: 401 });
   }
 
   const token = process.env.PROGRAM_OS_API_TOKEN;
@@ -48,16 +42,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ detail: "Request body must be valid JSON." }, { status: 400 });
   }
 
-  const actor = typeof body.actor === "string" ? body.actor.trim() : "";
   const rationale = typeof body.rationale === "string" ? body.rationale.trim() : "";
   const newStatus = typeof body.new_status === "string" ? body.new_status : "";
 
-  if (!actor || actor.length > 120) {
-    return NextResponse.json(
-      { detail: "Actor is required and must be 120 characters or fewer." },
-      { status: 400 },
-    );
-  }
   if (!rationale || rationale.length > 2000) {
     return NextResponse.json(
       { detail: "Rationale is required and must be 2000 characters or fewer." },
@@ -69,7 +56,7 @@ export async function POST(request: Request) {
   }
 
   const payload = {
-    actor,
+    actor: "local-authenticated-operator",
     assessment_id: "atlas-portfolio",
     new_status: newStatus,
     rationale,

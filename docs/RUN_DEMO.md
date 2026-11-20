@@ -14,7 +14,7 @@ The launcher creates a local Python virtual environment if needed, installs the 
 
 Open http://127.0.0.1:3000.
 
-The deterministic Atlas demo does not require an API key.
+The deterministic Atlas demo does not require an API key. Optional protected UI operations now require a **separate local UI access token** and login.
 
 ## Manual backend
 
@@ -40,6 +40,7 @@ Generate a local token:
 
 ~~~bash
 export PROGRAM_OS_API_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+export PROGRAM_OS_UI_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
 ~~~
 
 Protected requests must send:
@@ -60,7 +61,7 @@ Human override + audit:
 
 - POST /atlas/override
 
-When the full local demo is started from a shell where `PROGRAM_OS_API_TOKEN` is set, the browser UI exposes a **Human accountability** panel. The browser never receives the bearer token: a same-origin Next.js server route validates the form, injects the fixed Atlas assessment ID and token server-side, and forwards the protected request to FastAPI.
+When both `PROGRAM_OS_API_TOKEN` and `PROGRAM_OS_UI_TOKEN` are set, start the local demo and visit http://127.0.0.1:3000/login. Enter **only** the separate `PROGRAM_OS_UI_TOKEN`, not the backend API token. The UI issues an eight-hour HttpOnly session cookie, and the **Human accountability** panel then becomes available. The browser never receives the backend bearer token. The proxy supplies a local-only actor label, and FastAPI records `local-token-holder` as the authoritative local bearer identity. This is not an authenticated human identity; enterprise SSO and RBAC remain production blockers.
 
 The public GitHub Pages showcase remains static and read-only.
 
@@ -77,7 +78,7 @@ The response contains the override, the audit event and an unapproved learning p
 
 Audit records are stored at `var/audit.jsonl` under `make demo`. The Docker path stores them in the named volume `program_os_audit` at `/var/program-os/audit.jsonl`, so container recreation does not silently erase the local decision history. These prototype audit records do not modify model behavior and are not production tamper-evident storage.
 
-Protected operations have an in-process demo rate limit controlled by PROGRAM_OS_PROTECTED_RPM (default 30 requests per minute per client). This is not a substitute for production gateway controls.
+Protected operations have an in-process demo rate limit controlled by PROGRAM_OS_PROTECTED_RPM (default 30 requests per minute per client). Live-agent calls have an additional per-process quota (`PROGRAM_OS_MAX_LIVE_CALLS_PER_PROCESS`, default 10), not a guaranteed dollar ceiling. Configure a provider-enforced spend limit separately. Audit integrity can be checked with `AuditStore(Path("var/audit.jsonl")).verify_integrity()` from Python; local file owners can still rewrite history. These controls do not replace enterprise identity, tenancy or production gateway controls.
 
 ## Manual frontend
 
@@ -97,7 +98,7 @@ Open http://localhost:3000.
 4. Expand **Why this conclusion · what would change it** on a finding and verify the reasoning factor and clearing condition are concrete.
 5. Review the resource tradeoff and its downside to AI work.
 6. Read the Friday status.
-7. Optionally configure `PROGRAM_OS_API_TOKEN`, record a human status decision in the local UI, and inspect the override ID, audit event, and unapproved learning proposal.
+7. Optionally configure both `PROGRAM_OS_API_TOKEN` and `PROGRAM_OS_UI_TOKEN`, log in at `/login`, record a human status decision in the local UI, and inspect the override ID, audit event, and unapproved learning proposal.
 8. Compare the behavior with the measured evaluation results.
 
 ## Containerized preview
@@ -110,7 +111,7 @@ Open http://127.0.0.1:3000.
 
 The Compose ports bind to 127.0.0.1 by default. This configuration is intentionally **local-demo-only** and should not be changed to a public bind address without implementing the production controls described in [Production trust boundaries](PRODUCTION_TRUST_BOUNDARIES.md).
 
-To exercise protected operations through Compose, set `PROGRAM_OS_API_TOKEN` in the shell before starting the containers. Compose passes it to both the FastAPI service and the Next.js server; the browser does not receive the token.
+To exercise protected operations through Compose, set **both** `PROGRAM_OS_API_TOKEN` and `PROGRAM_OS_UI_TOKEN` in the shell before starting the containers. Compose passes the API token to both services and the UI token only to Next.js. Visit `/login` and enter the UI token. Neither backend token is included in frontend assets. The containers now run as non-root; previously created audit volumes may require a one-time ownership migration, preserving any existing audit history.
 
 Inspect Docker audit records with:
 
