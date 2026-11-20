@@ -41,7 +41,6 @@ export function OverridePanel({
 
     const form = new FormData(event.currentTarget);
     const payload = {
-      actor: String(form.get("actor") ?? ""),
       new_status: String(form.get("new_status") ?? ""),
       rationale: String(form.get("rationale") ?? ""),
       missed_context: String(form.get("missed_context") ?? ""),
@@ -89,23 +88,14 @@ export function OverridePanel({
             <div className="decisionDisabled">
               <strong>Protected decisions are disabled.</strong>
               <p>
-                Set <code>PROGRAM_OS_API_TOKEN</code> before starting the local demo.
+                Set both <code>PROGRAM_OS_API_TOKEN</code> and a separate
+                <code> PROGRAM_OS_UI_TOKEN</code> before starting the local demo.
+                Authenticate at <code>/login</code> to record a local decision.
                 The token stays on the server and is never sent to the browser.
               </p>
             </div>
           ) : (
             <form className="decisionForm" onSubmit={submit}>
-              <label>
-                <span>Actor</span>
-                <input
-                  name="actor"
-                  autoComplete="name"
-                  maxLength={120}
-                  placeholder="Program manager"
-                  required
-                />
-              </label>
-
               <label>
                 <span>Human status decision</span>
                 <select name="new_status" defaultValue={defaultStatus}>

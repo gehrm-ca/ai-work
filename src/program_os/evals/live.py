@@ -6,6 +6,7 @@ model outputs are produced and are used solely for scoring.
 from __future__ import annotations
 
 import argparse
+import re
 import json
 import os
 from collections import Counter
@@ -569,6 +570,11 @@ def run_live(
     gold_path: Path,
     case_ids: set[str] | None = None,
 ) -> dict[str, Any]:
+    if not re.fullmatch(r"[A-Za-z0-9_.-]{1,80}", model):
+        raise ValueError("Invalid evaluation model identifier.")
+    allowed = {name.strip() for name in os.getenv("PROGRAM_OS_ALLOWED_EVAL_MODELS", "gpt-6.1-sol").split(",")}
+    if model not in allowed:
+        raise ValueError("Model is not in PROGRAM_OS_ALLOWED_EVAL_MODELS.")
     if not os.getenv("OPENAI_API_KEY"):
         raise RuntimeError("OPENAI_API_KEY is required for live evaluation.")
 
@@ -578,6 +584,10 @@ def run_live(
     cases = load_gold_cases(gold_path)
     if case_ids:
         cases = [case for case in cases if case["id"] in case_ids]
+    # Two paths are run per case. Fail before calling a model if the configured cap is exceeded.
+    call_cap = int(os.getenv("PROGRAM_OS_MAX_EVAL_CALLS", "32"))
+    if call_cap < 0 or len(cases) * 2 > call_cap:
+        raise ValueError("Evaluation exceeds PROGRAM_OS_MAX_EVAL_CALLS.")
 
     report: dict[str, Any] = {
         "run_timestamp": datetime.now(timezone.utc).isoformat(),
