@@ -1,4 +1,6 @@
 import { OverridePanel } from "./components/OverridePanel";
+import { localAccessConfigured, localAccessGranted } from "../lib/local-access";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -116,6 +118,7 @@ function TrustDetails({
 }
 
 export default async function Home() {
+  if (!(await localAccessGranted())) redirect("/login");
   const data = await getDemo();
 
   if (!data) {
@@ -131,7 +134,7 @@ export default async function Home() {
   }
 
   const status = data.friday_status;
-  const protectedDecisionEnabled = Boolean(process.env.PROGRAM_OS_API_TOKEN);
+  const protectedDecisionEnabled = Boolean(process.env.PROGRAM_OS_API_TOKEN) && localAccessConfigured();
 
   return (
     <main className="shell">

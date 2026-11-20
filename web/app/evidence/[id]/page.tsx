@@ -1,4 +1,5 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { localAccessGranted } from "../../../lib/local-access";
 
 export const dynamic = "force-dynamic";
 
@@ -43,6 +44,7 @@ export default async function EvidencePage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  if (!(await localAccessGranted())) redirect("/login");
   const { id } = await params;
   const record = await getEvidence(id);
   if (!record) notFound();
