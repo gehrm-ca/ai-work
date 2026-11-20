@@ -58,9 +58,10 @@ To exercise the audited human-decision flow, set a local token before starting:
 
 ~~~bash
 export PROGRAM_OS_API_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+export PROGRAM_OS_UI_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
 ~~~
 
-The browser never receives that token.
+The browser never receives the backend API token. Log in at http://127.0.0.1:3000/login with the **separate** UI token before recording a decision. No UI authentication is needed for the default synthetic read-only demo.
 
 The Docker path stores audit events in the named volume `program_os_audit`. To inspect it:
 
@@ -94,7 +95,7 @@ For employer/customer data:
 - keep exports outside the repository;
 - do not use the public GitHub Actions Jira smoke workflow for confidential partner data;
 - do not expose ports 3000 or 8000 to the public internet;
-- do not point the Atlas API at custom data unless the custom-data API guard, bearer token, and local-only boundary are intentionally enabled;
+- do not point the Atlas API at custom data unless the custom-data API guard, bearer token, separate local UI access token, and localhost-only boundary are intentionally enabled;
 - keep live model calls disabled unless the organization has explicitly approved the model-provider/data-processing boundary;
 - do not enable consequential write-back.
 
